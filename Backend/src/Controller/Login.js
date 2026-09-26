@@ -1,7 +1,6 @@
-// import { json } from "express";
 import jwt from "jsonwebtoken";
 import User from "../Models/User.js";
-import bcrypt from 'bcrypt'
+import bcrypt, { hash } from 'bcrypt'
 import dotenv from 'dotenv'
 dotenv.config();
 const loginController=async(req,res)=>{
@@ -19,10 +18,26 @@ const loginController=async(req,res)=>{
                 return res.json({message:"password is incorrect"});
             }
 
-            const accessToken=await jwt.sign({userId:user._id,role:user.role},process.env.accessToken_Secret,{
-                expiresIn:"1d"
+            const accessToken= jwt.sign({userId:user._id,role:user.role},process.env.accessToken_Secret,{
+                expiresIn:"15m"
             });
-            res.cookie('accessToken',accessToken);
+            const refreshToken= jwt.sign({userId:user._id,role:user.role},process.env.refreshToken_Secret,{
+                expiresIn:'7d'
+            });
+            const hashedRefreshToken=await bcrypt.hash(refreshToken,10);
+            user.RefreshToken.push(refreshToken);
+
+            res.cookie('accessToken',accessToken,{
+                httpOnly:true,
+                secure:true
+            });
+            res.cookie('refreshToken',refreshToken,{
+                httpOnly:true,
+                secure:true
+
+            })
+            await user.save();
+
          return res.status(200).json({message:"login successfully",user});
 
     } catch (error) {
