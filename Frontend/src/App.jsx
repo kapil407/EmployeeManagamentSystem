@@ -1,9 +1,10 @@
 import { useState } from 'react'
+import RegisterController from './Register.jsx'
 
 
 function App() {
  return <>
-  <h1 className='text-white'>kapil</h1>
+  <RegisterController/>
  </>
 }
 
