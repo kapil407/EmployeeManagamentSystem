@@ -1,11 +1,11 @@
 import { useState } from 'react'
-import RegisterController from './Register.jsx'
+import RegisterController from './Auth/Register.jsx'
+import Body from './Body.jsx'
 
 
 function App() {
- return <>
-  <RegisterController/>
- </>
+ return  <Body/>
+ 
 }
 
 export default App
