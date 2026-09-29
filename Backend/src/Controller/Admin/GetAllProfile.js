@@ -1,4 +1,5 @@
 import User from "../Models/User.js";
+
 const GetAllProfile = async (req, res) => {
   try {
         const AllProfile=await User.find().select("-password");

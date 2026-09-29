@@ -1,7 +1,7 @@
 import User from "../../Models/User.js"
 const updateMyProfileController=async(req,res)=>{
     try {
-      const updateMyProfile=await User.findByIdAndUpdate(req.user.userId,req.user.userId,{
+      const updateMyProfile=await User.findByIdAndUpdate(req.user.userId,{
         new:true,
         runValidators:true
       });

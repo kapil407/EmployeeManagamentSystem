@@ -1,15 +1,15 @@
 import jwt from "jsonwebtoken";
-import User from "../Models/User.js";
+import User from "../../Models/User.js";
 import bcrypt, { hash } from 'bcrypt'
 import dotenv from 'dotenv'
 dotenv.config();
 const loginController=async(req,res)=>{
     try {   
-        const {emailId,password}=req.body;
-            if(!emailId || !password){
+        const {email,password}=req.body;
+            if(!email || !password){
                 return res.json({message:"all fields are required "});
             }
-            const user=await User.findOne({emailId});
+            const user=await User.findById({email});
             if(!user){
                 return res.status(400).json({message:" user not found"});
             }
@@ -25,7 +25,7 @@ const loginController=async(req,res)=>{
                 expiresIn:'7d'
             });
             const hashedRefreshToken=await bcrypt.hash(refreshToken,10);
-            user.RefreshToken.push(refreshToken);
+            user.refreshTokens.push(refreshToken);
 
             res.cookie('accessToken',accessToken,{
                 httpOnly:true,

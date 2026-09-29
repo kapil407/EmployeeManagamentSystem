@@ -7,9 +7,11 @@ import loginController from "../Controller/Login.js";
 import isVerify from "../Middleware/isVerify.js";
 
 import Authorization from "../Middleware/Authorization.js";
+import ForgotPasswordController from "../Controller/ForgotPassword.js";
 const authRouter = express.Router();
 authRouter.post("/register", upload.single("fileImage"), registerController);
 authRouter.post('/createEmp',isVerify,Authorization("Admin"),CreateEmpController);    
 authRouter.post("/login", loginController);
+authRouter.patch('/forgot-password',ForgotPasswordController);
 
 export default authRouter;
