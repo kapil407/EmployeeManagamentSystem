@@ -1,52 +1,91 @@
 import mongoose from "mongoose";
+import validator from 'validator'
+// import isEmail from "validator/lib/isEmail";
 
-const UserSchema = new mongoose.Schema(
+const userSchema = new mongoose.Schema(
   {
-    firstName: {
+    employeeId: {
       type: String,
-      required: [true, "firstName is required"],
-      minlength: [4, "firstName's length can not be less than 4"],
-      maxlength: [10, "firstName's length can not be greater than 10"],
-    },
-    lastName: {
-      type: String,
-      required: [true, "firstName is required"],
-      minlength: [4, "firstName's length can not be less than 4"],
-      maxlength: [10, "firstName's length can not be greater than 10"],
-    },
-    emailId: {
-      type: String,
-      required: [true, "email is required"],
       unique: true,
+      required: true,
     },
+
+    name: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+      trim: true,
+      validate:{
+        validator:value=>validator.isEmail(value),
+         message: "Please enter a valid email address"
+      }
+    },
+
     password: {
       type: String,
-      required: [true, "Password is required"],
-      minlength: [6, "Password can not be less than 6"],
+      required: true,
     },
+
+    phone: {
+      type: String,
+    },
+
+    profilePicture: {
+      type: String,
+    },
+
     role: {
       type: String,
-      enum: ["Employee", "Admin"],
-      default: "Employee",
+      enum: ["ADMIN", "MANAGER", "EMPLOYEE"],
+      default: "EMPLOYEE",
     },
-    RefreshToken:[{
-      token:{
-        type:String,
-        required:true,
-      }
-    }],
-    profileImage: {
+
+    department: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Department",
+    },
+
+    designation: {
       type: String,
-      default: "",
     },
-    backgroundImage: {
-      type: "String",
-      default: "",
+
+    manager: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
     },
+
+    joiningDate: {
+      type: Date,
+    },
+
+    salary: {
+      type: Number,
+    },
+
+    status: {
+      type: String,
+      enum: ["ACTIVE", "INACTIVE"],
+      default: "ACTIVE",
+    },
+
+    refreshTokens: [
+      {
+        type: String,
+      },
+    ],
   },
   {
     timestamps: true,
-  },
+  }
 );
-const User = mongoose.model("User", UserSchema);
+
+const User = mongoose.model("User", userSchema);
+
 export default User;
