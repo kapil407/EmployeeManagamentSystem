@@ -1,4 +1,4 @@
-import User from "../Models/User.js";
+import User from "../../Models/User.js";
 
 const deleteController = async (req, res) => {
   try {
@@ -9,10 +9,10 @@ const deleteController = async (req, res) => {
 
     return res
       .status(200)
-      .json({ message: "Emp deleted successfully", deletedUser });
+      .json({ message: "Emp deleted successfully",success:true, deletedUser });
   }
    catch (error) {
-    console.log("error in delete controller", error);
+    console.error("error in delete controller", error);
     return res
       .status(500)
       .json({ message: "error in delete controller", error });

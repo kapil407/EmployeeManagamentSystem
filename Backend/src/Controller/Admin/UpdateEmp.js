@@ -1,4 +1,4 @@
-import User from "../Models/User.js";
+import User from "../../Models/User.js";
 const updateEmpController=async(req,res)=>{
     try {
         const newUser=await User.findByIdAndUpdate(
@@ -9,10 +9,10 @@ const updateEmpController=async(req,res)=>{
              runValidators:true   
         })
         await newUser.save();
-        return res.status(200).json({message:"update Emp successfully",newUser});
+        return res.status(200).json({message:"update Emp successfully",success:true, newUser});
 
     } catch (error) {
-        console.log("error in update controller",error);
+        console.error("error in update controller",error);
         res.status(500).json({message:"error in update controller",error});
     }
 }
