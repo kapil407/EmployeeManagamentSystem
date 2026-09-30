@@ -1,5 +1,5 @@
 import User from "../../Models/User.js";
-
+import bcrypt ,{hash} from 'bcrypt';
 export const createManagerController = async (req, res) => {
   try {
     const {
@@ -15,11 +15,12 @@ export const createManagerController = async (req, res) => {
     } = req.body;
     if(!name ||!email ||!password ||!phone ||!department ||!designation ||!joiningDate ||!salary||!role){
     return res.status(403).json({message:"all fields are required"});
+     const hashedPasword=await bcrypt.hash(password,10);
 }
     const NewManager = new User({
       name,
       email,
-      password,
+      password:hashedPasword,
       phone,
       department,
       designation,
