@@ -6,6 +6,7 @@ import deleteRoute from "./src/Routes/DeleteEmpRoute.js";
 import cookieParser from "cookie-parser";
 import profileRouter from "./src/Routes/ProfileRoute.js";
 import GeminiRouter from "./src/Routes/Gemini.js";
+import adminauthRouter from "./src/Routes/AdminRoute.js";
 const app=express();
 app.use(cookieParser());
 app.use(express.json());
@@ -14,6 +15,7 @@ app.use('/',authRouter);
 app.use('/',deleteRoute);
 app.use('/',profileRouter);
 app.use('/',GeminiRouter);
+app.use('/',adminauthRouter);
 dbConnect().then(()=>{
     app.listen( 5200,()=>{
     console.log("server is listening at port 5200");

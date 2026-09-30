@@ -1,5 +1,5 @@
-import User from "../Models/User.js";
-const getprofileController=async(req,res)=>{
+import User from "../../Models/User.js";
+const getMyProfileController=async(req,res)=>{
     try {
         const {id} =req.params;
         const user=await User.findById(id);
@@ -14,4 +14,4 @@ const getprofileController=async(req,res)=>{
          return res.status(500).json({message:"error in fetch profile",success:false});
     }
 }
-export default getprofileController ;
+export default getMyProfileController ;

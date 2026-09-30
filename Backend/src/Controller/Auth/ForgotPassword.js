@@ -1,5 +1,5 @@
 import bcrypt, { hash } from "bcrypt";
-import User from "../Models/User.js";
+import User from "../../Models/User.js";
 
 const ForgotPasswordController=async()=>{
     try {

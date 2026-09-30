@@ -1,6 +1,6 @@
 import User from "../../Models/User.js";
 import bcrypt from 'bcrypt'
-const changePassword = async (req, res) => {
+const changePasswordController = async (req, res) => {
   try {
     const { newPassword } = req.body;
     if (!newPassword) {
@@ -19,4 +19,4 @@ const changePassword = async (req, res) => {
     return res.status(500).json({ message: "error in update password", error });
   }
 };
-export default changePassword;
+export default changePasswordController;
