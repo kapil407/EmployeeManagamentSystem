@@ -1,37 +1,43 @@
 import User from "../../Models/User.js";
 import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
+import dotenv from 'dotenv'
+dotenv.config();
 const logOutController=async(req,res)=>{
     try {
            
             const refreshToken=req.cookies.refreshToken;
+            const accessToken=req.cookies.accessToken;
+
                 //1:Both accessToken and refresh token both are valid  
-                res.clearCookie('accessToken',{
-               httpOnly:true,
-                secure:true
-                });
+                if(!accessToken){
                 res.clearCookie('refreshToken',{
                     httpOnly:true,
                     secure:true
                 })
-                // refresh Token is expired 
-                if(!refreshToken){
-                    return res.status(200).json({message:"logout ",success:true});
-                }
-                // both expired then decoded payload from expired token
-
-                const decoded=await bcrypt.decode(refreshToken);
-                if(!decoded.userId){
-                      return res.status(200).json({message:"logout ",success:true});
-                }
+                return res.status(200).json({message:"logout ",success:true});
+            }
+              
+                const decoded=await jwt.verify(accessToken,process.env.accessToken_Secret);
+             
                 const user=await User.findById(decoded.userId);
                 if(user){
                 const UpdatedTokenData=[];
-                    for( const hashedrefreshToken of user.refreshTokens){
-                        const isMatch=await bcrypt.compare(refreshToken,hashedrefreshToken);
-                        if(!isMatch){
-                            UpdatedTokenData.push(hashedrefreshToken);
+                let flag=true;
+                    for( const ref of user.refreshTokens){
+                        const isMatch=await bcrypt.compare(refreshToken,ref);
+                        if(isMatch){
+                           flag=false;
                         }
                     }
+                    res.clearCookie('accessToken',{
+                        httpOnly:true,
+                        secure:true
+                    })
+                      res.clearCookie('refreshToken',{
+                        httpOnly:true,
+                        secure:true
+                    })
                     user.refreshTokens=UpdatedTokenData;
                     await user.save();
                 }
