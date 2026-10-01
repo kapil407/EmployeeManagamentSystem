@@ -9,7 +9,9 @@ const loginController=async(req,res)=>{
             if(!email || !password){
                 return res.json({message:"all fields are required "});
             }
-            const user=await User.findById({email});
+              console.log("user->>");
+            const user=await User.findOne({email});
+          
             if(!user){
                 return res.status(400).json({message:" user not found"});
             }
@@ -19,10 +21,10 @@ const loginController=async(req,res)=>{
             }
 
             const accessToken= jwt.sign({userId:user._id,role:user.role},process.env.accessToken_Secret,{
-                expiresIn:"15m"
+                expiresIn:"7d"
             });
             const refreshToken= jwt.sign({userId:user._id,role:user.role},process.env.refreshToken_Secret,{
-                expiresIn:'7d'
+                expiresIn:'17d'
             });
             const hashedRefreshToken=await bcrypt.hash(refreshToken,10);
             user.refreshTokens.push(refreshToken);
@@ -38,11 +40,11 @@ const loginController=async(req,res)=>{
             })
             await user.save();
 
-         return res.status(200).json({message:"login successfully",user});
+         return res.status(200).json({message:"login successfully",user,success:true});
 
     } catch (error) {
         console.log("login error",error);
-        return res.status(500).json({message:"login error",error});
+        return res.status(500).json({message:"login error",error,success:false});
     }
 }
 export default loginController

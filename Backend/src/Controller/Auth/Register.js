@@ -9,9 +9,9 @@ export const registerController = async (req, res) => {
       return res.status(500).json({ message: "all fields are required " });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
+    const employeeId=`${Date.now()}`;
     const newUser = new User({
       name,
-
       email,
       password: hashedPassword,
     });
@@ -22,6 +22,6 @@ export const registerController = async (req, res) => {
       .json({ message: "register successful", user: newUser, succes: true });
   } catch (error) {
     console.log("register error", error);
-    return res.status(500).json({ message: "register error", error });
+    return res.status(500).json({ message: "register error", error ,succes:false});
   }
 };
