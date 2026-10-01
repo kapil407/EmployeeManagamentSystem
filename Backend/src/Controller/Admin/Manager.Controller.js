@@ -15,8 +15,9 @@ export const createManagerController = async (req, res) => {
     } = req.body;
     if(!name ||!email ||!password ||!phone ||!department ||!designation ||!joiningDate ||!salary||!role){
     return res.status(403).json({message:"all fields are required"});
-     const hashedPasword=await bcrypt.hash(password,10);
+     
 }
+const hashedPasword=await bcrypt.hash(password,10);
     const NewManager = new User({
       name,
       email,
@@ -28,6 +29,7 @@ export const createManagerController = async (req, res) => {
       salary,
       role: "MANAGER",
     });
+    await NewManager.save();
      return res.status(200).json({message:"manager create sucessfully ",success:true,NewManager});
 
   } catch (error) {
@@ -41,14 +43,16 @@ export const createManagerController = async (req, res) => {
 
 export const updateManager=async(req,res)=>{
     try {
+      const {id}=req.params;
         const UpdateManager=await User.findByIdAndUpdate(
-            req.params.id,
+           { _id:id ,role:"MANAGER"},
             req.body,
-            {
-                runValidators:true,
-                new:true
+            {   new:true,
+                runValidators:true
+               
             }
         )
+         return res.status(200).json({message:"manager update sucessfully ",success:true,UpdateManager});
     } catch (error) {
         console.error("error in update manager",error);
         return res.status(500).json({message:"error in update manager ",error});

@@ -1,7 +1,8 @@
-import User from "../../Models/User";
+import User from "../../Models/User.js";
 import bcrypt, { hash } from "bcrypt";
  export const createEmpController = async (req, res) => {
   try {
+   
     const {
       name,
       email,

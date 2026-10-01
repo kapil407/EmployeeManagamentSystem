@@ -29,7 +29,7 @@ export  const createDepartmentController=async(req,res)=>{
 export const updateDepartmentController=async(req,res)=>{
     try {
 
-        const updateDepartment= await Department.findByIdAndUpdate(req.params._id,req.body,{
+        const updateDepartment= await Department.findByIdAndUpdate(req.params.id,req.body,{
             new:true,
             runValidators:true
         });
@@ -57,7 +57,7 @@ export const getAllDepartmentController=async(req,res)=>{
 
 export const deleteDepartmentController=async(req,res)=>{
     try {
-            const deleteDepartment=await Department.findByIdAndDelete(req.params._id,{
+            const deleteDepartment=await Department.findByIdAndDelete(req.params.id,{
                 new:true,
                 runValidators:true
             });
