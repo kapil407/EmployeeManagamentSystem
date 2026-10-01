@@ -1,11 +1,10 @@
 import express from "express";
 import isVerify from "../Middleware/isVerify.js";
 import getMyProfileController from "../Controller/User/GetMyProfile.js";
-import updateMyProfileController from "../Controller/Setting/UpdateMyProfile.js";
+import updateMyProfileController from "../Controller/User/UpdateMyProfile.js";
 
-import ForgotPasswordController from "../Controller/Auth/ForgotPassword.js";
 import changePasswordController from "../Controller/User/ChangePassword.js";
-
+import logOutController from "../Controller/User/Logout.js";
 
 const profileRouter = express.Router();
 
@@ -13,13 +12,12 @@ const profileRouter = express.Router();
 
 profileRouter.get("/my-profile/:id", isVerify, getMyProfileController);
 
-
 // Both update their profile
 
-profileRouter.patch('/update-myProfile',isVerify,updateMyProfileController);
+profileRouter.patch("/update-myProfile", isVerify, updateMyProfileController);
 
-// both admin and emp can reset their password 
+profileRouter.patch("/change-password", isVerify, changePasswordController); // this can only be done if user is already login
 
-profileRouter.patch("/change-myPassword", isVerify, changePasswordController);
+profileRouter.post("/logout", isVerify, logOutController);
 
 export default profileRouter;
