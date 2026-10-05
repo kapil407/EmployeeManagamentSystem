@@ -7,13 +7,32 @@ const userSchema = new mongoose.Schema(
     employeeId: {
       type: String,
       unique: true,
-      required: true,
+      default: () => `USR-${Date.now()}`
     },
 
     name: {
       type: String,
       required: true,
       trim: true,
+    },
+      address: {
+  street: String,
+  city: String,
+  state: String,
+  pincode: String,
+  country: String
+},
+  gender: {
+      type: String,
+      enum: ["MALE", "FEMALE", "OTHER"],
+    },
+        dateOfBirth: {
+      type: Date,
+    },
+  employmentType: {
+      type: String,
+      enum: ["FULL_TIME", "PART_TIME", "INTERN", "CONTRACT"],
+      default: "FULL_TIME",
     },
 
     email: {
