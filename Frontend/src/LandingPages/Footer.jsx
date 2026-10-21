@@ -6,18 +6,18 @@ import { FaInstagram } from "react-icons/fa";
 const Footer = () => {
   return (
     <>
-      <div className="h-[14%] bg-slate-950 border-cyan-950  shadow-lg z-50 border-t slate-900 flex justify-between ">
-        <div className="flex flex-col  w-[28%] h-full justify-center items-center gap-1">
+      <div className="h-[14%] bg-slate-950 border-cyan-950  shadow-lg z-50 border-t slate-900 flex justify-between w-screen">
+        <div className="flex flex-col  w-[29%] h-full justify-center  gap-1">
           <img
             src="./HomeLogo.png"
             alt="Homelogo"
-            className=" object-cover h-8 w-[70%] mr-[50%]"
+            className=" object-cover h-8 w-[70%] " 
           />
-          <h1 className=" text-gray-400 font-bold">
+          <h1 className=" text-gray-400 font-bold ml-15">
             A modern employee management system <br /> for growing teams.
           </h1>
         </div>
-        <div className="flex justify-evenly w-[28%]">
+        <div className="flex justify-evenly w-[26%]">
           <div className="flex text-gray-400 flex-col mt-1">
             <h1 className="font-bold">Quick Links</h1>
             <Link to={"/HomeLanding"} >Home</Link>
@@ -31,7 +31,7 @@ const Footer = () => {
             <h1>Privacy Policy</h1>
           </div>
         </div>
-        <div className="text-gray-400 w-[28%] flex flex-col justify-center items-center">
+        <div className="text-gray-400 w-[26%] flex flex-col justify-center items-center">
           <h1 className="font-bold  text-lg">Connect with us </h1>
           <div className="flex gap-4 mt-2">
             <Link
@@ -60,7 +60,7 @@ const Footer = () => {
             </Link>
           </div>
         </div>
-        <div className="w-[15%] text-gray-400 flex justify-center items-center">
+        <div className="w-[14%] text-gray-400 flex justify-center items-center">
           <h1>@ 2026 All rights reserved</h1>
           <div></div>
         </div>

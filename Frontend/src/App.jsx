@@ -1,11 +1,13 @@
-import { useState } from 'react'
-import RegisterController from './Auth/Register.jsx'
-import Body from './Body.jsx'
-
+import Body from "./Body.jsx";
+import { ToastContainer } from "react-toastify";
 
 function App() {
- return  <Body/>
- 
+  return (
+    <>
+      <ToastContainer />
+      <Body />
+    </>
+  );
 }
 
-export default App
+export default App;
