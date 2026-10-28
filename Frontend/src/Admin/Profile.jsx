@@ -23,7 +23,7 @@ import {
 import Footer from "../LandingPages/Footer";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { clearUser } from "../Redux/UserSlice.js";
+import { clearUser, updateUserProfileImage } from "../Redux/UserSlice.js";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -36,6 +36,25 @@ const AdminProfile = () => {
   const {user}=useSelector(store=>store.user);
   console.log("user  ",user);
   const navigate=useNavigate();
+
+  const ProfileImageHandler=async(e)=>{
+    const file=e.target.files[0];
+    const formData=new FormData();
+    formData.append("image",file);
+    try {
+      const res=await axios.patch('http://localhost:5200/change-profileImage',formData,{
+        withCredentials:true
+      })
+      console.log("res in admin profilr ",res);
+      if(res.data.success){
+        dispatch(updateUserProfileImage(res?.data?.user?.profilePicture));
+        toast.success(res.data.message);
+      }
+  } 
+   catch (error) {
+      console.log("error ",error);
+    }
+  }
   const LogoutHandler = async () => {
     try {
       
@@ -109,17 +128,21 @@ const AdminProfile = () => {
                 <div className="flex items-center h-full justify-between  mx-4">
                   <div className="flex items-center justify-between w-[65%]">
                     <div className="flex items-center  relative">
-                      <input type="file" id="file" hidden />
-                      {/* <FaUserCircle
+                      <input type="file" id="file" hidden onChange={(e)=>ProfileImageHandler(e)} />
+                     {!user?.profilePicture ? <FaUserCircle
                         style={{
                           boxShadow: "0px 0px 10px rgba(230, 220, 220, 0.4)",
                         }}
-                        className="w-35 h-35 border-8 border-gray-400 rounded-full absolute "
-                      /> */}
-                      <img src="./Logo.png" alt=""  className="w-35 h-35 border-8 border-gray-400 object-cover bg-center rounded-full absolute "/>
+                        className="w-39 h-39 border-4 border-gray-400 rounded-full absolute "
+                      />:
+                      <motion.img 
+                      whileInView={{
+                        boxShadow:"0px 0px 15px rgba(23, 140, 243, 0.7)"
+                      }}
+                      src={user?.profilePicture} alt=""  className="w-39 h-39 border-4 border-gray-400 object-cover bg-center rounded-full absolute "/>}
                       <label
                         htmlFor="file"
-                        className="cursor-pointer z-[50] abosulte   left-0 ml-30 mt-10 right-0 buttom-0"
+                        className="cursor-pointer z-[50] abosulte   left-0 ml-34 mt-10 right-0 buttom-0"
                       >
                         <FaCamera
                           className="text-slate-600 text-xl "
@@ -168,7 +191,7 @@ const AdminProfile = () => {
                       className="border w-full flex items-center gap-2 px-3 py-2  border-slate-600  rounded-lg bg-gray-800"
                     >
                       <FaUser />
-                      Kapil
+                      {user?.name}
                     </motion.h1>
                   </div>
                   <div className="flex w-[45%]  px-3 py-2  flex-col  ">
@@ -181,7 +204,7 @@ const AdminProfile = () => {
                       className="border w-full px-3 py-2 border-slate-600 flex items-center gap-2  rounded-lg bg-gray-800"
                     >
                       <FaUser />
-                      Kumar
+                      {user?.lastName}
                     </motion.h1>
                   </div>
                   <div className="flex w-[45%]  px-3 py-2  flex-col  ">
@@ -194,7 +217,7 @@ const AdminProfile = () => {
                       className="border w-full px-3 py-2 flex items-center gap-2  border-slate-600 rounded-lg bg-gray-800"
                     >
                       <FaEnvelope />
-                      kapil@gmail.com
+                     {user.email}
                     </motion.h1>
                   </div>
                   <div className="flex w-[45%]  px-3 py-2  flex-col  ">
@@ -207,7 +230,7 @@ const AdminProfile = () => {
                       className="border w-full px-3 py-2  border-slate-600 rounded-lg flex items-center gap-2 bg-gray-800"
                     >
                       <FaPhone />
-                      9717828288
+                     {user.phone}
                     </motion.h1>
                   </div>
                 </div>

@@ -99,7 +99,7 @@ const ManagerProfile = () => {
       className="flex h-dvh w-full flex-col overflow-hidden bg-slate-950 text-white"
     >
       {/* FIXED BACK BUTTON */}
-      <header className="flex shrink-0 items-center border-b   border-slate-800 bg-slate-950 px-4 py-3">
+      <header className="flex shrink-0 items-center border-b   border-slate-800 bg-slate-950 px-4 py-1">
         <button
           onClick={() => navigate("/all-manager")}
           className="flex items-center gap-2 font-bold text-white cursor-pointer  hover:text-blue-400"
@@ -112,13 +112,24 @@ const ManagerProfile = () => {
       {/* FIXED PROFILE + STATS */}
       <section className="shrink-0 space-y-3 p-3">
         {/* MANAGER PROFILE */}
-        <div className="flex  gap-5 rounded-xl border border-slate-700 bg-slate-800 p-4 lg:flex-row lg:items-center lg:justify-between">
+        <div className="flex  gap-5 rounded-xl border bg-cover object-cover border-slate-700 bg-slate-800 p-6 lg:flex-row lg:items-center lg:justify-between"
+          style={{
+          backgroundImage:`url(${'/adminBackground.png'})`,
+           backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+        }}
+       >
           {/* Left profile details */}
           <div className="flex min-w-0 items-center gap-4">
-            <FaUserCircle
+           { manager.profilePicture ?<motion.img 
+           whileInView={{
+            boxShadow:"0px 0px 12px rgba(44, 154, 238, 0.7)"
+           }}
+           src={manager.profilePicture} alt=""  className="shrink-0 text-gray-300 h-39 w-39 border-4 border-gray-600 rounded-full object-cover"/>: <FaUserCircle
               className="shrink-0 text-gray-300 h-35 w-35 border-4 border-gray-600 rounded-full"
               
-            />
+            />}
 
             <div className="min-w-0">
               <h1 className="text-3xl font-bold text-cyan-400">

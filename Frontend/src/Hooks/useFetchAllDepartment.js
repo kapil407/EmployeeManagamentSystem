@@ -7,7 +7,7 @@ const useFetchAllDepartment = () => {
   const dispatch = useDispatch();
   const [deptData, setDeptData] = useState([]);
   useEffect(() => {
-    const fetch = async () => {
+    const fetchDept = async () => {
       const res = await axios.get("http://localhost:5200/get-all-department", {
         withCredentials: true,
       });
@@ -17,8 +17,7 @@ const useFetchAllDepartment = () => {
         dispatch(setDepartment(res.data.getAllDepartment));
       }
     };
-
-    fetch();
+    fetchDept();
   }, []);
   return deptData;
 };

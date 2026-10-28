@@ -95,6 +95,7 @@ const Departments=useSelector(store=>store.department.department);
       }
     } catch (error) {
       console.log(error);
+      toast.error(error.response?.data?.message || "Email already exist");
     }
   };
 

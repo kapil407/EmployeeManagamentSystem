@@ -2,18 +2,20 @@ import NavBarHandler from "../../Home/PrivateNavbar.jsx";
 import { easeOut, motion } from "motion/react";
 import { useNavigate, useParams } from "react-router-dom";
 import Footer from "../../LandingPages/Footer.jsx";
-import { FaEye, FaSearch, FaTrash } from "react-icons/fa"
+import { FaEye, FaSearch, FaTrash, FaUserCircle } from "react-icons/fa"
 import { removeManager } from "../../Redux/ManagerSlice.js";
-import { useFetchAllManager } from "../../Hooks/useFetchManagers.js";
+// import { useFetchAllManager } from "../../Hooks/useFetchManagers.js";
 import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import axios from "axios";
 const AllManagersProfile = () => {
- 
+
   let cnt = 0;
-//  const managersData=useFetchAllManager();
   const navigate = useNavigate();
   const managersData=useSelector(store=>store.manager.manager);
 
- 
+ console.log(managersData)
+ const [departmentName,setDepartmentName]=useState(""); 
 
   return (
     <div className="w-screen h-screen">
@@ -41,7 +43,7 @@ const AllManagersProfile = () => {
               scale: 1.02,
               boxShadow: "0px 0px 15px rgba(194, 235, 238, 0.4)",
             }}
-            className="px-4 py-2 flex items-center mt-1 gap-4 mr-4 font-bold rounded-lg border-slate-800 bg-slate-800 border outline-none w-[33%]"
+            className="px-4 py-2 flex items-center mt-1 gap-4 mr-4 font-bold rounded-lg border-slate-700 bg-slate-800 border outline-none w-[33%] hover:z-50 "
           >
             <FaSearch size={20} />
             <input
@@ -67,10 +69,12 @@ const AllManagersProfile = () => {
           {/* {employee profile card} */}
 
           {managersData?.map((m) => {
-            cnt++;
+            console.log("user",m)
+                cnt++;
             return (
               <>
                 <motion.div
+                key={m?._id}
                   whileInView={
                     cnt > 12
                       ? {
@@ -83,7 +87,7 @@ const AllManagersProfile = () => {
                     cnt > 12
                       ? {
                           opacity: 0,
-                          y: 20,
+                          y: 40,
                         }
                       : undefined
                   }
@@ -100,11 +104,30 @@ const AllManagersProfile = () => {
                   }}
                   className="rounded-lg border-l   border-r border-slate-600 p-4 min-w-[18.2%] h-auto"
                 >
-                  <motion.div className="flex mb-2 items-center gap-3 justify-between">
-                    <h1 className="font-black text-3xl mb-2 text-cyan-600">
-                      {m.name} {m.lastName}
-                    </h1>
-                    <motion.button
+                  <motion.div className="flex flex-col mb-2 items-center gap-3 justify-between">
+                    
+                    
+                      {
+                      
+                      m.profilePicture ? <div className="flex items-center justify-between min-w-0  w-full"> 
+                      <div></div>
+                          <img src={m.profilePicture} alt="" className="h-25 w-25 rounded-lg ml-12 object-cover  object-fit " />
+                             <motion.button
+                      whileHover={{
+                        scale: 1.03,
+                        boxShadow: "0px 0px 15px rgba(83, 189, 234, 0.7)",
+                      }}
+                      onClick={() => navigate(`/manager-profile/${m?._id}`)}
+                      className=" flex items-center gap-2 cursor-pointer px-2 py-1 rounded-xl"
+                    >
+                      {" "}
+                      <FaEye />
+                      View
+                    </motion.button> 
+                        </div> :<div className="flex items-center justify-between min-w-0  w-full">
+                          <div></div>
+                          <FaUserCircle className="h-25 w-25 rounded-lg ml-12 object-cover  object-fit " />
+                               <motion.button
                       whileHover={{
                         scale: 1.03,
                         boxShadow: "0px 0px 15px rgba(83, 189, 234, 0.7)",
@@ -116,14 +139,28 @@ const AllManagersProfile = () => {
                       <FaEye />
                       View
                     </motion.button>
-                  </motion.div>
 
-                  <motion.div className=" flex flex-col gap-3 mb-2">
+                        </div>
+                   
+                       
+                      }
+                     
+                    
+                    <div className="flex">
+                      <h1 className="font-black text-3xl mb-2 text-cyan-600">
+                      {m.name} {m.lastName}
+                    </h1>
+                  
+                    </div>
                     <h1 className="font-bold">
                      <span className="text-gray-400">EmpId:</span>  <span>MGR-{m?.employeeId?.split("-")[1]}</span>
                     </h1>
+                  </motion.div>
+
+                  <motion.div className=" flex flex-col gap-3 mb-2">
+                    
                     <h1><span className="text-gray-400 font-bold">Designation</span>: <span className="text-lg font-black">{m.designation}</span></h1>
-                    <h1><span className="text-gray-400 font-bold">Department:</span> <span className="text-lg font-black">{m.department.departmentName}</span></h1>
+                    <h1><span className="text-gray-400 font-bold">Department:</span> <span className="text-lg font-black">{m?.departmentName}</span></h1>
                   </motion.div>
                 </motion.div>
               </>

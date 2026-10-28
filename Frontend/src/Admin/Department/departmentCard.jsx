@@ -10,18 +10,14 @@ import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
 
-
-
 const AllDepartment = () => {
 
-const deptData=useSelector(store=>store.department.department);
-console.log("dpetData ",deptData);
+  const [managerName, setManagerName] = useState("");
   const navigate = useNavigate();
- const managerData=useSelector(store=>store.manager.manager);
-
-console.log("manager data ",managerData);
-      let cnt=0;
+  const deptData = useSelector((store) => store.department.department);
+  let cnt = 0;
   return (
+
     <div className="w-screen h-screen">
       <NavBarHandler />
       <motion.div
@@ -59,7 +55,7 @@ console.log("manager data ",managerData);
         </div>
         <motion.div className="flex w-full">
           <motion.button
-          onClick={()=>navigate('/add-department')}
+            onClick={() => navigate("/add-department")}
             whileHover={{
               scale: 1.02,
               boxShadow: "0px 0px 15px rgba(58, 152, 223, 0.7)",
@@ -72,72 +68,90 @@ console.log("manager data ",managerData);
         <motion.div className="flex   p-2  flex-wrap gap-8 w-full max-h-full overflow-y-auto custom-scrollbar">
           {/* {employee profile card} */}
 
-          {Array.isArray(deptData) && deptData?.map((dept) => {
-           
+          {Array.isArray(deptData) &&
+            deptData?.map((dept) => {
+             
               cnt++;
-            return (
-              <>
-                <motion.div
-                key={dept?._id}
-               
-                 whileInView={
-                   cnt>6 ?{
-                        opacity:1,y:0
-                    }:undefined
-                 }
+              return (
+                <>
+                  <motion.div
+                    key={dept.departmentCode}
+                    whileInView={
+                      cnt > 6
+                        ? {
+                            opacity: 1,
+                            y: 0,
+                          }
+                        : undefined
+                    }
                     initial={
-                        cnt>6 ?{
-                            opacity:0,y:20
-                            }:undefined
+                      cnt > 6
+                        ? {
+                            opacity: 0,
+                            y: 40,
+                          }
+                        : undefined
                     }
                     transition={
-                       cnt>6 ?{
-                            duration:0.8
-                    }:undefined}
+                      cnt > 6
+                        ? {
+                            duration: 1,
+                          }
+                        : undefined
+                    }
+                    whileHover={{
+                      scale: 1.02,
+                      boxShadow: "0px 0px 15px rgba(58, 152, 223, 0.7)",
+                    }}
+                    className="rounded-lg border-l   border-r border-slate-600 p-4  w-[32%] h-auto"
+                  >
+                    <div className="flex items-center justify-between">
+                      <h1 className="font-black text-2xl text-cyan-600 mb-2">
+                        {dept?.departmentName}
+                      </h1>
+                      <motion.button
+                        onClick={() => navigate(`/dept-details/${dept._id}`)}
+                        whileHover={{
+                          scale: 1.03,
+                          boxShadow: "0px 0px 20px rgba(140, 225, 240, 0.7)",
+                        }}
+                        className="flex items-center gap-3 px-2 py-1 rounded-xl cursor-pointer"
+                      >
+                        <FaEye />
+                        <span>View</span>
+                      </motion.button>
+                    </div>
 
-                  whileHover={{
-                    scale: 1.02,
-                    boxShadow: "0px 0px 15px rgba(58, 152, 223, 0.7)",
-                  }}
-                  className="rounded-lg border-l   border-r border-slate-600 p-4  w-[32%] h-auto"
-                >
-                 <div className="flex items-center justify-between">
-                   <h1 className="font-black text-2xl text-cyan-600 mb-2">{dept?.departmentName}</h1>
-                  <motion.button
-                  onClick={()=>navigate(`/dept-details/${dept._id}`)}
-                  whileHover={{
-                    scale:1.03,
-                    boxShadow:"0px 0px 20px rgba(140, 225, 240, 0.7)"
-                  }}
-                  className="flex items-center gap-3 px-2 py-1 rounded-xl cursor-pointer">
-                     <FaEye/>
-                   <span>View</span>
-                  </motion.button>
-                 </div>
-
-                  <motion.div className="font-semibold flex flex-col gap-2">
-                    <h1>
-                     <span className="text-gray-400"> DeparmentCode:</span> <span>{dept?.departmentCode}</span>
-                    </h1>
-                    {
-                      dept.manager ? 
-                    <h1 ><span className="text-gray-400">MANAGER :</span> <span className="text-xl font-black">{dept?.manager?.name } {dept?.manager?.lastName}</span> </h1> :<h1><span className="text-gray-400">MANAGER :</span> <span className="text-xl font-black">Not Assigned</span> </h1>
-          }
-                    <h1 className="text-gray-400">{dept?.description}</h1>
-                  
+                    <motion.div className="font-semibold flex flex-col gap-2">
+                      <h1>
+                        <span className="text-gray-400"> DeparmentCode:</span>{" "}
+                        <span>{dept?.departmentCode}</span>
+                      </h1>
+                      {dept?.manager ? (
+                        <h1>
+                          <span className="text-gray-400">MANAGER :</span>{" "}
+                          <span className="text-xl font-black">
+                            {dept?.managerName} 
+                          </span>{" "}
+                        </h1>
+                      ) : (
+                        <h1>
+                          <span className="text-gray-400">MANAGER :</span>{" "}
+                          <span className="text-xl font-black">
+                            Not Assigned
+                          </span>{" "}
+                        </h1>
+                      )}
+                      <h1 className="text-gray-400">{dept?.description}</h1>
+                    </motion.div>
                   </motion.div>
-                 
-                
-                </motion.div>
-              </>
-            );
-          })}
-
-        
+                </>
+              );
+            })}
         </motion.div>
       </motion.div>
       <Footer />
     </div>
   );
 };
-export default AllDepartment ;
+export default AllDepartment;

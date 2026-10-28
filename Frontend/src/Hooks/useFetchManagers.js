@@ -6,9 +6,11 @@ import { useDispatch } from "react-redux";
 export const useFetchAllManager = () => {
   const dispatch = useDispatch();
   const [managers, setManagers] = useState();
-  useEffect(() => {
-    const fetch = async () => {
-      const res = await axios.get("http://localhost:5200/get-all-manager", {
+  
+     useEffect(()=>{
+
+     const fetchManager=async()=>{
+        const res = await axios.get("http://localhost:5200/get-all-manager", {
         withCredentials: true,
       });
 
@@ -16,8 +18,10 @@ export const useFetchAllManager = () => {
         setManagers(res.data.AllProfile);
         dispatch(setManager(res.data.AllProfile));
       }
-    };
-    fetch();
-  }, []);
+     }
+     fetchManager();
+     },[])
+   
+  
   return managers;
 };

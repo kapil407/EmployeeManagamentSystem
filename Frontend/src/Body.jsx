@@ -31,6 +31,7 @@ import AttendenceComponent from "./Manager/Attendence.jsx";
 import LeaveComponent from "./Manager/Leave.jsx";
 import MyTaskComponent from "./Manager/MyTasks.jsx";
 import NotificationComponent from "./Manager/Notification.jsx";
+import UpdateProfile from "./Manager/UpdateProfile.jsx";
 
 
 const Body = () => {
@@ -74,6 +75,7 @@ const Body = () => {
               <Route path="leave" element={<LeaveComponent/>}/>
               <Route path="my-tasks" element={<MyTaskComponent/>}/>
               <Route path="notification" element={<NotificationComponent/>}/>
+              <Route path="edite-profile" element={<UpdateProfile/>}/>
               </>
             )
           }

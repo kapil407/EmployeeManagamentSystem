@@ -70,7 +70,15 @@ const DepartmentDetails = () => {
         }}
         className="w-screen h-screen shrink-0 bg-slate-950 text-white p-2 space-y-3"
       >
-        <header className="flex shrink-0 w-full min-h-[15%] p-2 rounded-xl flex-col justify-center gap-5 bg-slate-800">
+        <header
+          className="flex shrink-0 w-full min-h-[15%] p-2 rounded-xl flex-col justify-center gap-5 bg-slate-800"
+          style={{
+            backgroundImage: "url('/adminBackground.png')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+          }}
+        >
           <div
             onClick={() => navigate("/all-department")}
             className="flex items-center gap-3 cursor-pointer"
@@ -81,8 +89,12 @@ const DepartmentDetails = () => {
           <div className="flex gap-4">
             <FaSitemap size={75} className="bg-blue-400 p-2 rounded-xl" />
             <div className="flex flex-col">
-              <h1 className="text-3xl font-bold text-cyan-400">Department Details</h1>
-              <span className="font-semibold text-gray-400">View complete information about this department</span>
+              <h1 className="text-3xl font-bold text-cyan-400">
+                Department Details
+              </h1>
+              <span className="font-semibold text-gray-400">
+                View complete information about this department
+              </span>
             </div>
           </div>
 
@@ -91,7 +103,9 @@ const DepartmentDetails = () => {
               <h1 className="text-4xl font-bold text-purple-600">
                 {department?.departmentName}
               </h1>
-              <p className="font-semibold text-gray-400">{department?.description}</p>
+              <p className="font-semibold text-gray-400">
+                {department?.description}
+              </p>
             </div>
             <span className="font-semibold border border-slate-600 px-4 py-1 h-fit rounded-xl bg-green-700 ">
               Active
@@ -126,13 +140,19 @@ const DepartmentDetails = () => {
             <div className="flex items-center gap-4 bg-slate-700 max-h-[17%] p-2 rounded-xl shrink-0">
               <FaUserTie size={60} className="bg-gray-800 p-2 rounded-xl" />
               <div className="flex gap-3 items-center">
-                <FaUserCircle size={48} />
+               {manager?.profilePicture ?<img onClick={()=>navigate(`/manager-profile/${manager?._id}`)} src={manager?.profilePicture} alt=""  className="h-15 w-15 object-cover cursor-pointer rounded-full"/>:
+               
+               <FaUserCircle size={48} />}
                 <div className="flex flex-col">
                   <h1 className="font-semibold text-gray-300">
                     Assigned Manager
                   </h1>
-                  <h1 className="text-xl font-bold">{manager?.name} {manager?.lastName}</h1>
-                  <h1 className="font-semibold text-gray-300">MNG-{manager?.employeeId?.split("-")[1]}</h1>
+                  <h1 className="text-xl font-bold">
+                    {department?.managerName} 
+                  </h1>
+                  <h1 className="font-semibold text-gray-300">
+                    MNG-{manager?.employeeId?.split("-")[1]}
+                  </h1>
                 </div>
               </div>
             </div>
@@ -147,27 +167,27 @@ const DepartmentDetails = () => {
                 </span>
               </div>
             </div>
-             <div className="bg-slate-800 gap-8 flex justify-end ">
+            <div className="bg-slate-800 gap-8 flex justify-end ">
               <motion.button
-                onClick={()=>navigate(`/update-dept/${id}`)}
+                onClick={() => navigate(`/update-dept/${id}`)}
                 whileTap={{
                   scale: 1.02,
-                  boxShadow: "0px 0px 20px rgba(142, 220, 233, 0.7)",
+                  boxShadow: "0px 0px 15px rgba(31, 81, 246, 0.7)",
                 }}
                 transition={{
                   duration: 0.3,
                   ease: easeInOut,
                 }}
-                className="border border-blue-600 bg-blue-600 flex gap-2 items-center px-2 rounded-xl cursor-pointer"
+                className="border border-blue-600 bg-blue-600 flex gap-2 items-center px-2 py-1 font-bold rounded-xl cursor-pointer"
               >
                 <FaEdit />
                 Update Department
               </motion.button>
 
-              <motion.button
+              {/* <motion.button
                 whileTap={{
                   scale: 1.02,
-                  boxShadow: "0px 0px 20px rgba(142, 220, 233, 0.7)",
+                  boxShadow: "0px 0px 15px rgba(232, 50, 50, 0.7)",
                 }}
                 transition={{
                   duration: 0.2,
@@ -176,9 +196,8 @@ const DepartmentDetails = () => {
                 className=" bg-red-600 flex gap-2 py-2 items-center px-2 rounded-xl cursor-pointer"
               >
                 <FaTrash /> Delete Department
-              </motion.button>
+              </motion.button> */}
             </div>
-
           </section>
           <section className="bg-green-400 p-2 bg-slate-800 rounded-r-xl space-y-3">
             <div className="flex items-center gap-4 bg-slate-700 p-2 rounded-xl mt-1">
@@ -193,7 +212,10 @@ const DepartmentDetails = () => {
               </div>
             </div>
             <div className="flex items-center gap-10 bg-slate-700  p-2 rounded-xl">
-              <FaFileAlt size={60} className="bg-gray-800 p-2 rounded-xl shrink-0" />
+              <FaFileAlt
+                size={60}
+                className="bg-gray-800 p-2 rounded-xl shrink-0"
+              />
 
               <div className="min-h-[15%]">
                 <h1 className="text-lg font-semibold text-slate-400">
@@ -220,7 +242,6 @@ const DepartmentDetails = () => {
                 </span>
               </div>
             </div>
-           
           </section>
         </div>
       </motion.main>

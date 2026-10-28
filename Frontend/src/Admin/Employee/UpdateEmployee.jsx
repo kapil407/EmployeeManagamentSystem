@@ -43,27 +43,42 @@ const UpdateEmployee = () => {
 
   return (
     <>
-      <motion.div 
-      initial={{
-        opacity:0,y:8
-      }}
-      animate={{
-        opacity:1,y:0
-      }}
-      transition={{
-        duration:0.3,
-        ease:"easeOut"
-      }}
-      className="w-screen h-screen  bg-slate-950">
-        <div className="p-3 bg-slate-950 w-full h-auto rounded-xl">
-          <h1 className="flex font-bold  h-[5%] bg-slate-800 rounded-xl px-2 text-white items-center gap-2 cursor-pointer">
+      <motion.div
+        initial={{
+          opacity: 0,
+          y: 8,
+        }}
+        animate={{
+          opacity: 1,
+          y: 0,
+        }}
+        transition={{
+          duration: 0.3,
+          ease: "easeOut",
+        }}
+        className="w-screen h-screen  bg-slate-950"
+      >
+        <div className="p-2 bg-slate-950 w-full h-auto rounded-xl">
+          <h1 className="flex font-bold  h-[2%]  rounded-xl px-2 text-white items-center gap-2 cursor-pointer">
             {" "}
-            <FaArrowLeft onClick={() => navigate("/all-employee")} className="" size={20} />
+            <FaArrowLeft
+              onClick={() => navigate("/all-employee")}
+              className=""
+              size={20}
+            />
             Back to all employee
           </h1>
-          <div className="w-full h-[95%]  my-2  flex flex-col rounded-xl">
-            <div className="flex w-full bg-slate-800 h-[25%] p-1 justify-evenly rounded-t-xl  text-white ">
-              <div className="flex gap-4 w-[50%] items-center justify-center">
+          <div className="w-full h-[95%]  my-1  flex flex-col rounded-xl">
+            <div
+              className="flex w-full bg-slate-800 h-[35%] border border-slate-800 p-4 justify-evenly rounded-t-xl  text-white "
+              style={{
+                backgroundImage: `url(${`/adminBackground.png`})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
+              }}
+            >
+              <div className="flex gap-4 w-[40%] items-center justify-center">
                 <FaUserCircle
                   style={{
                     boxShadow: "0px 0px 10px rgba(230, 220, 220, 0.4)",
@@ -71,8 +86,8 @@ const UpdateEmployee = () => {
                   className="w-35 h-35 border-8 border-gray-400 rounded-full  "
                 />
                 <div>
-                  <h1 className="font-bold text-3xl">kapil</h1>
-                  <h1 className="font-bold">software developer</h1>
+                  <h1 className="font-bold text-3xl text-cyan-500">kapil kumar</h1>
+                  <h1 className="font-bold">Software developer</h1>
                   <h1 className="flex gap-6">
                     <span className="border font-semibold px-2 py-1 rounded-lg bg-blue-400 text-blue-600">
                       kapil2026
@@ -91,7 +106,7 @@ const UpdateEmployee = () => {
                   </h1>
                 </div>
               </div>
-              <div className="w-[50%] flex flex-col items-center justify-center">
+              <div className="w-[60%] flex flex-col items-center justify-center">
                 <div className="flex gap-6">
                   <motion.button
                     whileHover={{
@@ -103,7 +118,6 @@ const UpdateEmployee = () => {
                     <FaEdit />
                     Edite Employee
                   </motion.button>
-                 
                 </div>
                 <div className="flex flex-col font-bold mt-2 py-2">
                   <h1 className="flex items-center gap-4 mb-0.5">
@@ -216,17 +230,17 @@ const UpdateEmployee = () => {
           </div>
         </div>
         {
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode="wait" >
             <motion.div
               key={path_1 || path_2 || path_3 || path_4}
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
               transition={{
-                duration: 0.3,
+                duration: 0.2,
                 ease: "easeOut",
               }}
-              className="h-auto"
+              className="h-auto "
             >
               {path_1 === "overview" && <EmployeeOver />}
               {path_2 === "attendence" && <EmployeeAttendence />}
