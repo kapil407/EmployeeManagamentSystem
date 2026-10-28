@@ -2,10 +2,11 @@ import User from "../../Models/User.js";
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
+
 dotenv.config();
 const logOutController=async(req,res)=>{
     try {
-           
+            
             const refreshToken=req.cookies.refreshToken;
             const accessToken=req.cookies.accessToken;
 
@@ -18,16 +19,17 @@ const logOutController=async(req,res)=>{
                 return res.status(200).json({message:"logout ",success:true});
             }
               
-                const decoded=await jwt.verify(accessToken,process.env.accessToken_Secret);
+                const decoded= jwt.verify(accessToken,process.env.accessToken_Secret);
              
                 const user=await User.findById(decoded.userId);
+               
                 if(user){
                 const UpdatedTokenData=[];
                 let flag=true;
                     for( const ref of user.refreshTokens){
                         const isMatch=await bcrypt.compare(refreshToken,ref);
-                        if(isMatch){
-                           flag=false;
+                        if(!isMatch){
+                          UpdatedTokenData.push(ref);
                         }
                     }
                     res.clearCookie('accessToken',{

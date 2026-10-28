@@ -1,10 +1,11 @@
 import User from "../../Models/User.js";
 import bcrypt, { hash } from "bcrypt";
- export const createEmpController = async (req, res) => {
+import Department from "../../Models/Department.js";
+export const createEmpController = async (req, res) => {
   try {
-   
     const {
       name,
+      lastName,
       email,
       password,
       phone,
@@ -14,22 +15,40 @@ import bcrypt, { hash } from "bcrypt";
       salary,
       manager,
     } = req.body;
+    console.log("KAPIL");
+    const Manager = await User.findOne({
+       manager,
+      role: "manager",
+    });
+    if (!manager) {
+      return res.status(404).json({
+        success: false,
+        message: "manager not found",
+      });
+    }
+
+    const departmentData = await Department.findOne({
+      department,
+    });
+
+    if (!departmentData) {
+      return res.status(404).json({
+        success: false,
+        message: "Department not found",
+      });
+    }
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new User({
-      name,
-      email,
-      password: hashedPassword,
-      phone,
-      department,
-      designation,
-      joiningDate,
-      salary,
-      manager,
+      ...req.body,
+      manager: Manager._id,
+      department: departmentData._id,
     });
     await newUser.save();
-    return res
-      .status(200)
-      .json({ message: "Create Employee successfully",success:true, newUser });
+    return res.status(200).json({
+      message: "Create Employee successfully",
+      success: true,
+      newUser,
+    });
   } catch (error) {
     console.error("error in create Emp controller", error);
     return res
@@ -38,58 +57,50 @@ import bcrypt, { hash } from "bcrypt";
   }
 };
 
-
-
 export const deleteEmpController = async (req, res) => {
   try {
-   
     const { id } = req.params;
-    
+
     const deletedUser = await User.findByIdAndDelete({ _id: id });
 
-    return res
-      .status(200)
-      .json({ message: "Emp deleted successfully",success:true, deletedUser });
-  }
-   catch (error) {
+    return res.status(200).json({
+      message: "Emp deleted successfully",
+      success: true,
+      deletedUser,
+    });
+  } catch (error) {
     console.error("error in delete controller", error);
     return res
       .status(500)
       .json({ message: "error in delete controller", error });
   }
 };
- 
-
 
 export const getAllEmployee = async (req, res) => {
   try {
-        const AllProfile=await User.find().select("-password");
-        console.log("All Users");
-        return res.status(200).json({message:"All Users",AllProfile,success:true});
-  }     
-  catch (error) {
+    const AllProfile = await User.find().select("-password");
+    console.log("All Users");
+    return res
+      .status(200)
+      .json({ message: "All Users", AllProfile, success: true });
+  } catch (error) {
     console.error("GetAllprofile error ", error);
     return res.status(500).json({ message: "profile error ", error });
   }
 };
 
-
-export const updateEmpController=async(req,res)=>{
-    try {
-        const newUser=await User.findByIdAndUpdate(
-            req.params.id,
-            req.body,
-            {
-             new:true,
-             runValidators:true   
-        })
-        await newUser.save();
-        return res.status(200).json({message:"update Emp successfully",success:true, newUser});
-
-    } catch (error) {
-        console.error("error in update controller",error);
-        res.status(500).json({message:"error in update controller",error});
-    }
-}
-
-
+export const updateEmpController = async (req, res) => {
+  try {
+    const newUser = await User.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+    await newUser.save();
+    return res
+      .status(200)
+      .json({ message: "update Emp successfully", success: true, newUser });
+  } catch (error) {
+    console.error("error in update controller", error);
+    res.status(500).json({ message: "error in update controller", error });
+  }
+};

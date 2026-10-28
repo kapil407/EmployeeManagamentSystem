@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import validator from 'validator'
+import validator from "validator";
 // import isEmail from "validator/lib/isEmail";
 
 const userSchema = new mongoose.Schema(
@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema(
     employeeId: {
       type: String,
       unique: true,
-      default: () => `USR-${Date.now()}`
+      default: () => `USR-${Date.now()}`,
     },
 
     name: {
@@ -15,21 +15,26 @@ const userSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-      address: {
-  street: String,
-  city: String,
-  state: String,
-  pincode: String,
-  country: String
-},
-  gender: {
+    lastName: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    address: {
+      street: String,
+      city: String,
+      state: String,
+      pincode: String,
+      country: String,
+    },
+    gender: {
       type: String,
       enum: ["MALE", "FEMALE", "OTHER"],
     },
-        dateOfBirth: {
+    dateOfBirth: {
       type: Date,
     },
-  employmentType: {
+    employmentType: {
       type: String,
       enum: ["FULL_TIME", "PART_TIME", "INTERN", "CONTRACT"],
       default: "FULL_TIME",
@@ -41,10 +46,10 @@ const userSchema = new mongoose.Schema(
       unique: true,
       lowercase: true,
       trim: true,
-      validate:{
-        validator:value=>validator.isEmail(value),
-         message: "Please enter a valid email address"
-      }
+      validate: {
+        validator: (value) => validator.isEmail(value),
+        message: "Please enter a valid email address",
+      },
     },
 
     password: {
@@ -54,10 +59,12 @@ const userSchema = new mongoose.Schema(
 
     phone: {
       type: String,
+      default:""
     },
 
     profilePicture: {
       type: String,
+      default:""
     },
 
     role: {
@@ -70,9 +77,14 @@ const userSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Department",
     },
+    departmentName:{
+      type:"String",
+      ref:"Department"
+    },
 
     designation: {
       type: String,
+      default:""
     },
 
     manager: {
@@ -93,6 +105,10 @@ const userSchema = new mongoose.Schema(
       enum: ["ACTIVE", "INACTIVE"],
       default: "ACTIVE",
     },
+    Bio:{
+      type:String,
+      default:""
+    },
 
     refreshTokens: [
       {
@@ -102,7 +118,7 @@ const userSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 const User = mongoose.model("User", userSchema);

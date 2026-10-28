@@ -1,21 +1,32 @@
-import mongoose from 'mongoose'
-const DepartmentSchema =new mongoose.Schema({
-    
-  name:{
-    type:String,
-    required:true,
-    unique:true
-  },
-  description:{
-   type: String
-},
+import mongoose from "mongoose";
+const departmentSchema = new mongoose.Schema(
+  {
+    departmentName: {
+      type: String,
 
-manager:{
-    type:mongoose.Schema.Types.ObjectId,
-    ref:"User"
+      unique: true,
     },
-},{
-    timestamps:true
-})
-const Department=mongoose.model("Department",DepartmentSchema);
-export default Department ;
+
+    departmentCode: {
+      type: String,
+    },
+
+    description: {
+      type: String,
+    },
+
+    manager: {
+      type:[ mongoose.Schema.Types.ObjectId],
+      ref: "User",
+      default: null,
+    },
+    managerName:{
+      type:"String",
+      ref:"User",
+      default:"Not Assigned"
+    }
+  },
+  { timestamps: true },
+);
+const Department = mongoose.model("Department", departmentSchema);
+export default Department;

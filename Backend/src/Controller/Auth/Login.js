@@ -17,7 +17,7 @@ const loginController=async(req,res)=>{
             }
             const isMatched=await bcrypt.compare(password,user?.password);
             if(!isMatched){
-                return res.json({message:"password is incorrect"});
+                return res.status(400).json({message:"password is incorrect"});
             }
 
             const accessToken= jwt.sign({userId:user._id,role:user.role},process.env.accessToken_Secret,{

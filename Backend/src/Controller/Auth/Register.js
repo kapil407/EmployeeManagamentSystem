@@ -3,9 +3,9 @@ import bcrypt, { hash } from "bcrypt";
 import uploadFile from "../Cloudinary.js";
 export const registerController = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
-    console.log("auth");
-    if (!name || !email || !password) {
+    const { name,lastName, email, password } = req.body;
+    console.log(name,lastName,email,password);
+    if (!name || !email || !password ||!lastName) {
       return res.status(500).json({ message: "all fields are required " });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -14,6 +14,7 @@ export const registerController = async (req, res) => {
       name,
       email,
       password: hashedPassword,
+      lastName
     });
     await newUser.save();
     console.log("new User", newUser);
