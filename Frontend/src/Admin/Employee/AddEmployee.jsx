@@ -1,54 +1,89 @@
 import NavBarHandler from "../../Home/PrivateNavbar.jsx";
-import { FaUserPlus } from "react-icons/fa";
+import { FaUserPlus, FaVenusMars } from "react-icons/fa";
 import { motion } from "motion/react";
 import { useState } from "react";
 import { FaRupeeSign } from "react-icons/fa";
 import { FaPlusCircle } from "react-icons/fa";
 import {
-  FaUser,FaUserTie,FaHome, FaChevronRight,FaBuilding,FaBriefcase,FaLock,FaSignOutAlt,FaCamera,FaEdit,FaPhone,FaEnvelope,FaCalendarAlt,FaIdCard, FaUserCircle, FaKey, FaUserShield, FaSignInAlt, FaCalendarPlus, FaArrowLeft,} from "react-icons/fa";
+  FaUser,
+  FaUserTie,
+  FaHome,
+  FaChevronRight,
+  FaBuilding,
+  FaBriefcase,
+  FaLock,
+  FaSignOutAlt,
+  FaCamera,
+  FaEdit,
+  FaPhone,
+  FaEnvelope,
+  FaCalendarAlt,
+  FaIdCard,
+  FaUserCircle,
+  FaKey,
+  FaUserShield,
+  FaSignInAlt,
+  FaCalendarPlus,
+  FaArrowLeft,
+} from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import axios from 'axios'
-import {toast} from 'react-toastify'
-import { useDispatch } from "react-redux";
-import {setUser} from '../../Redux/UserSlice.js'
+import axios from "axios";
+import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "../../Redux/UserSlice.js";
 
 const AddEmployee = () => {
-
+  const Manager=useSelector(store=>store.manager.manager);
+  const Department=useSelector(store=>store.department.department)
+  console.log("dept",Department)
   const [openManagerDropdown, setOpenManagerDropdown] = useState(false);
   const [openDeptDropdown, setOpenDeptDropdown] = useState(false);
   const [manager, setManager] = useState("");
-  const [name,setName]=useState("");
-  const [lastName,setLastName]=useState("");
-  const [email,setEmail]=useState("");
-const [password,setPassword]=useState("");
-const [phone ,setPhone]=useState("");
-const [joiningDate,setJoiningDate]=useState("");
-const [salary,setSalary]=useState("");
-const [department, setDepartment] = useState("");
-const [designation,setdesignation]=useState("")
+  const [name, setName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [phone, setPhone] = useState("");
+  const [joiningDate, setJoiningDate] = useState("");
+  const [salary, setSalary] = useState("");
+  const [department, setDepartment] = useState("");
+  const [designation, setdesignation] = useState("");
+  const [gender , setGender]=useState("")
   const navigate = useNavigate();
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
 
   // console.log(name,lastName,email,password,phone,department,designation,joiningDate,salary,manager)
 
-  const CreateEmployeeHandler=async()=>{
+  const CreateEmployeeHandler = async () => {
     try {
-      const res=await axios.post('http://localhost:5200/create-employee',{
-            name,lastName,email,password,phone,department,designation,joiningDate,salary,manager
-      },{
-        withCredentials:true
-      })
-      console.log("res in create emp ",res);
-      if(res.data.success){
-          toast.success(res.data.message);
-            dispatch(setUser(res.data.user));
-          navigate('/all-employee');
+      const res = await axios.post(
+        "http://localhost:5200/create-employee",
+        {
+          name,
+          lastName,
+          email,
+          password,
+          phone,
+          department,
+          designation,
+          joiningDate,
+          salary,
+          manager,
+        },
+        {
+          withCredentials: true,
+        },
+      );
+      console.log("res in create emp ", res);
+      if (res.data.success) {
+        toast.success(res.data.message);
+        dispatch(setUser(res.data.user));
+        navigate("/all-employee");
       }
     } catch (error) {
-      console.log("error in create employee ",error);
+      console.log("error in create employee ", error);
     }
-  }
-
+  };
 
   return (
     <>
@@ -115,7 +150,7 @@ const [designation,setdesignation]=useState("")
                   <input
                     type="text"
                     value={name}
-                   onChange={(e)=> setName(e.target.value)}
+                    onChange={(e) => setName(e.target.value)}
                     placeholder="Enter firstName of employee"
                     className="outline-none w-full"
                   />
@@ -132,7 +167,7 @@ const [designation,setdesignation]=useState("")
                   <input
                     type="text"
                     value={lastName}
-                    onChange={(e)=>setLastName(e.target.value)}
+                    onChange={(e) => setLastName(e.target.value)}
                     placeholder="Enter lastName of employee"
                     className="outline-none w-full"
                   />
@@ -149,7 +184,7 @@ const [designation,setdesignation]=useState("")
                   <input
                     type="email"
                     value={email}
-                    onChange={(e)=>setEmail(e.target.value)}
+                    onChange={(e) => setEmail(e.target.value)}
                     placeholder="Enter employee email "
                     className="outline-none w-full"
                   />
@@ -166,7 +201,7 @@ const [designation,setdesignation]=useState("")
                   <input
                     type="Number"
                     value={phone}
-                    onChange={(e)=>setPhone(e.target.value)}
+                    onChange={(e) => setPhone(e.target.value)}
                     placeholder="Enter Phone Number of employee"
                     className="outline-none w-full"
                   />
@@ -182,15 +217,47 @@ const [designation,setdesignation]=useState("")
                   <input
                     type="password"
                     value={password}
-                    onChange={(e)=>setPassword(e.target.value)}
+                    onChange={(e) => setPassword(e.target.value)}
                     placeholder="Enter Password of employee "
                     className="outline-none w-full"
                   />
                 </motion.div>
+                <motion.div
+                  whileHover={{
+                    scale: 1.02,
+                    boxShadow: "0px 0px 15px rgba(237, 231, 231, 0.5)",
+                  }}
+                  className="border py-4 font-bold px-3 w-[30%] border-slate-600  rounded-xl  flex gap-4  items-center"
+                >
+                  <FaVenusMars size={25} />
+                  <select
+                    name="gender"
+                    id=""
+                    className="outline-none w-full"
+                    value={gender}
+                    onChange={(e) => setGender(e.target.value)}
+                  >
+                    <option
+                      value="Select gender"
+                      className="text-gray-800 font-bold"
+                    >
+                      {gender || "Select gender"}
+                    </option>
+                    <option value="Male" className="text-gray-800 font-bold">
+                      Male
+                    </option>
+                    <option value="Female" className="text-gray-800 font-bold">
+                      Female
+                    </option>
+                    <option value="Other" className="text-gray-800 font-bold">
+                      Other
+                    </option>
+                  </select>
+                </motion.div>
               </div>
             </div>
 
-            <div className="mt-4 border-t pt-4 border-slate-600">
+            <div className="mt-2 border-t pt-4 border-slate-600">
               <div className="flex items-center gap-2 px-2 py-1">
                 <FaBriefcase className="w-12 h-12 text-blue-600 bg-blue-300 rounded-xl p-2" />
                 <div>
@@ -239,13 +306,13 @@ const [designation,setdesignation]=useState("")
                             overflow-hidden
                             shadow-lg"
                         >
-                          {["IT ", "Sales", "Marketing", "Digital"].map(
-                            (name) => (
+                          {Department.map(
+                            (dept) => (
                               <button
                                 key={name}
                                 type="button"
                                 onClick={() => {
-                                  setDepartment(name);
+                                  setDepartment(dept.departmentName);
                                   setOpenDeptDropdown(false);
                                 }}
                                 className="w-full text-left px-4 py-3
@@ -254,7 +321,7 @@ const [designation,setdesignation]=useState("")
                                 hover:text-white
                                 transition"
                               >
-                                {name}
+                                {dept.departmentName}
                               </button>
                             ),
                           )}
@@ -305,17 +372,12 @@ const [designation,setdesignation]=useState("")
                             overflow-hidden
                             shadow-lg"
                         >
-                          {[
-                            "Rahul Sharma",
-                            "Amit Kumar",
-                            "Rohit Singh",
-                            "Vikas Kumar",
-                          ].map((name) => (
+                          {Manager.map((m) => (
                             <button
-                              key={name}
+                              key={m?._id}
                               type="button"
                               onClick={() => {
-                                setManager(name);
+                               setManager(`${m?.name} ${m?.lastName}`);
                                 setOpenManagerDropdown(false);
                               }}
                               className="w-full text-left px-4 py-3
@@ -324,7 +386,7 @@ const [designation,setdesignation]=useState("")
                                 hover:text-white
                                 transition"
                             >
-                              {name}
+                              {m.name} {m.lastName}
                             </button>
                           ))}
                         </div>
@@ -346,7 +408,7 @@ const [designation,setdesignation]=useState("")
                     <input
                       type="date"
                       value={joiningDate}
-                      onChange={(e)=>setJoiningDate(e.target.value)}
+                      onChange={(e) => setJoiningDate(e.target.value)}
                       placeholder="Joining date "
                       className="outline-none w-full "
                     />
@@ -366,8 +428,8 @@ const [designation,setdesignation]=useState("")
                     <input
                       type="text"
                       value={designation}
-                      onChange={(e)=>setdesignation(e.target.value)}
-                      placeholder="Enter Phone Number of employee"
+                      onChange={(e) => setdesignation(e.target.value)}
+                      placeholder="Enter employee designation"
                       className="outline-none w-full"
                     />
                   </motion.div>
@@ -386,14 +448,14 @@ const [designation,setdesignation]=useState("")
                     <input
                       type="Number"
                       value={salary}
-                      onChange={(e)=>setSalary(e.target.value)}
+                      onChange={(e) => setSalary(e.target.value)}
                       placeholder="Enter employee salary"
                       className="outline-none w-full"
                     />
                   </motion.div>
                 </div>
-                <div className="flex items-center gap-8 text-end justify-between w-screen">
-                  <div></div>
+                <div className="flex   gap-8  flex-end justify-end   w-screen">
+                  
                   <div className="flex gap-4">
                     <motion.button
                       whileTap={{
@@ -405,7 +467,7 @@ const [designation,setdesignation]=useState("")
                       Cancel
                     </motion.button>
                     <motion.button
-                    onClick={CreateEmployeeHandler}
+                      onClick={CreateEmployeeHandler}
                       whileTap={{
                         scale: 1.04,
                         boxShadow: "0px 0px 15px rgba(246, 235, 235, 0.6)",

@@ -62,6 +62,9 @@ console.log("user  ",user)
       console.log("error in logout handler ",error);
     }
   }
+  const date = new Date(user.joiningDate);
+
+console.log(date.toLocaleDateString("en-GB"));
   
 
   return (
@@ -93,7 +96,7 @@ console.log("user  ",user)
             <div className="flex items-center gap-4">
               <div className="p-4   w-fit relative flex">
                 { 
-                  user?.profilePicture? <img src={user?.profilePicture} alt="profile Image" className="h-39 w-39 text-blue-400 object-cover bg-center rounded-full"/> 
+                  user?.profilePicture? <img src={user?.profilePicture} alt="profile Image" className="h-39 w-65 text-blue-400 object-cover bg-center rounded-full"/> 
                  :<FaUserCircle className="h-39 w-39 text-blue-400 " />}
                 
                 
@@ -107,20 +110,14 @@ console.log("user  ",user)
               </div>
 
               <div className="space-y-3">
-                <span className="text-3xl font-bold">Rahul Sharma</span>
+                <span className="text-3xl font-bold">{user?.name} {user?.lastName}</span>
                 <span className="font-semibold px-2 py-1 ml-2 rounded-xl bg-green-600">
                   Manager
                 </span>
-                <h1 className="text-gray-300 mt-2">MGR2026</h1>
-                <p className="font-bold">
+                <h1 className="text-gray-300 mt-2">MGR-{user?.employeeId.split("-")[1]}</h1>
+                <p className="font-bold break-lines max-w-[70%]">
                   {" "}
-                  A MERN Stack Developer skilled in MongoDB, Express.js,
-                  React.js, and Node.js, with knowledge of Java and SQL.
-                  <br /> Passionate about building responsive web applications,
-                  developing RESTful APIs, managing databases, and writing
-                  clean, <br />
-                  efficient code to create scalable and user-friendly software
-                  solutions.
+                 {user?.Bio}
                 </p>
               </div>
             </div>
@@ -151,13 +148,13 @@ console.log("user  ",user)
                   <span>Date of birth</span>
                 </div>
                 <div className="text-gray-400 flex flex-col gap-3 max-w-[35%]">
-                  <span>Kapil Kumar</span>
+                  <span>{user.name} {user.lastName}</span>
                   <span>Male</span>
                   <span className="break-lines">
-                    225, Sultanpur Hapur Uttar Pardehs 245101
+                   {user?.address}
                   </span>
-                  <span>9717828288</span>
-                  <span>Kapil@gmail.com</span>
+                  <span>{user?.phone}</span>
+                  <span>{user?.email}</span>
                   
                   <span>15 Jun. 1999</span>
                 </div>
@@ -174,10 +171,10 @@ console.log("user  ",user)
                   <span>Reporting To </span>
                 </div>
                 <div className="text-gray-400 flex flex-col gap-3 text-xl max-w-[35%]">
-                  <span>MGR_3652</span>
-                  <span>21 Sept 2025</span>
+                  <span>MGR-{user?.employeeId.split("-")[1]}</span>
+                  <span>{date.toLocaleDateString("en-GB")}</span>
                   <span className="break-lines">IT</span>
-                  <span>Software Developer Engineer</span>
+                  <span>{user?.designation}</span>
                   <span className="text-blue-600">Admin</span>
                 </div>
               </div>

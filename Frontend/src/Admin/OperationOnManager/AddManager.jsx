@@ -1,5 +1,5 @@
 import NavBarHandler from "../../Home/PrivateNavbar";
-import { FaUserPlus } from "react-icons/fa";
+import { FaUserPlus, FaVenusMars } from "react-icons/fa";
 import { motion } from "motion/react";
 import { useState } from "react";
 import { FaRupeeSign } from "react-icons/fa";
@@ -50,6 +50,7 @@ const Departments=useSelector(store=>store.department.department);
   const [designation, setDesignation] = useState("");
   const [salary, setSalary] = useState("");
   const [role, setRole] = useState("");
+  const [gender,setGender]=useState("");
 
   const dispatch = useDispatch();
 
@@ -65,6 +66,7 @@ const Departments=useSelector(store=>store.department.department);
     designation,
     salary,
     role,
+    gender
   );
 
   const CreateManagerHandler = async () => {
@@ -82,6 +84,7 @@ const Departments=useSelector(store=>store.department.department);
           joiningDate,
           salary,
           role,
+          gender
         },
         {
           withCredentials: true,
@@ -238,6 +241,21 @@ const Departments=useSelector(store=>store.department.department);
                     placeholder="Enter Password of manager "
                     className="outline-none w-full"
                   />
+                </motion.div>
+                <motion.div
+                  whileHover={{
+                    scale: 1.02,
+                    boxShadow: "0px 0px 15px rgba(237, 231, 231, 0.5)",
+                  }}
+                  className="border py-4 font-bold px-3 w-[30%] border-slate-600  rounded-xl  flex gap-4  items-center"
+                >
+                  <FaVenusMars size={25} />
+                  <select name="gender" id="" className="outline-none w-full" value={gender} onChange={(e)=>setGender(e.target.value)}>
+                    <option value="Select gender"  className="text-gray-800 font-bold">{gender ||"Select gender"}</option>
+                    <option value="Male" className="text-gray-800 font-bold">Male</option>
+                    <option value="Female"  className="text-gray-800 font-bold">Female</option>
+                    <option value="Other"  className="text-gray-800 font-bold">Other</option>
+                  </select>
                 </motion.div>
               </div>
             </div>

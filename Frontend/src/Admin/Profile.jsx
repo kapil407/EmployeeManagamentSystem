@@ -126,7 +126,7 @@ const AdminProfile = () => {
                 className="w-full bg-cover bg-center overflow-hidden h-[50%] bg-slate-600 rounded-lg"
               >
                 <div className="flex items-center h-full justify-between  mx-4">
-                  <div className="flex items-center justify-between w-[65%]">
+                  <div className="flex items-center justify-between w-[85%]">
                     <div className="flex items-center  relative">
                       <input type="file" id="file" hidden onChange={(e)=>ProfileImageHandler(e)} />
                      {!user?.profilePicture ? <FaUserCircle
@@ -150,24 +150,24 @@ const AdminProfile = () => {
                         />
                       </label>
                     </div>
-                    <div>
-                      <div>
+                   
+                      <div className="w-full  pl-4">
                         <div className="flex gap-1 items-center">
                           <FaUserShield size={20} />
                           <h1 className="font-bold">Admin</h1>
                         </div>
-                        <div>
-                          <h1 className="text-3xl font-bold">Kapil Kumar</h1>
-                          <h1 className="text-lg font-bold">
+                        <div className="w-full">
+                          <h1 className="text-3xl font-bold">{user.name} {user.lastName}</h1>
+                          <h1 className="text-lg font-bold text-gray-400">
                             System Administrator
                           </h1>
-                          <h1>Managaing organization and its resources</h1>
+                          <p className="font-bold w-full mt-2">{user.Bio}</p>
                         </div>
-                      </div>
+                     
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-1 border border-slate-600 px-2 py-1 rounded-xl  bg-blue-800">
+                  <div onClick={()=>navigate('/edite-profile')} className="flex items-center gap-1 border border-slate-600 px-2 py-1 rounded-xl  bg-blue-800">
                     <FaEdit />
                     <button className="cursor-pointer">Edit Profile</button>
                   </div>
@@ -253,28 +253,28 @@ const AdminProfile = () => {
                       <FaIdCard className="text-slate-300" />
                       <h1 className="text-slate-300">EmployeeId</h1>
                     </div>
-                    <h1>kapil20213</h1>
+                    <h1>ADM-{user.employeeId.split("-")[1]}</h1>
                   </div>
                   <div className="flex justify-between mt-2 ">
                     <div className="flex items-center gap-2">
                       <FaEnvelope className="text-slate-300" />
                       <h1 className="text-slate-300">email</h1>
                     </div>
-                    <h1>kapil@gmail.com</h1>
+                    <h1>{user.email}</h1>
                   </div>
                   <div className="flex justify-between mt-2">
                     <div className="flex items-center gap-2">
                       <FaPhone className="text-slate-300" />
                       <h1 className="text-slate-300">Phone</h1>
                     </div>
-                    <h1>9717828288</h1>
+                    <h1>{user.phone}</h1>
                   </div>
                   <div className="flex justify-between mt-2">
                     <div className="flex items-center gap-2">
                       <FaBuilding className="text-slate-300" />
-                      <h1 className="text-slate-300">Department</h1>
+                      <h1 className="text-slate-300">Role</h1>
                     </div>
-                    <h1>IT</h1>
+                    <h1>{user.role}</h1>
                   </div>
                   <div className="flex justify-between mt-2">
                     <div className="flex items-center gap-2">

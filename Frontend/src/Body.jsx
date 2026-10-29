@@ -32,6 +32,7 @@ import LeaveComponent from "./Manager/Leave.jsx";
 import MyTaskComponent from "./Manager/MyTasks.jsx";
 import NotificationComponent from "./Manager/Notification.jsx";
 import UpdateProfile from "./Manager/UpdateProfile.jsx";
+import UpdateAdminProfile from "./Admin/UpdateProfile.jsx";
 
 
 const Body = () => {
@@ -98,6 +99,7 @@ const Body = () => {
                <Route path="/update-dept/:id" element={<UpdateDepartment/>}/>
                <Route path="edite-manager/:id" element={<EditeManagerDetails/>}/>
                <Route path="dept-details/:id" element={<DepartmentDetails/>}/>
+                <Route path="edite-profile" element={<UpdateAdminProfile/>}/>
               
             </>
           )}
