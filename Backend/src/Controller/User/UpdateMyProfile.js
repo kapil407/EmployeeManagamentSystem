@@ -1,6 +1,9 @@
 import User from "../../Models/User.js"
 const updateMyProfileController=async(req,res)=>{
     try {
+      console.log("kapil ")
+      const {name,lastName,address,Bio}=req.body;
+      console.log(name,lastName,address);
       const userId=req.userId;
       const updateMyProfile=await User.findByIdAndUpdate(userId,req.body,{
         new:true,

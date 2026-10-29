@@ -30,9 +30,11 @@ const userSchema = new mongoose.Schema(
     gender: {
       type: String,
       enum: ["MALE", "FEMALE", "OTHER"],
+      
     },
     dateOfBirth: {
       type: Date,
+      default:Date.now()
     },
     employmentType: {
       type: String,
