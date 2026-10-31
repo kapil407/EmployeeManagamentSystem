@@ -1,27 +1,39 @@
 import NavBarHandler from "../Home/PrivateNavbar";
-import { motion } from "motion/react";
+
 import Footer from "../LandingPages/Footer";
 import useFetchAllDepartment from "../Hooks/useFetchAllDepartment";
 import { useFetchAllManager } from "../Hooks/useFetchManagers";
-import AllDepartment from "../Admin/Department/departmentCard";
+import { motion } from "motion/react";
+import useFetchAllEmployee from "../Hooks/useFetchEmployee";
 const AdminDashboard = () => {
   const deptData = useFetchAllDepartment();
   const managerData = useFetchAllManager();
-  // console.log("data  ", deptData, "  ", managerData);
+  const employeeData=useFetchAllEmployee();
+  console.log("data   "  , employeeData);
   
   return (
-    <div className="w-screen h-screen">
+    <motion.div className="w-screen h-screen">
       <NavBarHandler />
-      <div className="h-[76%] flex flex-col   w-full bg-slate-950">
-        <div className=" h-[15%] m-4 py-2 w-auto rounded-lg text-white ">
-          <div className="text-center text-3xl font-bold">
+      <motion.div 
+       initial={{
+            opacity:0,y:0
+        }}
+        whileInView={{
+            opacity:1,y:0
+        }}
+        transition={{
+            duration:0.4
+        }}
+      className="h-[76%] flex flex-col   w-full bg-slate-950">
+        <motion.div className=" h-[15%] m-4 py-2 w-auto rounded-lg text-white ">
+          <motion.div className="text-center text-3xl font-bold">
             Good Morning, Admin{" "}
-          </div>
-          <div className="ml-4 font-bold text-cyan-400">
+          </motion.div>
+          <motion.div className="ml-4 font-bold text-cyan-400">
             Here's what's happening across your organization.
-          </div>
-        </div>
-        <div className="h-[16%]  rounded-lg text-white font-bold  w-auto rounded-xl  flex mx-4 justify-evenly items-center ">
+          </motion.div>
+        </motion.div>
+        <motion.div className="h-[16%]  rounded-lg text-white font-bold  w-auto rounded-xl  flex mx-4 justify-evenly items-center ">
           <motion.div
             whileHover={{
               scale: 1.02,
@@ -74,8 +86,8 @@ const AdminDashboard = () => {
             <h1 className="text-xl">On Leave</h1>
             <h1 className="text-3xl text-cyan-600">2</h1>
           </motion.div>
-        </div>
-        <div className="text-white w-auto h-[25%] m-4 flex  justify-evenly gap-8 mt-[4%] mb-[4%]">
+        </motion.div>
+        <motion.div className="text-white w-auto h-[25%] m-4 flex  justify-evenly gap-8 mt-[4%] mb-[4%]">
           <motion.div
             whileHover={{
               scale: 1.05,
@@ -87,11 +99,11 @@ const AdminDashboard = () => {
             className=" px-4 py-1 h-full rounded-lg border-r border-l border-slate-600"
           >
             <h1 className="text-xl font-bold">Employee Attendance</h1>
-            <div className="text-gray-400">
+            <motion.div className="text-gray-400">
               <h1>Present</h1>
               <h1>Absent</h1>
               <h1>Late</h1>
-            </div>
+            </motion.div>
           </motion.div>
           <motion.div
             whileHover={{
@@ -104,12 +116,12 @@ const AdminDashboard = () => {
             className=" px-4 py-1 h-full rounded-lg border-r border-l border-slate-600"
           >
             <h1 className="text-xl font-bold">Department Overview</h1>
-            <div className="text-gray-400 ">
+            <motion.div className="text-gray-400 ">
               <h1>IT</h1>
               <h1>HR</h1>
               <h1>Finance</h1>
               <h1>Sales</h1>
-            </div>
+            </motion.div>
           </motion.div>
 
           <motion.div
@@ -123,10 +135,10 @@ const AdminDashboard = () => {
             className=" px-4 py-1 w-[15%] h-full rounded-lg border-r border-l border-slate-600"
           >
             <h1 className="text-xl font-bold">Employee Status</h1>
-            <div className="mt-2 text-gray-400">
+            <motion.div className="mt-2 text-gray-400">
               <h1>Active</h1>
               <h1>Inactive</h1>
-            </div>
+            </motion.div>
           </motion.div>
           <motion.div
             whileHover={{
@@ -155,8 +167,8 @@ const AdminDashboard = () => {
               <h1>Pending</h1>
             </motion.div>
           </motion.div>
-        </div>
-        <div className="text-white h-[15%] rounded-xl mx-4 w-auto mb-6 flex flex-col items-center text-center px-4 py-1 ">
+        </motion.div>
+        <motion.div className="text-white h-[15%] rounded-xl mx-4 w-auto mb-6 flex flex-col items-center text-center px-4 py-1 ">
           <motion.div
             whileHover={{
               scale: 1.05,
@@ -167,17 +179,17 @@ const AdminDashboard = () => {
             }}
             className="border-r flex flex-col justify-between py-2 rounded-xl h-full border-l border-slate-600 w-[40%]"
           >
-            <div>
+            <motion.div>
               <h1 className="text-xl font-bold">Recent Activity</h1>
-            </div>
-            <div className="text-gray-400">
+            </motion.div>
+            <motion.div className="text-gray-400">
               New employee added • Department created • Leave request submitted
-            </div>
+            </motion.div>
           </motion.div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
       <Footer />
-    </div>
+    </motion.div>
   );
 };
 export default AdminDashboard;

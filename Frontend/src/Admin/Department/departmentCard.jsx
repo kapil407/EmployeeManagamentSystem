@@ -22,16 +22,13 @@ const AllDepartment = () => {
       <NavBarHandler />
       <motion.div
         initial={{
-          opacity: 0,
-          y: 8,
+            opacity:0,y:0
         }}
-        animate={{
-          opacity: 1,
-          y: 0,
+        whileInView={{
+            opacity:1,y:0
         }}
         transition={{
-          duration: 0.7,
-          ease: "easeOut",
+            duration:0.6
         }}
         className="text-white  w-screen p-2 flex flex-col h-[76%] gap-2 items-center bg-slate-950"
       >

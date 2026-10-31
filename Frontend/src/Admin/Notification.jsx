@@ -20,14 +20,14 @@ const Notification = () => {
         <motion.div
           initial={{
             opacity: 0,
-            y: 5,
+            y: 0,
           }}
           whileInView={{
             opacity: 1,
             y: 0,
           }}
           transition={{
-            duration: 1,
+            duration: .6,
           }}
           className="w-screen text-white h-[76%] px-4 flex justify-between"
         >

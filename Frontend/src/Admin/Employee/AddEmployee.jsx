@@ -30,14 +30,15 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import { setUser } from "../../Redux/UserSlice.js";
+import {addEmployee} from '../../Redux/EmployeeSlice.js'
 
 const AddEmployee = () => {
-  const Manager=useSelector(store=>store.manager.manager);
-  const Department=useSelector(store=>store.department.department)
-  console.log("dept",Department)
+  const Manager = useSelector((store) => store.manager.manager);
+  const Department = useSelector((store) => store.department.department);
+  // console.log("dept", Department);
   const [openManagerDropdown, setOpenManagerDropdown] = useState(false);
   const [openDeptDropdown, setOpenDeptDropdown] = useState(false);
+  const [openGenderDropDown, setOpenGenderDropDown] = useState(false);
   const [manager, setManager] = useState("");
   const [name, setName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -48,11 +49,11 @@ const AddEmployee = () => {
   const [salary, setSalary] = useState("");
   const [department, setDepartment] = useState("");
   const [designation, setdesignation] = useState("");
-  const [gender , setGender]=useState("")
+  const [gender, setGender] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // console.log(name,lastName,email,password,phone,department,designation,joiningDate,salary,manager)
+  console.log(name,lastName,email,password,phone,department,designation,joiningDate,salary,manager,gender)
 
   const CreateEmployeeHandler = async () => {
     try {
@@ -69,6 +70,7 @@ const AddEmployee = () => {
           joiningDate,
           salary,
           manager,
+          gender
         },
         {
           withCredentials: true,
@@ -77,7 +79,7 @@ const AddEmployee = () => {
       console.log("res in create emp ", res);
       if (res.data.success) {
         toast.success(res.data.message);
-        dispatch(setUser(res.data.user));
+        dispatch(addEmployee(res.data.newUser));
         navigate("/all-employee");
       }
     } catch (error) {
@@ -90,18 +92,15 @@ const AddEmployee = () => {
       <div className="w-screen h-screen bg-slate-980 ">
         <NavBarHandler />
         <motion.div
-          initial={{
-            opacity: 0,
-            y: 12,
-          }}
-          animate={{
-            opacity: 1,
-            y: 0,
-          }}
-          transition={{
-            duration: 0.8,
-            ease: "easeOut",
-          }}
+           initial={{
+            opacity:0,y:0
+        }}
+        whileInView={{
+            opacity:1,y:0
+        }}
+        transition={{
+            duration:0.4
+        }}
           className="h-[90%] w-screen  p-2 bg-center overflow-hidden object-cover"
           style={{
             backgroundImage: `url('/adminBackground.png')`,
@@ -222,38 +221,69 @@ const AddEmployee = () => {
                     className="outline-none w-full"
                   />
                 </motion.div>
-                <motion.div
-                  whileHover={{
-                    scale: 1.02,
-                    boxShadow: "0px 0px 15px rgba(237, 231, 231, 0.5)",
-                  }}
-                  className="border py-4 font-bold px-3 w-[30%] border-slate-600  rounded-xl  flex gap-4  items-center"
-                >
-                  <FaVenusMars size={25} />
-                  <select
-                    name="gender"
-                    id=""
-                    className="outline-none w-full"
-                    value={gender}
-                    onChange={(e) => setGender(e.target.value)}
+                <div className=" font-bold  w-[30%] flex-col flex gap-1">
+                  <motion.div
+                    whileHover={{
+                      scale: 1.02,
+                      boxShadow: "0px 0px 15px rgba(237, 231, 231, 0.5)",
+                    }}
+                    className="border py-4 font-bold px-3 w-full border-slate-600 rounded-xl  flex gap-2 
+                 items-center"
                   >
-                    <option
-                      value="Select gender"
-                      className="text-gray-800 font-bold"
-                    >
-                      {gender || "Select gender"}
-                    </option>
-                    <option value="Male" className="text-gray-800 font-bold">
-                      Male
-                    </option>
-                    <option value="Female" className="text-gray-800 font-bold">
-                      Female
-                    </option>
-                    <option value="Other" className="text-gray-800 font-bold">
-                      Other
-                    </option>
-                  </select>
-                </motion.div>
+                    <FaUser size={25} />
+                    <div className="relative w-full">
+                      <button
+                        type="button"
+                        onClick={(e) =>
+                          setOpenGenderDropDown(!openGenderDropDown)
+                        }
+                        className="w-full flex items-center justify-between
+                          px-4 
+                          bg-slate-900
+                      
+                          rounded-xl
+                          text-gray-300"
+                      >
+                        <span>{gender || "Select Gender"}</span>
+
+                        <span
+                          className={openGenderDropDown ? "rotate-180" : ""}
+                        >
+                          ▼
+                        </span>
+                      </button>
+
+                      {openGenderDropDown && (
+                        <div
+                          className="absolute z-50 mt-2 w-full
+                            bg-slate-900
+                            border border-slate-600
+                            rounded-xl
+                            overflow-hidden
+                            shadow-lg"
+                        >
+                          {["MALE", "FEMALE", "OTHER"].map((g) => (
+                            <button
+                              key={g}
+                              type="button"
+                              onClick={() => {
+                                setGender(g);
+                                setOpenGenderDropDown(false);
+                              }}
+                              className="w-full text-left px-4 py-3
+                                text-gray-300
+                                hover:bg-blue-600
+                                hover:text-white
+                                transition"
+                            >
+                              {g}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </motion.div>
+                </div>
               </div>
             </div>
 
@@ -306,25 +336,23 @@ const AddEmployee = () => {
                             overflow-hidden
                             shadow-lg"
                         >
-                          {Department.map(
-                            (dept) => (
-                              <button
-                                key={name}
-                                type="button"
-                                onClick={() => {
-                                  setDepartment(dept.departmentName);
-                                  setOpenDeptDropdown(false);
-                                }}
-                                className="w-full text-left px-4 py-3
+                          {Department.map((dept) => (
+                            <button
+                              key={name}
+                              type="button"
+                              onClick={() => {
+                                setDepartment(dept.departmentName);
+                                setOpenDeptDropdown(false);
+                              }}
+                              className="w-full text-left px-4 py-3
                                 text-gray-300
                                 hover:bg-blue-600
                                 hover:text-white
                                 transition"
-                              >
-                                {dept.departmentName}
-                              </button>
-                            ),
-                          )}
+                            >
+                              {dept.departmentName}
+                            </button>
+                          ))}
                         </div>
                       )}
                     </div>
@@ -377,7 +405,7 @@ const AddEmployee = () => {
                               key={m?._id}
                               type="button"
                               onClick={() => {
-                               setManager(`${m?.name} ${m?.lastName}`);
+                                setManager(`${m?.name} ${m?.lastName}`);
                                 setOpenManagerDropdown(false);
                               }}
                               className="w-full text-left px-4 py-3
@@ -455,7 +483,6 @@ const AddEmployee = () => {
                   </motion.div>
                 </div>
                 <div className="flex   gap-8  flex-end justify-end   w-screen">
-                  
                   <div className="flex gap-4">
                     <motion.button
                       whileTap={{

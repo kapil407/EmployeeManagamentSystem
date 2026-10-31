@@ -93,9 +93,9 @@ const ManagerProfile = () => {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 8 }}
+      initial={{ opacity: 0, y: 0 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3, ease: "easeOut" }}
+      transition={{ duration: 0.6, }}
       className="flex h-dvh w-full flex-col overflow-hidden bg-slate-950 text-white"
     >
       {/* FIXED BACK BUTTON */}
@@ -112,7 +112,11 @@ const ManagerProfile = () => {
       {/* FIXED PROFILE + STATS */}
       <section className="shrink-0 space-y-3 p-3">
         {/* MANAGER PROFILE */}
-        <div className="flex  gap-5 rounded-xl border bg-cover object-cover border-slate-700 bg-slate-800 p-6 lg:flex-row lg:items-center lg:justify-between"
+        <motion.div 
+        whileInView={{
+          boxShadow:"0px 0px 15px rgba(244, 240, 240, 0.6)"
+        }}
+        className="flex  gap-5 rounded-xl border bg-cover object-cover border-slate-700 bg-slate-800 p-6 lg:flex-row lg:items-center lg:justify-between"
           style={{
           backgroundImage:`url(${'/adminBackground.png'})`,
            backgroundSize: "cover",
@@ -126,8 +130,8 @@ const ManagerProfile = () => {
            whileInView={{
             boxShadow:"0px 0px 12px rgba(44, 154, 238, 0.7)"
            }}
-           src={manager.profilePicture} alt=""  className="shrink-0 text-gray-300 h-39 w-39 border-4 border-gray-600 rounded-full object-cover"/>: <FaUserCircle
-              className="shrink-0 text-gray-300 h-35 w-35 border-4 border-gray-600 rounded-full"
+           src={manager.profilePicture} alt=""  className="shrink-0 text-gray-300 h-45 w-45 border-4 border-gray-600 rounded-full object-cover"/>: <FaUserCircle
+              className="shrink-0 text-gray-300 h-45 w-45 border-4 border-gray-600 rounded-full"
               
             />}
 
@@ -211,7 +215,7 @@ const ManagerProfile = () => {
               </p>
             </div>
           </div>
-        </div>
+        </motion.div>
 
         {/* STATS CARDS */}
         <div className="grid grid-cols-4 gap-3 ">

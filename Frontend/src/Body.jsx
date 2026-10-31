@@ -18,7 +18,7 @@ import Notification from "./Admin/Notification.jsx";
 import AdminProfile from "./Admin/Profile.jsx";
 import { useSelector } from "react-redux";
 import AddEmployee from "./Admin/Employee/AddEmployee.jsx";
-import UpdateEmployee from "./Admin/Employee/UpdateEmployee.jsx";
+
 import AddManager from "./Admin/OperationOnManager/AddManager.jsx";
 import ManagerProfile from "./Admin/OperationOnManager/Manager_Profile.jsx";
 import AddNewDepartment from "./Admin/Department/AddDepartment.jsx";
@@ -33,6 +33,14 @@ import MyTaskComponent from "./Manager/MyTasks.jsx";
 import NotificationComponent from "./Manager/Notification.jsx";
 import UpdateProfile from "./Manager/UpdateProfile.jsx";
 import UpdateAdminProfile from "./Admin/UpdateProfile.jsx";
+import EmployeeProfile from "./Admin/Employee/EmployeeProfile.jsx";
+import EmpProfile from "./Employee/MyProfile.jsx";
+import EmpAttendence from "./Employee/Attendence.jsx";
+import EmpApplyLeave from "./Employee/Leave.jsx";
+import EmpSalary from "./Employee/Salary.jsx";
+import EmpNotification from "./Employee/Notification.jsx";
+import EditeEmpProfile from "./Employee/Editeprofile.jsx";
+
 
 
 const Body = () => {
@@ -67,6 +75,18 @@ const Body = () => {
             <Route index element={<EmployeeDashboard />} />
           )}
           {
+            user.role=="EMPLOYEE" &&(
+             <>
+             <Route path="/my-profile" element={<EmpProfile/>}/>
+             <Route path="/my-attendence" element={<EmpAttendence/>}/>
+             <Route path="/apply-leave" element={<EmpApplyLeave/>}/>
+             <Route path="/salary" element={<EmpSalary/>}/>
+             <Route path="/notification" element={<EmpNotification/>}/>
+             <Route path="/edite-profile" element={<EditeEmpProfile/>}/>
+             </>
+            )
+          }
+          {
             user.role==="MANAGER" && (
               <>
              
@@ -84,7 +104,7 @@ const Body = () => {
           {/* Admin operations */}
           {user.role === "ADMIN" && (
             <>
-              <Route path="/update-employee" element={<UpdateEmployee/>}/>
+              <Route path="/employee-profile" element={<EmployeeProfile/>}/>
               <Route path="all-employee" element={<AllEmployee />} />
                
               <Route path="all-manager" element={<AllManagerProfile />} />

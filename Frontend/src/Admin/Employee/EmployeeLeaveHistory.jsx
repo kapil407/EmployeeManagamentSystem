@@ -18,10 +18,10 @@ const EmployeeLeaveHistory = () => {
   const percentage3 = (Casual_leave_used / total_casual_leave) * 100;
   return (
     <>
-      <div className="text-white w-screen h-full  p-2 ">
-        <div className="bg-slate-950 w-full h-full ">
-          <div className="flex gap-5 w-full h-full flex-wrap ">
-            <div className="flex items-center border w-[24%] bg-green-200 rounded-xl text-green-800 py-2  justify-center gap-6">
+      <div className="text-white w-screen   px-2 ">
+        {/* <div className="bg-slate-950 w-full  "> */}
+          <div className="flex gap-5 w-full  flex-wrap ">
+            <div className="flex items-center border w-[24%] bg-green-200 rounded-xl text-green-800 py-1  justify-center gap-6">
               <FaFileAlt size={55} />
               <div>
                 <h1 className="text-3xl font-bold">22</h1>
@@ -29,7 +29,7 @@ const EmployeeLeaveHistory = () => {
                 <h1 className="font-semibold">This Month</h1>
               </div>
             </div>
-            <div className="flex items-center border w-[24%] bg-red-100 text-red-600 rounded-xl py-2   h-[25%] justify-center gap-6">
+            <div className="flex items-center border w-[24%] bg-red-100 text-red-600 rounded-xl py-1   h-[25%] justify-center gap-6">
               <FaCheckCircle size={55} />
               <div>
                 <h1 className="text-3xl font-bold">22</h1>
@@ -37,7 +37,7 @@ const EmployeeLeaveHistory = () => {
                 <h1 className="font-semibold">This Month</h1>
               </div>
             </div>
-            <div className="flex items-center border w-[24%] bg-yellow-100  text-yellow-800 rounded-xl py-2   h-[25%] justify-center gap-6">
+            <div className="flex items-center border w-[24%] bg-yellow-100  text-yellow-800 rounded-xl py-1   h-[25%] justify-center gap-6">
               <FaClock size={55} />
               <div>
                 <h1 className="text-3xl font-bold">22</h1>
@@ -45,7 +45,7 @@ const EmployeeLeaveHistory = () => {
                 <h1 className="font-semibold">This Month</h1>
               </div>
             </div>
-            <div className="flex items-center border w-[24%] bg-purple-200 text-purple-800 rounded-xl py-2   h-[25%] justify-center gap-6">
+            <div className="flex items-center border w-[24%] bg-purple-200 text-purple-800 rounded-xl py-1   h-[25%] justify-center gap-6">
               <FaTimesCircle size={55} />
               <div>
                 <h1 className="text-3xl font-bold">22</h1>
@@ -56,9 +56,9 @@ const EmployeeLeaveHistory = () => {
           </div>
 
           
-          <div className="flex flex-col w-full bg-slate-800 p-2 mr-2.5 my-2 rounded-xl">
-            <h1 className="font-bold text-lg">Leave Balance</h1>
-            <div className="flex w-full bg-slate-800 justify-evenly p-2">
+          <div className="flex flex-col w-full h-39 bg-slate-800 p-2 mr-2.5 my-1 rounded-xl">
+            <h1 className="font-bold text-xl text-cyan-400">Leave Balance</h1>
+            <div className="flex w-full bg-slate-800 justify-evenly ">
               <div className="flex flex-col gap-4 w-[25%]">
                 <h1>Casual leave(CL)</h1>
                 <h1>Sick Leave</h1>
@@ -77,7 +77,7 @@ const EmployeeLeaveHistory = () => {
                 </h1>
               </div>
               <div className="flex flex-col gap-8 w-[25%] justify-center items-center ">
-                <div className="h-3 bg-slate-600 w-full rounded-full">
+                <div className="h-2 bg-slate-600 w-full rounded-full">
                   <div
                     style={{
                       width: `${percentage1}%`,
@@ -85,7 +85,7 @@ const EmployeeLeaveHistory = () => {
                     className="  bg-blue-600 h-full rounded-full"
                   />
                 </div>
-                <div className="h-3 bg-slate-600 w-full rounded-full">
+                <div className="h-2 bg-slate-600 w-full rounded-full">
                   <div
                     style={{
                       width: `${percentage2}%`,
@@ -93,7 +93,7 @@ const EmployeeLeaveHistory = () => {
                     className="  bg-green-600 h-full rounded-full"
                   />
                 </div>
-                <div className="h-3 bg-slate-600 w-full rounded-full">
+                <div className="h-2 bg-slate-600 w-full rounded-full">
                   <div
                     style={{
                       width: `${percentage3}%`,
@@ -109,10 +109,10 @@ const EmployeeLeaveHistory = () => {
               </div>
             </div>
           </div>
-          <div className="bg-slate-800 p-1 w-full flex-wrap ">
-            <h1>Leave History</h1>
-            <div className="w-full max-h-[80%] p-1 overflow-y-auto overflow-x-hidden ">
-              <div className="flex w-full justify-evenly">
+          <div className="bg-slate-800  w-full h-60 rounded-t-xl flex-wrap  overflow-hidden">
+            <h1 className="text-xl font-bold text-cyan-400 px-2">Leave History</h1>
+            {/* <div className="w-full max-h-[80%]  overflow-y-auto overflow-x-hidden "> */}
+              <div className="flex w-full justify-evenly bg-slate-700 py-1">
                 <span className="text-lg w-[12%]">Sr. No.</span>
                 <span className="text-lg w-[12%]">Leave Type</span>
                 <span className="text-lg w-[12%]">From</span>
@@ -122,7 +122,8 @@ const EmployeeLeaveHistory = () => {
                 <span className="text-lg w-[12%]">Status</span>
                 <span className="text-lg w-[12%]">Applied On</span>
               </div>
-              <div className="flex w-full justify-evenly pt-2 ">
+             <div className="max-h-[71%]  overflow-auto  custom-scrollbar mt-1 space-y-1">
+               <div className="flex w-full justify-evenly  bg-white/5 py-1 ">
                 <span className=" text-lg   w-[12%]">1.</span>
                 <span className=" text-lg   w-[12%]">Casual Leave</span>
                 <span className="text-lg   w-[12%]">02 Oct 2026</span>
@@ -133,7 +134,7 @@ const EmployeeLeaveHistory = () => {
 
                 <span className="text-lg  w-[12%]">28 Sept 2026</span>
               </div>
-              <div className="flex w-full justify-evenly">
+              <div className="flex w-full justify-evenly bg-white/5 py-1">
                  <span className=" text-lg   w-[12%]">1.</span>
                 <span className=" text-lg   w-[12%]">Casual Leave</span>
                 <span className="text-lg   w-[12%]">02 Oct 2026</span>
@@ -144,7 +145,7 @@ const EmployeeLeaveHistory = () => {
 
                 <span className="text-lg  w-[12%]">28 Sept 2026</span>
               </div>
-              <div className="flex w-full justify-evenly">
+              <div className="flex w-full justify-evenly bg-white/5 py-1">
                  <span className=" text-lg   w-[12%]">1.</span>
                 <span className=" text-lg   w-[12%]">Casual Leave</span>
                 <span className="text-lg   w-[12%]">02 Oct 2026</span>
@@ -155,7 +156,7 @@ const EmployeeLeaveHistory = () => {
 
                 <span className="text-lg  w-[12%]">28 Sept 2026</span>
               </div>
-               <div className="flex w-full justify-evenly pt-2 ">
+               <div className="flex w-full justify-evenly  bg-white/5 py-1">
                 <span className=" text-lg   w-[12%]">1.</span>
                 <span className=" text-lg   w-[12%]">Casual Leave</span>
                 <span className="text-lg   w-[12%]">02 Oct 2026</span>
@@ -166,7 +167,7 @@ const EmployeeLeaveHistory = () => {
 
                 <span className="text-lg  w-[12%]">28 Sept 2026</span>
               </div>
-              <div className="flex w-full justify-evenly">
+              <div className="flex w-full justify-evenly bg-white/5 py-1">
                  <span className=" text-lg   w-[12%]">1.</span>
                 <span className=" text-lg   w-[12%]">Casual Leave</span>
                 <span className="text-lg   w-[12%]">02 Oct 2026</span>
@@ -177,7 +178,7 @@ const EmployeeLeaveHistory = () => {
 
                 <span className="text-lg  w-[12%]">28 Sept 2026</span>
               </div>
-              <div className="flex w-full justify-evenly">
+              <div className="flex w-full justify-evenly bg-white/5 py-1">
                  <span className=" text-lg   w-[12%]">1.</span>
                 <span className=" text-lg   w-[12%]">Casual Leave</span>
                 <span className="text-lg   w-[12%]">02 Oct 2026</span>
@@ -188,11 +189,12 @@ const EmployeeLeaveHistory = () => {
 
                 <span className="text-lg  w-[12%]">28 Sept 2026</span>
               </div>
+             </div>
             
-            </div>
+            {/* </div> */}
           </div>
         </div>
-      </div>
+      {/* </div> */}
     </>
   );
 };

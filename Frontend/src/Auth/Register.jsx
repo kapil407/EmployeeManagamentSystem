@@ -56,7 +56,9 @@ const RegisterController = () => {
     <div className="w-screen h-screen ">
     <PublicNavbar/>
      <div className="h-[15%]"></div>
-      <div className=" flex justify-center  items-center h-[81%] w-screen  text-white  ">
+      <motion.div initial={{ opacity: 0, y: 0 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, }} className=" flex justify-center  items-center h-[81%] w-screen  text-white  ">
          
         <div className="border border-cyan-950 h-full  w-[35%] flex flex-col rounded-l-xl  justify-between items-center">
           
@@ -236,7 +238,7 @@ const RegisterController = () => {
             </div>
           </motion.div>
         </motion.div>
-      </div>
+      </motion.div>
       {/* <Footer/> */}
     </div>
   );

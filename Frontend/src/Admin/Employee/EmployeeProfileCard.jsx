@@ -2,19 +2,23 @@ import NavBarHandler from "../../Home/PrivateNavbar";
 import { easeOut, motion } from "motion/react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../../LandingPages/Footer";
-import { FaSearch, FaTrash } from "react-icons/fa";
+import { FaCircle, FaEye, FaSearch, FaTrash } from "react-icons/fa";
 import { employeesData } from "../../data";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { FaCircleUser } from "react-icons/fa6";
 
 const AllEmployee = () => {
+  const employee=useSelector(store=>store.employee.employee);
+  console.log("emp  ",employee);
+  let cnt = 0;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const SHowEmloyeeHandler = () => {
     try {
-      navigate("/update-employee");
+      navigate("/employee-profile");
     } catch (error) {
-      console.error("show emp error", error);
+      console.error("show emp error", error); 
     }
   };
 
@@ -68,45 +72,70 @@ const AllEmployee = () => {
         </motion.div>
         <motion.div className="flex   p-2  flex-wrap gap-8 w-full max-h-full overflow-y-auto custom-scrollbar">
           {/* {employee profile card} */}
-          {employeesData.map((emp) => {
+          {employee.map((emp) => {
+            cnt++;
             return (
               <>
                 <motion.div
-                  initial={{ opacity: 0, y: 8 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{
-                    duration: 0.8,
-                    ease: "easeOut",
-                  }}
-                  onClick={SHowEmloyeeHandler}
+                  initial={cnt > 10 ? { opacity: 0, y: 50 } : undefined}
+                  whileInView={cnt > 10 ? { opacity: 1, y: 0 } : undefined}
+                  transition={
+                    cnt > 10
+                      ? {
+                          duration:0.8
+                        }
+                      : undefined
+                  }
                   key={emp.empId}
                   whileHover={{
                     scale: 1.02,
                     boxShadow: "0px 0px 15px rgba(58, 152, 223, 0.7)",
                   }}
-                  className="rounded-lg border-l cursor-pointer border-r border-slate-600 p-4  w-[15%] h-auto"
+                  className="rounded-lg border-l  border-r border-slate-600 px-3 py-4  min-w-[15%]  h-auto"
                 >
-                  <h1 className="font-bold text-lg mb-2">
-                    {emp.firstName} {emp.lastName}
-                  </h1>
-
-                  <motion.div className="font-semibold flex flex-col gap-2">
-                    <h1>
-                      EmpId: <span>{emp.empId}</span>
+                  <div className="flex items-center  justify-between ">
+                    <div></div>
+                    {true?<img src={'./Logo.png'} className="h-22 w-22 object-cover rounded-xl ml-12" alt="" /> :<h1 className="text-center flex ml-10  items-center justify-center">
+                      {" "}
+                      <FaCircleUser size={85} />
+                    </h1>}
+                    <motion.h1
+                      onClick={SHowEmloyeeHandler}
+                      whileHover={{
+                        scale: 1.08,
+                        boxShadow: "0px 0px 20px rgba(35, 191, 226, 0.7)",
+                      }}
+                      className="px-2 py-1 flex items-center gap-1 rounded-xl cursor-pointer"
+                    >
+                      <FaEye />View
+                    </motion.h1>
+                  </div>
+                  <div className="text-center space-y-1">
+                    <h1 className="font-bold text-3xl mt-2 text-cyan-400">
+                      {emp.name} {emp.lastName}
                     </h1>
-                    <h1>{emp.role}</h1>
-                    <h1>{emp.dept}</h1>
-                  </motion.div>
-                  <motion.button
-                    whileHover={{
-                      scale: 1.03,
-                      boxShadow: "0px 0px 15px rgba(253, 58, 58, 0.7)",
-                    }}
-                    className=" mt-2 w-full border  bg-red-600 border-red-800 cursor-pointer text-center text-white px-4 py-1 rounded-xl font-semibold flex gap-4  items-center"
-                  >
-                    <FaTrash />
-                    Delete Employee
-                  </motion.button>
+
+                    {/* <motion.div className="font-semibold bg-red-900 flex flex-col gap-2 min-w-0"> */}
+                    <h1>
+                      <span className="text-gray-400 font-bold"> EmpId:</span>{" "}
+                      <span className=" font-bold text-lg">
+                        EMP-{emp.employeeId.split("-")[1]}
+                      </span>
+                    </h1>
+                    <h1>
+                      <span className="text-gray-400 font-bold">
+                        Designation:{" "}
+                      </span>{" "}
+                      <span className=" font-bold text-lg">{emp.designation}</span>
+                    </h1>
+                    <h1>
+                      <span className="text-gray-400 font-bold">
+                        Department:
+                      </span>{" "}
+                      <span className=" font-bold text-lg">{emp.departmentName}</span>
+                    </h1>
+                  </div>
+                  {/* </motion.div> */}
                 </motion.div>
               </>
             );

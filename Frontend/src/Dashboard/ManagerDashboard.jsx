@@ -25,15 +25,13 @@ const ManagerDashboard = () => {
       <SideBar />
       <motion.section
         initial={{
-          opacity: 0,
-          y: 5,
+            opacity:0,y:0
         }}
         whileInView={{
-          opacity: 1,
-          y: 0,
+            opacity:1,y:0
         }}
         transition={{
-          duration: 1,
+            duration:0.4
         }}
         className="  text-white min-w-0 min-w-[82%] rounded-xl m-2 border-slate-700 overflow-hidden "
       >

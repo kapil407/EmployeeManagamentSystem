@@ -57,21 +57,21 @@ const DepartmentDetails = () => {
     <>
       <motion.main
         initial={{
-          opacity: 0,
-          y: 10,
+            opacity:0,y:0
         }}
         whileInView={{
-          opacity: 1,
-          y: 0,
+            opacity:1,y:0
         }}
         transition={{
-          duration: 0.4,
-          ease: easeInOut,
+            duration:0.6
         }}
         className="w-screen h-screen shrink-0 bg-slate-950 text-white p-2 space-y-3"
       >
-        <header
-          className="flex shrink-0 w-full min-h-[15%] p-2 rounded-xl flex-col justify-center gap-5 bg-slate-800"
+        <motion.header
+        whileInView={{
+          boxShadow:"0px 0px 20px rgba(240, 237, 237, 0.7)"
+        }}
+          className="flex mt-1 shrink-0 w-full min-h-[15%] p-2 rounded-xl flex-col justify-center gap-5 bg-slate-800"
           style={{
             backgroundImage: "url('/adminBackground.png')",
             backgroundSize: "cover",
@@ -111,9 +111,10 @@ const DepartmentDetails = () => {
               Active
             </span>
           </div>
-        </header>
-        <div className="grid grid-cols-2 bg-slate-950 min-h-[62%] rounded-xl w-full">
-          <section className="bg-green-400 p-2 bg-slate-800 rounded-l-xl space-y-6">
+        </motion.header>
+
+        <div className="grid grid-cols-2 mt-4 bg-slate-950 min-h-[62%] rounded-xl w-full">
+          <section className="bg-green-400 p-2 bg-slate-900 rounded-l-xl space-y-6">
             <div className="flex items-center gap-4 bg-slate-700 p-2 rounded-xl mt-1">
               <FaHashtag size={60} className="bg-gray-800 p-2 rounded-xl" />
               <div>
@@ -167,7 +168,7 @@ const DepartmentDetails = () => {
                 </span>
               </div>
             </div>
-            <div className="bg-slate-800 gap-8 flex justify-end ">
+            <div className="bg-slate-900 gap-8 flex justify-end ">
               <motion.button
                 onClick={() => navigate(`/update-dept/${id}`)}
                 whileTap={{
@@ -199,7 +200,7 @@ const DepartmentDetails = () => {
               </motion.button> */}
             </div>
           </section>
-          <section className="bg-green-400 p-2 bg-slate-800 rounded-r-xl space-y-3">
+          <section className="bg-green-400 p-2 bg-slate-900 rounded-r-xl space-y-3">
             <div className="flex items-center gap-4 bg-slate-700 p-2 rounded-xl mt-1">
               <FaTag size={60} className="bg-gray-800 p-2 rounded-xl" />
               <div>
