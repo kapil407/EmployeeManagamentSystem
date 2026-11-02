@@ -8,9 +8,14 @@ const leaveSchema = new mongoose.Schema(
       required: true,
     },
 
+    manager: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+
     leaveType: {
       type: String,
-      enum: ["CASUAL", "SICK", "PAID", "UNPAID"],
+      enum: ["Casual", "Sick", "Earned", "Unpaid"],
       required: true,
     },
 
@@ -24,27 +29,40 @@ const leaveSchema = new mongoose.Schema(
       required: true,
     },
 
+    totalDays: {
+      type: Number,
+      required: true,
+      min: 1,
+    },
+
     reason: {
       type: String,
       required: true,
-      trim: true,
     },
 
     status: {
       type: String,
-      enum: ["PENDING", "APPROVED", "REJECTED"],
-      default: "PENDING",
+      enum: ["Pending", "Approved", "Rejected", "Cancelled"],
+      default: "Pending",
     },
 
-    approvedBy: {
+    reviewedBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       default: null,
     },
+
+    reviewedAt: {
+      type: Date,
+      default: null,
+    },
+
+    reviewRemark: {
+      type: String,
+      default: "",
+    },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true },
 );
 
 const Leave = mongoose.model("Leave", leaveSchema);

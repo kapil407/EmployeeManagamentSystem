@@ -1,3 +1,4 @@
+
 import mongoose from "mongoose";
 
 const taskSchema = new mongoose.Schema(
@@ -10,7 +11,7 @@ const taskSchema = new mongoose.Schema(
 
     description: {
       type: String,
-      trim: true,
+      required: true,
     },
 
     assignedTo: {
@@ -25,10 +26,31 @@ const taskSchema = new mongoose.Schema(
       required: true,
     },
 
+    department: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Department",
+    },
+
     priority: {
       type: String,
-      enum: ["LOW", "MEDIUM", "HIGH"],
-      default: "MEDIUM",
+      enum: ["Low", "Medium", "High", "Urgent"],
+      default: "Medium",
+    },
+
+    status: {
+      type: String,
+      enum: [
+        "Pending",
+        "In Progress",
+        "Completed",
+        "Overdue",
+      ],
+      default: "Pending",
+    },
+
+    startDate: {
+      type: Date,
+      default: Date.now,
     },
 
     dueDate: {
@@ -36,15 +58,24 @@ const taskSchema = new mongoose.Schema(
       required: true,
     },
 
-    status: {
+    completedAt: {
+      type: Date,
+      default: null,
+    },
+
+    progress: {
+      type: Number,
+      default: 0,
+      min: 0,
+      max: 100,
+    },
+
+    remarks: {
       type: String,
-      enum: ["TODO", "IN_PROGRESS", "COMPLETED"],
-      default: "TODO",
+      default: "",
     },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
 const Task = mongoose.model("Task", taskSchema);

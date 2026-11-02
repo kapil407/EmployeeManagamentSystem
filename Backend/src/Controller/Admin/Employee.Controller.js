@@ -14,13 +14,29 @@ export const createEmpController = async (req, res) => {
       joiningDate,
       salary,
       manager,
+      gender,
     } = req.body;
-    console.log("KAPIL");
+    console.log(
+     
+      name,
+      lastName,
+      email,
+      password,
+      phone,
+      department,
+      designation,
+      joiningDate,
+      salary,
+      manager,
+      gender,
+    );
+    console.log(manager.split(" ")[0], manager.split(" ")[1])
     const Manager = await User.findOne({
-       manager,
-      role: "manager",
+     name:manager.split(" ")[0],lastName:manager.split(" ")[1],
+      role: "MANAGER",
     });
-    if (!manager) {
+    console.log("Manager",Manager)
+    if (!Manager) {
       return res.status(404).json({
         success: false,
         message: "manager not found",
@@ -28,9 +44,9 @@ export const createEmpController = async (req, res) => {
     }
 
     const departmentData = await Department.findOne({
-      department,
+      departmentName:department
     });
-
+console.log("dept ",departmentData);
     if (!departmentData) {
       return res.status(404).json({
         success: false,
@@ -39,15 +55,25 @@ export const createEmpController = async (req, res) => {
     }
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new User({
-      ...req.body,
+      name,
+      lastName,
+      email,
+      password:hashedPassword,
+      phone,
+      designation,
+      joiningDate,
+      salary,
+      gender,
       manager: Manager._id,
       department: departmentData._id,
+      departmentName:department,
+      managerName:manager
     });
     await newUser.save();
     return res.status(200).json({
       message: "Create Employee successfully",
       success: true,
-      newUser,
+      newUser 
     });
   } catch (error) {
     console.error("error in create Emp controller", error);
@@ -78,7 +104,7 @@ export const deleteEmpController = async (req, res) => {
 
 export const getAllEmployee = async (req, res) => {
   try {
-    const AllProfile = await User.find().select("-password");
+    const AllProfile = await User.find({role:"EMPLOYEE"}).select("-password");
     console.log("All Users");
     return res
       .status(200)
@@ -104,3 +130,16 @@ export const updateEmpController = async (req, res) => {
     res.status(500).json({ message: "error in update controller", error });
   }
 };
+ export const GetEmpByIdController=async(req,res)=>{
+  try {
+    const {id}=req.params;
+      const emp=await User.findById(id);
+      if(!emp){
+        return res.status(400).json({message:"emp not found "});
+      }
+      return res.status(200).json({emp,success:true});
+    
+  } catch (error) {
+    console.log("error in getemp by id in backend ",error)
+  }
+}

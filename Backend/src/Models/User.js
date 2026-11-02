@@ -21,11 +21,8 @@ const userSchema = new mongoose.Schema(
       trim: true,
     },
     address: {
-      street: String,
-      city: String,
-      state: String,
-      pincode: String,
-      country: String,
+     type:String,
+      default:""
     },
     gender: {
       type: String,
@@ -92,6 +89,10 @@ const userSchema = new mongoose.Schema(
     manager: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
+    },
+    managerName:{
+      type:String,
+      default:""
     },
 
     joiningDate: {

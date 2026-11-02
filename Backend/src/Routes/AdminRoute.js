@@ -1,7 +1,7 @@
 import  express from 'express' 
 import isVerify from '../Middleware/isVerify.js'   
 import Authorization from '../Middleware/Authorization.js' 
-import {createEmpController,updateEmpController,deleteEmpController,getAllEmployee } from '../Controller/Admin/Employee.Controller.js';
+import {createEmpController,updateEmpController,deleteEmpController,getAllEmployee, GetEmpByIdController } from '../Controller/Admin/Employee.Controller.js';
 import { createManagerController,updateManager,deleteManager,getAllManager,GetManagerById } from '../Controller/Admin/Manager.Controller.js';
 import { createDepartmentController, deleteDepartmentController, getAllDepartmentController, updateDepartmentController,GetDepartmentById } from '../Controller/Admin/Department.Controller.js';
 
@@ -12,6 +12,7 @@ const adminauthRouter=express.Router();
      adminauthRouter.patch('/update-employee/:id',isVerify,Authorization('ADMIN'),updateEmpController);
      adminauthRouter.delete('/delete-employee/:id',isVerify,Authorization('ADMIN'),deleteEmpController);
      adminauthRouter.get('/get-all-employee',isVerify,Authorization('ADMIN'),getAllEmployee);
+     adminauthRouter.get('/get-empById/:id',isVerify,Authorization("ADMIN"),GetEmpByIdController)
 
 // manager manage
 

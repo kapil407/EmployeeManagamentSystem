@@ -10,7 +10,7 @@ const ChangeEmailController=async(req,res)=>{
         const user=req.user;
         user.email=email;
       await  user.save();
-        return res.status(200).json({message:"Email Updated"});
+        return res.status(200).json({message:"Email Updated",user,success:true});
     } catch (error) {
         return res .status(500).json({message:"error in email change controller ",error});
     }
