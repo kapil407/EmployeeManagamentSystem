@@ -32,17 +32,44 @@ import EmployeeAttendence from "./EmployeeAttendence.jsx";
 import EmployeeLeaveHistory from "./EmployeeLeaveHistory.jsx";
 
 import EmployeeTasks from "./EmployeeTasks.jsx";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { AnimatePresence } from "motion/react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { clearEmployee } from "../../Redux/EmployeeSlice.js";
+import { useEffect } from "react";
+import axios from "axios";
 
 const EmployeeProfile = () => {
-  const employee=useSelector(store=>store.employee.employee);
-  const date = new Date(employee[0]?.joiningDate);
+  const { id } = useParams();
+  const [empProfile,setEmpProfile]=useState("");
+  // console.log("emp profile ",empProfile);
+  const dispatch=useDispatch();
+useEffect(()=>{
+  
+  const FetchEmpProfile = async () => {
+    try {
+      const res = await axios.get(`http://localhost:5200/get-empById/${id}`, {
+        withCredentials: true,
+      });
+      // console.log("res  ", res);
+      if (res.data.success) {
+        dispatch(clearEmployee());
+        setEmpProfile(res.data.emp);
+      }
+      
+    } catch (error) {
+      console.error("show emp error", error);
+    }
+  };
+  FetchEmpProfile();
+},[id])
+ 
+  const employee = useSelector((store) => store.employee.employee);
+  const date = new Date(empProfile?.joiningDate);
 
-const formattedDate = date.toLocaleDateString("en-GB");
+  const formattedDate = date.toLocaleDateString("en-GB");
 
-  console.log("employee->>>>> ",employee)
+  // console.log("employee->>>>> ", employee);
   const navigate = useNavigate();
   const [path_1, setPath_1] = useState("overview");
   const [path_2, setPath_2] = useState("");
@@ -78,9 +105,9 @@ const formattedDate = date.toLocaleDateString("en-GB");
           </h1>
           <div className="w-full h-[95%]    flex flex-col rounded-xl">
             <motion.div
-            whileInView={{
-              boxShadow:"0px 0px 15px rgba(240, 243, 248, 0.6)"
-            }}
+              whileInView={{
+                boxShadow: "0px 0px 15px rgba(240, 243, 248, 0.6)",
+              }}
               className="flex w-full bg-slate-800 h-[35%] border border-slate-800 mt-1 px-4 py-3 justify-evenly rounded-xl  text-white "
               style={{
                 backgroundImage: `url(${`/adminBackground.png`})`,
@@ -89,54 +116,61 @@ const formattedDate = date.toLocaleDateString("en-GB");
                 backgroundRepeat: "no-repeat",
               }}
             >
-              <div className="flex gap-4 w-[40%] items-center justify-center">
-                {
-                  <FaUserCircle
-                    style={{
-                      boxShadow: "0px 0px 10px rgba(230, 220, 220, 0.4)",
-                    }}
-                    className="w-42 h-42 border-4 border-gray-400 relative rounded-full  "
-                  />
-                }
+              <div className="flex gap-8 w-[65%] items-center justify-center">
+                <div>
+                  {empProfile?.profilePicture ? (
+                    <img
+                      src={empProfile?.profilePicture}
+                      alt=""
+                      className="w-74 bg-center object-cover h-42 border-4 border-gray-400 relative rounded-full  "
+                    />
+                  ) : (
+                    <FaUserCircle
+                      size={168}
+                      style={{
+                        boxShadow: "0px 0px 10px rgba(230, 220, 220, 0.4)",
+                      }}
+                      className=" border-4  border-gray-400 relative rounded-full  "
+                    />
+                  )}
+                </div>
 
                 <div className="flex flex-col gap-1">
                   <h1 className="font-bold text-3xl text-cyan-500">
-                    {employee[0]?.name} {employee[0]?.lastName}
+                    {empProfile?.name} {empProfile?.lastName}
                   </h1>
-                  <h1 className="font-bold">{employee[0].designation}</h1>
+                  <h1 className="font-bold">{empProfile?.designation}</h1>
                   <h1 className="flex gap-6">
                     {/* <span className="border font-semibold px-2 py-1 rounded-lg bg-blue-400 text-blue-600">
                       kapil2026
                     </span> */}
                     <span className="border px-2  font-semibold py-1 rounded-lg bg-gray-600 border-gray-800">
-                     {employee[0].role}
+                      {empProfile?.role}
                     </span>
                     <span className="border px-2  font-semibold py-1 rounded-lg bg-green-400 text-green-800 flex items-center gap-1">
                       <FaCircle size={10} />
                       Active
                     </span>
                   </h1>
-                  <h1 className="font-semibold ">
-                   {employee[0].Bio}
-                  </h1>
+                  <h1 className="font-semibold w-full">{empProfile?.Bio}</h1>
                 </div>
               </div>
-              <div className="w-[60%] flex flex-col items-center justify-center">
+              <div className="w-[35%] flex flex-col items-center justify-center">
                 {/*  */}
                 <div className="flex flex-col font-bold mt-2 py-2 gap-2">
                   <h1 className="flex items-center gap-4 mb-0.5">
                     {" "}
-                    <FaEnvelope /> {employee[0].email}
+                    <FaEnvelope /> {empProfile?.email}
                   </h1>
                   <h1 className="flex items-center gap-4 mb-0.5">
-                    <FaPhone /> {employee[0].phone}
+                    <FaPhone /> {empProfile?.phone}
                   </h1>
                   <h1 className="flex items-center gap-4 mb-0.5">
-                    <FaMapMarkerAlt /> {employee[0].address}
+                    <FaMapMarkerAlt /> {empProfile?.address}
                   </h1>
                   <h1 className="flex items-center gap-4 mb-0.5">
                     <FaCalendarAlt />
-                   {formattedDate}
+                    {formattedDate}
                   </h1>
                 </div>
               </div>
@@ -151,7 +185,6 @@ const formattedDate = date.toLocaleDateString("en-GB");
                 Delete Employee
               </motion.button>
             </motion.div>
-
 
             <div className="w-full bg-slate-950 flex justify-evenly items-center text-gray-400 mt-2 ">
               <motion.button
@@ -169,7 +202,7 @@ const formattedDate = date.toLocaleDateString("en-GB");
                   <motion.div
                     transition={{
                       ease: "easeInOut",
-                      duration: .5,
+                      duration: 0.5,
                     }}
                     className="h-[2.5px] left-0 right-0 -bottom-1.5 bg-gray-600 absolute"
                     layoutId="outline"
@@ -191,7 +224,7 @@ const formattedDate = date.toLocaleDateString("en-GB");
                   <motion.div
                     transition={{
                       ease: "easeInOut",
-                      duration: .5,
+                      duration: 0.5,
                     }}
                     className="h-[2.5px] left-0 right-0 -bottom-1.5 bg-gray-600 absolute"
                     layoutId="outline"
@@ -213,7 +246,7 @@ const formattedDate = date.toLocaleDateString("en-GB");
                   <motion.div
                     transition={{
                       ease: "easeInOut",
-                      duration: .5,
+                      duration: 0.5,
                     }}
                     className="h-[2.5px] left-0 right-0 -bottom-1.5 bg-gray-600 absolute"
                     layoutId="outline"
@@ -235,7 +268,7 @@ const formattedDate = date.toLocaleDateString("en-GB");
                   <motion.div
                     transition={{
                       ease: "easeInOut",
-                      duration: .5,
+                      duration: 0.5,
                     }}
                     className="h-[2.5px] left-0 right-0 -bottom-1.5 bg-gray-600 absolute"
                     layoutId="outline"
@@ -254,11 +287,10 @@ const formattedDate = date.toLocaleDateString("en-GB");
               // exit={{ opacity: 0, y: -8 }}
               transition={{
                 duration: 0.4,
-                
               }}
               className="h-auto"
             >
-              {path_1 === "overview" && <EmployeeOver />}
+              {path_1 === "overview" && <EmployeeOver empProfile={empProfile} />}
               {path_2 === "attendence" && <EmployeeAttendence />}
               {path_3 === "leave-history" && <EmployeeLeaveHistory />}
               {path_4 === "tasks" && <EmployeeTasks />}

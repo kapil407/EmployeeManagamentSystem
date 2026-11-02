@@ -2,20 +2,19 @@ import NavBarHandler from "../../Home/PrivateNavbar.jsx";
 import { easeOut, motion } from "motion/react";
 import { useNavigate, useParams } from "react-router-dom";
 import Footer from "../../LandingPages/Footer.jsx";
-import { FaEye, FaSearch, FaTrash, FaUserCircle } from "react-icons/fa"
+import { FaEye, FaSearch, FaTrash, FaUserCircle } from "react-icons/fa";
 import { removeManager } from "../../Redux/ManagerSlice.js";
 // import { useFetchAllManager } from "../../Hooks/useFetchManagers.js";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import axios from "axios";
 const AllManagersProfile = () => {
-
   let cnt = 0;
   const navigate = useNavigate();
-  const managersData=useSelector(store=>store.manager.manager);
+  const managersData = useSelector((store) => store.manager.manager);
 
- console.log(managersData)
- const [departmentName,setDepartmentName]=useState(""); 
+  console.log(managersData);
+  const [departmentName, setDepartmentName] = useState("");
 
   return (
     <div className="w-screen h-screen">
@@ -69,12 +68,12 @@ const AllManagersProfile = () => {
           {/* {employee profile card} */}
 
           {managersData?.map((m) => {
-            console.log("user",m)
-                cnt++;
+            console.log("user", m);
+            cnt++;
             return (
               <>
                 <motion.div
-                key={m?._id}
+                  key={m?._id}
                   whileInView={
                     cnt > 12
                       ? {
@@ -105,62 +104,76 @@ const AllManagersProfile = () => {
                   className="rounded-lg border-l   border-r border-slate-600 p-4 min-w-[18.2%] h-auto"
                 >
                   <motion.div className="flex flex-col mb-2 items-center gap-3 justify-between">
-                    
-                    
-                      {
-                      
-                      m.profilePicture ? <div className="flex items-center justify-between min-w-0  w-full"> 
-                      <div></div>
-                          <img src={m.profilePicture} alt="" className="h-25 w-25 rounded-lg ml-12 object-cover  object-fit " />
-                             <motion.button
-                      whileHover={{
-                        scale: 1.03,
-                        boxShadow: "0px 0px 15px rgba(83, 189, 234, 0.7)",
-                      }}
-                      onClick={() => navigate(`/manager-profile/${m?._id}`)}
-                      className=" flex items-center gap-2 cursor-pointer px-2 py-1 rounded-xl"
-                    >
-                      {" "}
-                      <FaEye />
-                      View
-                    </motion.button> 
-                        </div> :<div className="flex items-center justify-between min-w-0  w-full">
-                          <div></div>
-                          <FaUserCircle className="h-25 w-25 rounded-lg ml-12 object-cover  object-fit " />
-                               <motion.button
-                      whileHover={{
-                        scale: 1.03,
-                        boxShadow: "0px 0px 15px rgba(83, 189, 234, 0.7)",
-                      }}
-                      onClick={() => navigate(`/manager-profile/${m?._id}`)}
-                      className=" flex items-center gap-2 cursor-pointer px-2 py-1 rounded-xl"
-                    >
-                      {" "}
-                      <FaEye />
-                      View
-                    </motion.button>
+                    {m.profilePicture ? (
+                      <div className="flex items-center justify-between min-w-0  w-full">
+                        <div></div>
+                        <motion.img
+                        whileInView={{boxShadow:"0px 0px 18px rgba(249, 166, 166, 0.7)"}}
+                          src={m.profilePicture}
+                          alt=""
+                          className="h-25 w-25 border rounded-lg ml-12 object-cover  object-fit "
+                        />
+                        <motion.button
+                          whileHover={{
+                            scale: 1.03,
+                            boxShadow: "0px 0px 15px rgba(83, 189, 234, 0.7)",
+                          }}
+                          onClick={() => navigate(`/manager-profile/${m?._id}`)}
+                          className=" flex items-center gap-2 cursor-pointer px-2 py-1 rounded-xl"
+                        >
+                          {" "}
+                          <FaEye />
+                          View
+                        </motion.button>
+                      </div>
+                    ) : (
+                      <div className="flex items-center justify-between min-w-0  w-full">
+                        <div></div>
+                        <FaUserCircle className="h-25 w-25 rounded-lg ml-12 object-cover  object-fit " />
+                        <motion.button
+                          whileHover={{
+                            scale: 1.03,
+                            boxShadow: "0px 0px 15px rgba(83, 189, 234, 0.7)",
+                          }}
+                          onClick={() => navigate(`/manager-profile/${m?._id}`)}
+                          className=" flex items-center gap-2 cursor-pointer px-2 py-1 rounded-xl"
+                        >
+                          {" "}
+                          <FaEye />
+                          View
+                        </motion.button>
+                      </div>
+                    )}
 
-                        </div>
-                   
-                       
-                      }
-                     
-                    
                     <div className="flex">
                       <h1 className="font-black text-3xl mb-2 text-cyan-600">
-                      {m.name} {m.lastName}
-                    </h1>
-                  
+                        {m.name} {m.lastName}
+                      </h1>
                     </div>
                     <h1 className="font-bold">
-                     <span className="text-gray-400">EmpId:</span>  <span>MGR-{m?.employeeId?.split("-")[1]}</span>
+                      <span className="text-gray-400">EmpId:</span>{" "}
+                      <span>MGR-{m?.employeeId?.split("-")[1]}</span>
                     </h1>
                   </motion.div>
 
                   <motion.div className=" flex flex-col gap-3 mb-2">
-                    
-                    <h1><span className="text-gray-400 font-bold">Designation</span>: <span className="text-lg font-black">{m.designation}</span></h1>
-                    <h1><span className="text-gray-400 font-bold">Department:</span> <span className="text-lg font-black">{m?.departmentName}</span></h1>
+                    <h1>
+                      <span className="text-gray-400 font-bold">
+                        Designation
+                      </span>
+                      :{" "}
+                      <span className="text-lg font-black">
+                        {m.designation}
+                      </span>
+                    </h1>
+                    <h1>
+                      <span className="text-gray-400 font-bold">
+                        Department:
+                      </span>{" "}
+                      <span className="text-lg font-black">
+                        {m?.departmentName}
+                      </span>
+                    </h1>
                   </motion.div>
                 </motion.div>
               </>

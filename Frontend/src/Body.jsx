@@ -40,6 +40,9 @@ import EmpApplyLeave from "./Employee/Leave.jsx";
 import EmpSalary from "./Employee/Salary.jsx";
 import EmpNotification from "./Employee/Notification.jsx";
 import EditeEmpProfile from "./Employee/Editeprofile.jsx";
+import UpdateEmpEmail from "./Employee/ChangeEmail.jsx";
+import UpdateEmpPassword from "./Employee/UpdatePassword.jsx";
+import EmployeeTasks from "./Employee/MyTasks.jsx";
 
 
 
@@ -83,6 +86,9 @@ const Body = () => {
              <Route path="/salary" element={<EmpSalary/>}/>
              <Route path="/notification" element={<EmpNotification/>}/>
              <Route path="/edite-profile" element={<EditeEmpProfile/>}/>
+             <Route path="/Update-email" element={<UpdateEmpEmail/>}/>
+             <Route path="/change-password" element={<UpdateEmpPassword/>}/>
+             <Route path="/my-tasks" element={<EmployeeTasks/>}/>
              </>
             )
           }
@@ -104,7 +110,7 @@ const Body = () => {
           {/* Admin operations */}
           {user.role === "ADMIN" && (
             <>
-              <Route path="/employee-profile" element={<EmployeeProfile/>}/>
+              <Route path="/employee-profile/:id" element={<EmployeeProfile/>}/>
               <Route path="all-employee" element={<AllEmployee />} />
                
               <Route path="all-manager" element={<AllManagerProfile />} />

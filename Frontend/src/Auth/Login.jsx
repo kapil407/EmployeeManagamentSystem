@@ -105,14 +105,14 @@ const LoginHandler = () => {
             <div className="flex flex-col gap-6  w-[70%] ">
               <motion.div
                 animate={{
-                  scale: FocusedInput == "Email" ? 1.06 : 1,
+                  scale: FocusedInput == "Email" ? 1.01 : 1,
                   boxShadow:
                     FocusedInput == "Email"
                       ? "0px 0px 15px rgba(55, 162, 233, 0.6)"
                       : "",
                 }}
                 transition={{
-                  duration: 1,
+                  duration: 0.3,
                 }}
                 className="flex mb-6 border h-[65%] mt-4 rounded-lg justify-center items-center  border border-slate-600 hover:border-blue-400"
               >
@@ -130,14 +130,14 @@ const LoginHandler = () => {
               <div className="">
                 <motion.div
                   animate={{
-                    scale: FocusedInput == "Password" ? 1.06 : 1,
+                    scale: FocusedInput == "Password" ? 1.01 : 1,
                     boxShadow:
                       FocusedInput == "Password"
                         ? "0px 0px 15px rgba(55, 162, 233, 0.6)"
                         : "",
                   }}
                   transition={{
-                    duration: 1,
+                    duration: 0.3,
                   }}
                   className="flex border rounded-lg border-slate-600 hover:border-blue-400  h-[65%] justify-center font-black text-lg items-center"
                 >

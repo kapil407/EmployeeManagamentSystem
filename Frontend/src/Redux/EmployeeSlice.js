@@ -18,17 +18,14 @@ const employeeSlice = createSlice({
         ...action.payload,
       };
     },
+    EmpProfile:(state,action)=>{
+      state.employee.push(action.payload)
+    },
     addEmployee:(state,action)=>{
         state.employee=action.payload
     },
     updateEmployeeProfileImage: (state, action) => {
-  const emp = state.employee.find(
-    (e) => e._id === action.payload._id
-  );
-
-  if (emp) {
-    emp.profilePicture = action.payload.profilePicture;
-  }
+        state.employee.profilePicture=action.payload
 },
 
     clearEmployee: (state) => {
@@ -38,7 +35,7 @@ const employeeSlice = createSlice({
   },
 });
 
-export const { setEmployee, clearEmployee, updateEmployee,addEmployee,updateEmployeeProfileImage } =
+export const { setEmployee, clearEmployee, updateEmployee,addEmployee,updateEmployeeProfileImage ,EmpProfile} =
   employeeSlice.actions;
 
 export default employeeSlice.reducer;

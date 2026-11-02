@@ -28,6 +28,7 @@ import {
   FaUserTie,
   FaClock,
 } from "react-icons/fa";
+
 import { toast } from "react-toastify";
 import { motion } from "motion/react";
 import { useDispatch, useSelector } from "react-redux";
@@ -39,7 +40,8 @@ import { clearUser } from "../Redux/UserSlice";
 
 const EmpProfile = () => {
   const dispatch = useDispatch();
-  const [image,setImage]=useState("")
+
+
   const emp = useSelector((store) => store.employee.employee);
   console.log("emp--- ",emp);
   const navigate = useNavigate();
@@ -60,7 +62,7 @@ const EmpProfile = () => {
       );
       console.log("res in emp profile", res);
       if (res.data.success) {
-        dispatch(updateEmployeeProfileImage({ _id: emp._id,profilePicture:res?.data?.user?.profilePicture}));
+        dispatch(updateEmployeeProfileImage(res?.data?.user?.profilePicture));
        
         toast.success(res.data.message);
       }
@@ -253,7 +255,7 @@ const EmpProfile = () => {
                   <span className="text-blue-400">Account & Security</span>
                 </h1>
                 <motion.div className="mt-6 flex gap-4 py-2">
-                  <motion.div className="flex items-center gap-3 border bg-slate-600 py-3 border-slate-700 cursor-pointer px-2 rounded-xl w-[20%]">
+                  <motion.div onClick={()=>navigate('/Update-email')} className="flex items-center gap-3 border bg-slate-600 py-3 border-slate-700 cursor-pointer px-2 rounded-xl w-[20%]">
                     <FaEnvelope size={25} className="text-blue-400" />
                     <motion.div className="flex flex-col font-bold">
                       <span>Change Email</span>
@@ -262,7 +264,9 @@ const EmpProfile = () => {
                       </span>
                     </motion.div>
                   </motion.div>
-                  <motion.div className="flex items-center gap-3 border bg-slate-600 py-3 border-slate-700 cursor-pointer px-2 rounded-xl w-[20%]">
+                  <motion.div 
+                  onClick={()=>navigate('/change-password')}
+                  className="flex items-center gap-3 border bg-slate-600 py-3 border-slate-700 cursor-pointer px-2 rounded-xl w-[20%]">
                     <FaLock size={25} className="text-blue-400" />
                     <motion.div className="flex flex-col font-bold">
                       <span>Change Password</span>

@@ -7,16 +7,20 @@ import { employeesData } from "../../data";
 
 import { useDispatch, useSelector } from "react-redux";
 import { FaCircleUser } from "react-icons/fa6";
+import useFetchAllEmployee from "../../Hooks/useFetchEmployee";
+import axios from "axios";
+import { EmpProfile } from "../../Redux/EmployeeSlice";
 
 const AllEmployee = () => {
+  useFetchAllEmployee();
   const employee=useSelector(store=>store.employee.employee);
   console.log("emp  ",employee);
   let cnt = 0;
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const SHowEmloyeeHandler = () => {
-    try {
-      navigate("/employee-profile");
+  const SHowEmloyeeHandler =async (id) => {
+   try{
+      navigate(`/employee-profile/${id}`);
     } catch (error) {
       console.error("show emp error", error); 
     }
@@ -48,7 +52,7 @@ const AllEmployee = () => {
               scale: 1.02,
               boxShadow: "0px 0px 15px rgba(241, 116, 104, 0.4)",
             }}
-            className="px-4 py-2 flex items-center gap-4 mr-4 font-bold rounded-lg border-slate-700 bg-slate-600 border outline-none w-[33%]"
+            className="px-4 py-2 flex items-center gap-4 mr-4 font-bold rounded-lg border-slate-700 bg-slate-800 border outline-none w-[33%]"
           >
             <FaSearch size={20} />
             <input
@@ -72,7 +76,7 @@ const AllEmployee = () => {
         </motion.div>
         <motion.div className="flex   p-2  flex-wrap gap-8 w-full max-h-full overflow-y-auto custom-scrollbar">
           {/* {employee profile card} */}
-          {employee.map((emp) => {
+          {Array.isArray(employee) && employee?.map((emp) => {
             cnt++;
             return (
               <>
@@ -86,7 +90,7 @@ const AllEmployee = () => {
                         }
                       : undefined
                   }
-                  key={emp.empId}
+                  key={emp?.empId}
                   whileHover={{
                     scale: 1.02,
                     boxShadow: "0px 0px 15px rgba(58, 152, 223, 0.7)",
@@ -95,12 +99,14 @@ const AllEmployee = () => {
                 >
                   <div className="flex items-center  justify-between ">
                     <div></div>
-                    {true?<img src={'./Logo.png'} className="h-22 w-22 object-cover rounded-xl ml-12" alt="" /> :<h1 className="text-center flex ml-10  items-center justify-center">
+                    {emp?.profilePicture?<motion.img 
+                    whileInView={{boxShadow:"0px 0px 19px rgba(249, 153, 153, 0.7)"}}
+                    src={emp?.profilePicture} className="h-22 w-22 object-cover bg-center border rounded-xl ml-12" alt="" /> :<h1 className="text-center flex ml-10  items-center justify-center">
                       {" "}
                       <FaCircleUser size={85} />
                     </h1>}
-                    <motion.h1
-                      onClick={SHowEmloyeeHandler}
+                    <motion.button
+                      onClick={()=>SHowEmloyeeHandler(emp?._id)}
                       whileHover={{
                         scale: 1.08,
                         boxShadow: "0px 0px 20px rgba(35, 191, 226, 0.7)",
@@ -108,31 +114,32 @@ const AllEmployee = () => {
                       className="px-2 py-1 flex items-center gap-1 rounded-xl cursor-pointer"
                     >
                       <FaEye />View
-                    </motion.h1>
+                    </motion.button>
+
                   </div>
                   <div className="text-center space-y-1">
                     <h1 className="font-bold text-3xl mt-2 text-cyan-400">
-                      {emp.name} {emp.lastName}
+                      {emp?.name} {emp?.lastName}
                     </h1>
 
                     {/* <motion.div className="font-semibold bg-red-900 flex flex-col gap-2 min-w-0"> */}
                     <h1>
                       <span className="text-gray-400 font-bold"> EmpId:</span>{" "}
                       <span className=" font-bold text-lg">
-                        EMP-{emp.employeeId.split("-")[1]}
+                        EMP-{emp?.employeeId?.split("-")[1]}
                       </span>
                     </h1>
                     <h1>
                       <span className="text-gray-400 font-bold">
                         Designation:{" "}
                       </span>{" "}
-                      <span className=" font-bold text-lg">{emp.designation}</span>
+                      <span className=" font-bold text-lg">{emp?.designation}</span>
                     </h1>
                     <h1>
                       <span className="text-gray-400 font-bold">
                         Department:
                       </span>{" "}
-                      <span className=" font-bold text-lg">{emp.departmentName}</span>
+                      <span className=" font-bold text-lg">{emp?.departmentName}</span>
                     </h1>
                   </div>
                   {/* </motion.div> */}

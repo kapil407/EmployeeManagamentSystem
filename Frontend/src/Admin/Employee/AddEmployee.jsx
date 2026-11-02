@@ -338,7 +338,7 @@ const AddEmployee = () => {
                         >
                           {Department.map((dept) => (
                             <button
-                              key={name}
+                              key={dept?._id}
                               type="button"
                               onClick={() => {
                                 setDepartment(dept.departmentName);

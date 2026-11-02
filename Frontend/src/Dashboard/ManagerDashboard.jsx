@@ -16,10 +16,12 @@ import {
 } from "react-icons/fa";
 import { motion } from "motion/react";
 import SideBar from "../Manager/SideBar";
+import { useSelector } from "react-redux";
 
 const ManagerDashboard = () => {
+  const user=useSelector(store=>store.user.user)
   // const [isActive, setIsActive] = useState(false);
-
+console.log("user  ",user);
   return (
     <main className="w-screen h-screen justify-between flex bg-slate-950">
       <SideBar />
@@ -39,7 +41,7 @@ const ManagerDashboard = () => {
           <div className="flex  justify-between item-center">
             <div className="">
               <h1 className="text-4xl font-black text-cyan-400">
-                Welcome Back, Rahul
+                Welcome Back, {user?.name} {user?.lastName}
               </h1>
               <p className="text-lg font-semibold">
                 Here's your team overview today.

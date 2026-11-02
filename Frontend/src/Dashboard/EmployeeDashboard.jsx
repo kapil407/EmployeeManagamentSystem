@@ -123,7 +123,7 @@ const EmployeeDashboard = () => {
               <motion.div className="text-white bg-slate-700 rounded-xl p-3 flex items-center gap-3">
                 <FaTasks
                   size={55}
-                  className="shrink-0 rounded-xl text-blue-600 bg-blue-200 p-2"
+                  className="shrink-0 rounded-xl text-blue-600 bg-blue-500/15 p-2"
                 />
 
                 <motion.div>
@@ -139,7 +139,7 @@ const EmployeeDashboard = () => {
               <motion.div className="text-white bg-slate-700 rounded-xl p-3 flex items-center gap-3">
                 <FaCalendarAlt
                   size={55}
-                  className="shrink-0 rounded-xl text-green-600 bg-green-200 p-2"
+                  className="shrink-0 rounded-xl text-green-600 bg-green-500/15 p-2"
                 />
 
                 <motion.div>
@@ -155,7 +155,7 @@ const EmployeeDashboard = () => {
               <motion.div className="text-white bg-slate-700 rounded-xl p-3 flex items-center gap-3">
                 <FaPlane
                   size={55}
-                  className="shrink-0 rounded-xl text-yellow-600 bg-yellow-100 p-2"
+                  className="shrink-0 rounded-xl text-yellow-600 bg-yellow-500/15 p-2"
                 />
 
                 <motion.div>
@@ -169,7 +169,7 @@ const EmployeeDashboard = () => {
               <motion.div className="text-white bg-slate-700 rounded-xl p-3 flex items-center gap-3">
                 <FaWallet
                   size={55}
-                  className="shrink-0 rounded-xl text-purple-600 bg-purple-200 p-2"
+                  className="shrink-0 rounded-xl text-purple-600 bg-purple-500/15 p-2"
                 />
 
                 <motion.div>

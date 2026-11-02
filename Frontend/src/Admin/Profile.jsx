@@ -2,6 +2,8 @@ import NavBarHandler from "../Home/PrivateNavbar";
 import {
   FaAddressBook,
   FaCircle,
+  FaEye,
+  FaEyeSlash,
   FaGenderless,
   FaVenusMars,
 } from "react-icons/fa";
@@ -35,9 +37,12 @@ import { useSelector } from "react-redux";
 import { clearManager } from "../Redux/ManagerSlice.js";
 import { clearDepartment } from "../Redux/DepartmentSlice.js";
 import { FaLeftLong } from "react-icons/fa6";
+import { useState } from "react";
 
 const AdminProfile = () => {
   const dispatch = useDispatch();
+  const [showPass, setShowPass] = useState(false);
+  const [selected, setSelected] = useState(false);
 
   const { user } = useSelector((store) => store.user);
   console.log("user  ", user);
@@ -301,6 +306,7 @@ const AdminProfile = () => {
                         <h1 className="text-lg font-bold ">Quick actions</h1>
                         <div className="flex flex-wrap mt-2 gap-4">
                           <motion.button
+                            onClick={() => setSelected((prev) => !prev)}
                             whileTap={{
                               scale: 1.02,
                               boxShadow:
@@ -345,6 +351,36 @@ const AdminProfile = () => {
         </div>
       </motion.div>
       <Footer />
+
+      {selected && (
+        <div className="fixed inset-0 z-50 backdrop-blur-sm flex items-center justify-center p-3">
+          <motion.div whileInView={{
+            boxShadow:"0px 0px 17px rgba(248, 193, 193, 0.6)"
+          }} className="text-white gap-4 flex-col py-8 w-[40%] p-2 rounded-xl h-[30%] flex items-center justify-center bg-white/15">
+            <div className="border flex items-center gap-4 w-[70%] rounded-xl">
+              <input
+                type={showPass ? "text" : `password`}
+                placeholder="Enter new password "
+                className="outline-none  w-[90%] px-3 font-bold rounded-xl  py-2"
+              />
+              <span
+                onClick={() => setShowPass((prev) => !prev)}
+                className="cursor-pointer"
+              > 
+               {showPass?<FaEyeSlash />: <FaEye />}
+              </span>
+            </div>
+            <div className="flex gap-8">
+              <button className="border border-gray-500 cursor-pointer px-2 py-1 rounded-xl bg-slate-700 hover:bg-slate-600 text-gray-200" onClick={()=>setSelected(prev=>!prev)}>
+                Cancel Changes
+              </button>
+              <button className="border border-blue-400 rounded-xl px-2 py-1 bg-blue-500 hover:bg-blue-600 text-white cursor-pointer ">
+                Update Password
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      )}
     </div>
   );
 };

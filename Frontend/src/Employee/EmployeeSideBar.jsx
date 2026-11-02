@@ -26,7 +26,7 @@ const links = [
   { name: "Attendence", path: "/my-attendence", icon: FaCalendarCheck },
   { name: "Apply Leave", path: "/apply-leave", icon: FaCalendarAlt },
   { name: "My Salary", path: "/salary", icon: FaWallet },
-  { name: "My Tasks", path: "/tasks", icon: FaTasks },
+  { name: "My Tasks", path: "/my-tasks", icon: FaTasks },
   { name: "Notifiction", path: "/notification", icon: FaBell },
 ];
 
