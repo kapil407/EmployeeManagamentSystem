@@ -7,10 +7,23 @@ const leaveSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    name:{
+      type:String,
+      default:""
+    },
+    profilePicture:{
+      type:String,
+      default:""
+    },
 
     manager: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
+    },
+    admin: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      default: null,
     },
 
     leaveType: {
@@ -56,7 +69,6 @@ const leaveSchema = new mongoose.Schema(
       type: Date,
       default: null,
     },
-
     reviewRemark: {
       type: String,
       default: "",

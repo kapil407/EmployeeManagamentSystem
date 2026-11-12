@@ -37,14 +37,14 @@ export const updateDepartmentController = async (req, res) => {
   try {
     const { departmentName, departmentCode, description, manager } = req.body;
 
-    const managerData= await User.findOne({
+    const managerData = await User.findOne({
       name: manager.split(" ")[0],
       lastName: manager.split(" ")[1],
       role: "MANAGER",
     });
     console.log(
       "managerdata ->>>",
-     
+
       managerData,
     );
     const dept = await Department.findById(req.params.id);
@@ -57,14 +57,13 @@ export const updateDepartmentController = async (req, res) => {
         departmentCode: departmentCode || dept.departmentCode,
         description: description || dept.description,
         manager: managerData._id,
-        managerName:manager
+        managerName: manager,
       },
       {
         new: true,
         runValidators: true,
       },
     );
-   
 
     const department = {
       ...updateDepartment.toObject(),
@@ -133,13 +132,28 @@ export const GetDepartmentById = async (req, res) => {
       return res.status(400).json({ message: "no department found" });
     }
     console.log("dept in backend ", departmentData);
-    return res
-      .status(200)
-      .json({
-        message: "fetched data",
-        departmentData,
-        managerData,
-        success: true,
-      });
-  } catch (error) {}
+    return res.status(200).json({
+      message: "fetched data",
+      departmentData,
+      managerData,
+      success: true,
+    });
+  } catch (error) {
+    console.log("error",error)
+  }
+};
+
+export const SearchDepartment = async (req, res) => {
+  try {
+    const {searchText} = req.body;
+    const searchedDepartment = await Department.find({
+      departmentName: { $regex: searchText, $options: "i" },
+    });
+    if(!searchedDepartment.length){
+      return res.status(200).json({message:"not found",success:true})
+    }
+    return res.status(200).json({searchedDepartment,success:true})
+  } catch (error) {
+    console.log("error", error);
+  }
 };

@@ -8,8 +8,7 @@ const isVerify=async(req,res,next)=>{
    try {
    
      const accessToken=req?.cookies?.accessToken;
-      // console.log("accesstpken  ",accessToken);
-      // console.log(req.cookies.refreshToken);
+     
      if(!accessToken){
          return res.status(400).json({message:"accessToken not found"});
      }

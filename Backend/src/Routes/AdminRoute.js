@@ -1,9 +1,9 @@
 import  express from 'express' 
 import isVerify from '../Middleware/isVerify.js'   
 import Authorization from '../Middleware/Authorization.js' 
-import {createEmpController,updateEmpController,deleteEmpController,getAllEmployee, GetEmpByIdController } from '../Controller/Admin/Employee.Controller.js';
-import { createManagerController,updateManager,deleteManager,getAllManager,GetManagerById } from '../Controller/Admin/Manager.Controller.js';
-import { createDepartmentController, deleteDepartmentController, getAllDepartmentController, updateDepartmentController,GetDepartmentById } from '../Controller/Admin/Department.Controller.js';
+import {createEmpController,updateEmpController,deleteEmpController,getAllEmployee, GetEmpByIdController, UpdateEmpAnnualpackage, SearchEmployee } from '../Controller/Admin/Employee.Controller.js';
+import { createManagerController,updateManager,deleteManager,getAllManager,GetManagerById, SearchManager } from '../Controller/Admin/Manager.Controller.js';
+import { createDepartmentController, deleteDepartmentController, getAllDepartmentController, updateDepartmentController,GetDepartmentById, SearchDepartment } from '../Controller/Admin/Department.Controller.js';
 
 const adminauthRouter=express.Router();
 
@@ -13,6 +13,8 @@ const adminauthRouter=express.Router();
      adminauthRouter.delete('/delete-employee/:id',isVerify,Authorization('ADMIN'),deleteEmpController);
      adminauthRouter.get('/get-all-employee',isVerify,Authorization('ADMIN'),getAllEmployee);
      adminauthRouter.get('/get-empById/:id',isVerify,Authorization("ADMIN"),GetEmpByIdController)
+     adminauthRouter.patch('/update-annualPackage/:id',isVerify,Authorization("ADMIN"),UpdateEmpAnnualpackage)
+     adminauthRouter.post('/search-employee',isVerify,Authorization("ADMIN"),SearchEmployee)
 
 // manager manage
 
@@ -21,6 +23,7 @@ const adminauthRouter=express.Router();
      adminauthRouter.delete('/delete-manager/:id',isVerify,Authorization('ADMIN'),deleteManager);
      adminauthRouter.get('/get-all-manager',isVerify,Authorization('ADMIN'),getAllManager);
       adminauthRouter.get('/get-managerById/:id',isVerify,Authorization("ADMIN"),GetManagerById);
+      adminauthRouter.post('/search-manager',isVerify,Authorization("ADMIN"),SearchManager);
      // Department manage 
 
      adminauthRouter.post('/create-department',isVerify,Authorization('ADMIN'),createDepartmentController);
@@ -28,5 +31,6 @@ const adminauthRouter=express.Router();
      adminauthRouter.delete('/delete-department/:id',isVerify,Authorization('ADMIN'),deleteDepartmentController);
      adminauthRouter.get('/get-all-department',isVerify,Authorization('ADMIN'),getAllDepartmentController);
      adminauthRouter.get('/get-deptById/:id',isVerify,Authorization("ADMIN"),GetDepartmentById);
+     adminauthRouter.post('/search-department',isVerify,Authorization("ADMIN"),SearchDepartment)
 
 export default adminauthRouter;

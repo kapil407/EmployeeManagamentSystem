@@ -17,7 +17,6 @@ export const createEmpController = async (req, res) => {
       gender,
     } = req.body;
     console.log(
-     
       name,
       lastName,
       email,
@@ -30,12 +29,13 @@ export const createEmpController = async (req, res) => {
       manager,
       gender,
     );
-    console.log(manager.split(" ")[0], manager.split(" ")[1])
+    console.log(manager.split(" ")[0], manager.split(" ")[1]);
     const Manager = await User.findOne({
-     name:manager.split(" ")[0],lastName:manager.split(" ")[1],
+      name: manager.split(" ")[0],
+      lastName: manager.split(" ")[1],
       role: "MANAGER",
     });
-    console.log("Manager",Manager)
+    console.log("Manager", Manager);
     if (!Manager) {
       return res.status(404).json({
         success: false,
@@ -44,9 +44,9 @@ export const createEmpController = async (req, res) => {
     }
 
     const departmentData = await Department.findOne({
-      departmentName:department
+      departmentName: department,
     });
-console.log("dept ",departmentData);
+    console.log("dept ", departmentData);
     if (!departmentData) {
       return res.status(404).json({
         success: false,
@@ -58,7 +58,7 @@ console.log("dept ",departmentData);
       name,
       lastName,
       email,
-      password:hashedPassword,
+      password: hashedPassword,
       phone,
       designation,
       joiningDate,
@@ -66,14 +66,14 @@ console.log("dept ",departmentData);
       gender,
       manager: Manager._id,
       department: departmentData._id,
-      departmentName:department,
-      managerName:manager
+      departmentName: department,
+      managerName: manager,
     });
     await newUser.save();
     return res.status(200).json({
       message: "Create Employee successfully",
       success: true,
-      newUser 
+      newUser,
     });
   } catch (error) {
     console.error("error in create Emp controller", error);
@@ -104,7 +104,9 @@ export const deleteEmpController = async (req, res) => {
 
 export const getAllEmployee = async (req, res) => {
   try {
-    const AllProfile = await User.find({role:"EMPLOYEE"}).select("-password");
+    const AllProfile = await User.find({ role: "EMPLOYEE" }).select(
+      "-password",
+    );
     console.log("All Users");
     return res
       .status(200)
@@ -117,29 +119,111 @@ export const getAllEmployee = async (req, res) => {
 
 export const updateEmpController = async (req, res) => {
   try {
-    const newUser = await User.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true,
+    const { role, department, designation, manager } = req.body;
+    console.log(role, department, designation, manager);
+    const managerData = await User.findOne({
+      role: "MANAGER",
+      name: manager.split(" ")[0],
+      lastName: manager.split(" ")[1],
     });
+    const dept = await Department.findOne({ departmentName: department });
+    console.log("dept ", manager);
+    const newUser = await User.findByIdAndUpdate(
+      req.params.id,
+      {
+        role: role.toUpperCase(),
+        department: dept._id,
+        departmentName: department,
+        designation,
+        manager: managerData._id,
+        managerName: manager,
+      },
+      {
+        new: true,
+        runValidators: true,
+      },
+    );
     await newUser.save();
     return res
       .status(200)
-      .json({ message: "update Emp successfully", success: true, newUser });
+      .json({ message: "update successfully", success: true, newUser });
   } catch (error) {
     console.error("error in update controller", error);
     res.status(500).json({ message: "error in update controller", error });
   }
 };
- export const GetEmpByIdController=async(req,res)=>{
+export const GetEmpByIdController = async (req, res) => {
   try {
-    const {id}=req.params;
-      const emp=await User.findById(id);
-      if(!emp){
-        return res.status(400).json({message:"emp not found "});
-      }
-      return res.status(200).json({emp,success:true});
-    
+    const { id } = req.params;
+    const emp = await User.findById(id);
+    if (!emp) {
+      return res.status(400).json({ message: "emp not found " });
+    }
+    return res.status(200).json({ emp, success: true });
   } catch (error) {
-    console.log("error in getemp by id in backend ",error)
+    console.log("error in getemp by id in backend ", error);
   }
-}
+};
+export const UpdateEmpAnnualpackage = async (req, res) => {
+  try {
+    const { annaulPackage } = req.body;
+    const { id } = req.params;
+
+    const user = await User.findOne({ _id: id });
+    console.log(user);
+    user.salary = annaulPackage;
+    await user.save();
+    return res.status(200).json({
+      message: "Update Employee Annual Package ",
+      success: true,
+      user,
+    });
+  } catch (error) {
+    console.log("error", error);
+  }
+};
+export const SearchEmployee = async (req, res) => {
+  try {
+    const { Searchedtext } = req.body;
+    console.log("text ",Searchedtext)
+
+    const searchedEmp = await User.find({
+      role:"EMPLOYEE",
+      $or: [
+        { name: { $regex: Searchedtext, $options: "i" } },
+        { lastName: { $regex: Searchedtext, $options: "i" } },
+
+        {
+          $expr: {
+            $eq: [
+              { $toLower: { $concat: ["$name", " ", "$lastName"] } },
+              Searchedtext.toLowerCase(),
+            ],
+          },
+        },
+        {
+          $expr: {
+            $eq: [
+              { $toLower: { $concat: ["$name", "$lastName"] } },
+              Searchedtext.toLowerCase(),
+            ],
+          },
+        },
+      ],
+    }).select("-password");
+
+    if (!searchedEmp.length) {
+      return res.status(200).json({
+        message: "Employee not found",
+        success: true,
+      });
+    }
+
+    return res.status(200).json({
+      searchedEmp,
+      success: true,
+    });
+  } catch (error) {
+    console.log("error", error);
+  }
+};

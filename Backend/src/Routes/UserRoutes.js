@@ -10,7 +10,7 @@ import UpdateProfileImageController from "../Controller/User/UpdateProfileImage.
 import upload from "../Middleware/multer.js";
 const profileRouter = express.Router();
 
-// both admin and emp can see their profile
+
 
 profileRouter.get("/my-profile/:id", isVerify, getMyProfileController);
 

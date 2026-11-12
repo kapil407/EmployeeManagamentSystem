@@ -178,3 +178,50 @@ export const GetManagerById = async (req, res) => {
     return res.status(500).json({ message: "error in get manager  ", error });
   }
 };
+
+export const SearchManager = async (req, res) => {
+  try {
+    const { Searchedtext } = req.body;
+    console.log("text ",Searchedtext)
+
+    const searchedManager = await User.find({
+      role:"MANAGER",
+      $or: [
+        { name: { $regex: Searchedtext, $options: "i" } },
+        { lastName: { $regex: Searchedtext, $options: "i" } },
+
+        {
+          $expr: {
+            $eq: [
+              { $toLower: { $concat: ["$name", " ", "$lastName"] } },
+              Searchedtext.toLowerCase(),
+            ],
+          },
+        },
+        {
+          $expr: {
+            $eq: [
+              { $toLower: { $concat: ["$name", "$lastName"] } },
+              Searchedtext.toLowerCase(),
+            ],
+          },
+        },
+      ],
+    }).select("-password");
+
+    if (!searchedManager.length) {
+      return res.status(200).json({
+        message: "Employee not found",
+        success: true,
+      });
+    }
+
+    return res.status(200).json({
+      searchedManager,
+      success: true,
+    });
+  } catch (error) {
+    console.log("error", error);
+  }
+};
+

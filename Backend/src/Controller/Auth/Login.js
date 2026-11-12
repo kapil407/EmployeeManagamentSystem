@@ -2,10 +2,18 @@ import jwt from "jsonwebtoken";
 import User from "../../Models/User.js";
 import bcrypt, { hash } from 'bcrypt'
 import dotenv from 'dotenv'
+import validator from 'validator'
 dotenv.config();
 const loginController=async(req,res)=>{
     try {   
         const {email,password}=req.body;
+         if (!validator.isEmail(email)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid email format",
+      });
+    }
+
             if(!email || !password){
                 return res.json({message:"all fields are required "});
             }
@@ -27,7 +35,7 @@ const loginController=async(req,res)=>{
                 expiresIn:'17d'
             });
             const hashedRefreshToken=await bcrypt.hash(refreshToken,10);
-            user.refreshTokens.push(refreshToken);
+            user.refreshTokens.push(hashedRefreshToken);
 
             res.cookie('accessToken',accessToken,{
                 httpOnly:true,

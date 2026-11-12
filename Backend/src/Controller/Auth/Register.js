@@ -1,9 +1,16 @@
 import User from "../../Models/User.js";
 import bcrypt, { hash } from "bcrypt";
 import uploadFile from "../Cloudinary.js";
+import validator from 'validator'
 export const registerController = async (req, res) => {
   try {
     const { name,lastName, email, password } = req.body;
+      if (!validator.isEmail(email)) {
+          return res.status(400).json({
+            success: false,
+            message: "Invalid email format",
+          });
+        }
     console.log(name,lastName,email,password);
     if (!name || !email || !password ||!lastName) {
       return res.status(500).json({ message: "all fields are required " });

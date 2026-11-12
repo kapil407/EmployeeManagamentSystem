@@ -85,6 +85,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       default:""
     },
+    AnnualPackage:{
+        type:String,
+        default:""
+    },
 
     manager: {
       type: mongoose.Schema.Types.ObjectId,

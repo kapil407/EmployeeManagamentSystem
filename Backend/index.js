@@ -9,6 +9,8 @@ import GeminiRouter from "./src/Routes/Gemini.js";
 import adminauthRouter from "./src/Routes/AdminRoute.js";
 import User from "./src/Models/User.js";
 import Department from "./src/Models/Department.js";
+import employeeRouter from "./src/Routes/EmployeeRoute.js";
+import managerRouter from "./src/Routes/ManagerRoute.js";
 const app = express();
 app.use(cookieParser());
 app.use(express.json());
@@ -44,6 +46,8 @@ app.use("/", authRouter);
 app.use("/", profileRouter);
 app.use("/", GeminiRouter);
 app.use("/", adminauthRouter);
+app.use('/',employeeRouter);
+app.use('/',managerRouter)
 
 dbConnect().then(() => {
   app.listen(5200, () => {
