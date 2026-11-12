@@ -3,7 +3,8 @@ import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./UserSlice.js";
 import departmentReducer from "./DepartmentSlice.js";
 import managerReducer from "./ManagerSlice.js";
-import employeeSlice from './EmployeeSlice.js'
+import employeeReducer from './EmployeeSlice.js'
+import leaveReducer from './LeaveSlice.js'
 
 import { persistStore, persistReducer } from "redux-persist";
 import storageModule from "redux-persist/lib/storage";
@@ -33,14 +34,21 @@ const persistedManagerReducer = persistReducer(
 
 const persistedEmployeeReducer = persistReducer(
   { ...persistConfig, key: "employee" },
-  employeeSlice
+  employeeReducer
 );
+
+const persistedLeaveReducer = persistReducer(
+  { ...persistConfig, key: "leave" },
+  leaveReducer
+);
+
 const store = configureStore({
   reducer: {
    user: persistedUserReducer,
     department: persistedDepartmentReducer,
     manager: persistedManagerReducer,
-    employee:persistedEmployeeReducer
+    employee:persistedEmployeeReducer,
+      leave:persistedLeaveReducer
   },
 
   middleware: (getDefaultMiddleware) =>

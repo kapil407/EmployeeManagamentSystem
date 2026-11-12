@@ -4,17 +4,45 @@ import { useNavigate, useParams } from "react-router-dom";
 import Footer from "../../LandingPages/Footer.jsx";
 import { FaEye, FaSearch, FaTrash, FaUserCircle } from "react-icons/fa";
 import { removeManager } from "../../Redux/ManagerSlice.js";
-// import { useFetchAllManager } from "../../Hooks/useFetchManagers.js";
+
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import axios from "axios";
 const AllManagersProfile = () => {
+
   let cnt = 0;
   const navigate = useNavigate();
   const managersData = useSelector((store) => store.manager.manager);
 
-  console.log(managersData);
-  const [departmentName, setDepartmentName] = useState("");
+  const [searchText, setSearchText] = useState("");
+
+  const [searchedManager, setSearchedManager] = useState([]);
+  console.log("searchManager", searchedManager);
+
+  useEffect(() => {
+    if (!searchText.trim()) {
+      setSearchedManager([]);
+      return;
+    }
+
+    const timer = setTimeout(async () => {
+      try {
+        const res = await axios.post(
+          "http://localhost:5200/search-manager",
+          { Searchedtext: searchText.trim() },
+          { withCredentials: true },
+        );
+
+        setSearchedManager(res.data.searchedManager || []);
+        console.log("Search result:", res.data);
+      } catch (error) {
+        console.log("Search error:", error);
+        setSearchedManager([]);
+      }
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [searchText]);
 
   return (
     <div className="w-screen h-screen">
@@ -42,12 +70,14 @@ const AllManagersProfile = () => {
               scale: 1.02,
               boxShadow: "0px 0px 15px rgba(194, 235, 238, 0.4)",
             }}
-            className="px-4 py-2 flex items-center mt-1 gap-4 mr-4 font-bold rounded-lg border-slate-700 bg-slate-800 border outline-none w-[33%] hover:z-50 "
+            className="px-4 py-2 flex items-center mt-1 gap-2 mr-4 font-bold rounded-lg border-slate-700 bg-slate-800 border outline-none w-[33%] hover:z-50 "
           >
             <FaSearch size={20} />
             <input
               type="text"
-              placeholder="Search manager by name"
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+              placeholder="Search manager..."
               className=" font-black rounded-lg  outline-none w-full px-2"
             />
           </motion.div>
@@ -67,8 +97,8 @@ const AllManagersProfile = () => {
         <motion.div className="flex   p-2  flex-wrap gap-8 w-full max-h-full overflow-y-auto custom-scrollbar">
           {/* {employee profile card} */}
 
-          {managersData?.map((m) => {
-            console.log("user", m);
+          {  Array.isArray(managersData) && 
+          (searchedManager?.length?searchedManager : managersData) ?.map((m) => {
             cnt++;
             return (
               <>
@@ -108,7 +138,9 @@ const AllManagersProfile = () => {
                       <div className="flex items-center justify-between min-w-0  w-full">
                         <div></div>
                         <motion.img
-                        whileInView={{boxShadow:"0px 0px 18px rgba(249, 166, 166, 0.7)"}}
+                          whileInView={{
+                            boxShadow: "0px 0px 18px rgba(249, 166, 166, 0.7)",
+                          }}
                           src={m.profilePicture}
                           alt=""
                           className="h-25 w-25 border rounded-lg ml-12 object-cover  object-fit "

@@ -1,5 +1,5 @@
 import NavBarHandler from "../../Home/PrivateNavbar.jsx";
-import { easeOut, motion } from "motion/react";
+import { easeOut, motion, time } from "motion/react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../../LandingPages/Footer.jsx";
 import { FaEye, FaSearch, FaTrash } from "react-icons/fa";
@@ -11,24 +11,51 @@ import { useEffect } from "react";
 import axios from "axios";
 
 const AllDepartment = () => {
-
-  const [managerName, setManagerName] = useState("");
+  const [isLoading ,setLoading]=useState(false);
+  
   const navigate = useNavigate();
   const deptData = useSelector((store) => store.department.department);
-  let cnt = 0;
-  return (
+  const [searchText, setSearchText] = useState("");
+  const [searchedDept, setSearchedDept] = useState([]);
 
+  let cnt = 0;
+  useEffect(() => {
+    if (!searchText.length) {
+      setSearchedDept([]);
+      return;
+    }
+    setLoading(prev=>!prev)
+    const timer = setTimeout(async () => {
+     try {
+       const res = await axios.post(
+         "http://localhost:5200/search-department",
+         { searchText: searchText.trim() },
+         { withCredentials: true },
+       );
+       console.log("search dept", res);
+       setSearchedDept(res.data.searchedDepartment || []);
+     } catch (error) {
+        console.error("error ",error);
+     }finally{
+      setLoading(prev=>!prev);
+     }
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [searchText]);
+  return (
     <div className="w-screen h-screen">
       <NavBarHandler />
       <motion.div
         initial={{
-            opacity:0,y:0
+          opacity: 0,
+          y: 0,
         }}
         whileInView={{
-            opacity:1,y:0
+          opacity: 1,
+          y: 0,
         }}
         transition={{
-            duration:0.6
+          duration: 0.6,
         }}
         className="text-white  w-screen p-2 flex flex-col h-[76%] gap-2 items-center bg-slate-950"
       >
@@ -40,12 +67,14 @@ const AllDepartment = () => {
               scale: 1.02,
               boxShadow: "0px 0px 15px rgba(134, 213, 232, 0.4)",
             }}
-            className="px-4 py-2 flex items-center gap-4 mr-4 font-bold rounded-lg border-slate-700 bg-slate-800 border outline-none w-[33%]"
+            className="px-4 py-2 flex items-center gap-2 mr-4 font-bold rounded-lg border-slate-700 bg-slate-800 border outline-none w-[33%]"
           >
             <FaSearch size={20} />
             <input
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
               type="text"
-              placeholder="Search Department "
+              placeholder="Search Department... "
               className=" font-black rounded-lg  outline-none w-full px-2"
             />
           </motion.div>
@@ -65,9 +94,14 @@ const AllDepartment = () => {
         <motion.div className="flex   p-2  flex-wrap gap-8 w-full max-h-full overflow-y-auto custom-scrollbar">
           {/* {employee profile card} */}
 
-          {Array.isArray(deptData) &&
-            deptData?.map((dept) => {
-             
+          {searchText.length && !searchedDept.length ? (
+            <h1 className="w-full h-full  flex mt-25 font-bold justify-center">
+             {
+              isLoading ?"Searching...":
+              (searchText.length>0 && searchedDept.length===0)?" Not Found":null}
+            </h1>
+          ) : (
+            (searchedDept?.length ? searchedDept : deptData)?.map((dept) => {
               cnt++;
               return (
                 <>
@@ -128,7 +162,7 @@ const AllDepartment = () => {
                         <h1>
                           <span className="text-gray-400">MANAGER :</span>{" "}
                           <span className="text-xl font-black">
-                            {dept?.managerName} 
+                            {dept?.managerName}
                           </span>{" "}
                         </h1>
                       ) : (
@@ -144,7 +178,8 @@ const AllDepartment = () => {
                   </motion.div>
                 </>
               );
-            })}
+            })
+          )}
         </motion.div>
       </motion.div>
       <Footer />

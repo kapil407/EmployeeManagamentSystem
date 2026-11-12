@@ -7,6 +7,7 @@ import {
   FaUser,
   FaUsers,
   FaShieldAlt,
+  FaCross,
 } from "react-icons/fa";
 import {
   FaEnvelope,
@@ -18,6 +19,7 @@ import {
 } from "react-icons/fa";
 import { FaRupeeSign, FaEye } from "react-icons/fa";
 import { FiActivity, FiCalendar, FiFileText } from "react-icons/fi";
+import {toast} from 'react-toastify'
 import { MdEventNote } from "react-icons/md";
 import {
   LuClipboardCheck,
@@ -25,44 +27,95 @@ import {
 } from "react-icons/lu";
 import { motion } from "motion/react";
 import { useState } from "react";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { EmpProfile } from "../../Redux/EmployeeSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import { EmpProfile, updateEmployee } from "../../Redux/EmployeeSlice";
+import { IoClose } from "react-icons/io5";
+import axios from 'axios'
 // import { managers } from "../../data";
 
-const EmployeeOver = ({ empProfile }) => {
+const EmployeeOver = ({ empProfile,setUpdateprofile }) => {
+  const deptData=useSelector(store=>store.department.department);
+   const managerData=useSelector(store=>store.manager.manager);
+  //  console.log("mana",managerData)
   const navigate = useNavigate();
-  console.log(empProfile)
  
 
-
   const AccountCreateddate = new Date(empProfile?.createdAt);
-  const AccountUpdate=new Date(empProfile?.updatedAt);
+  const AccountUpdate = new Date(empProfile?.updatedAt);
 
-   
-const formattedAccountUpdateDate = AccountUpdate.toLocaleString("en-IN", {
+  const formattedAccountUpdateDate = AccountUpdate.toLocaleString("en-IN", {
     day: "2-digit",
     month: "long",
     year: "numeric",
     hour: "2-digit",
     minute: "2-digit",
     hour12: true,
-});
+  });
 
-const formattedAccountCreatedDate = AccountCreateddate.toLocaleString("en-IN", {
-    day: "2-digit",
-    month: "long",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: true,
-});
+  const formattedAccountCreatedDate = AccountCreateddate.toLocaleString(
+    "en-IN",
+    {
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    },
+  );
+
+  // console.log(formattedAccountCreatedDate);
+  const [selectCompansation, setSelectedCompansation] = useState(false);
+  const [selectEmpInfo,setSelectEmpInfo]=useState(false);
+  const [role,setRole]=useState("");
+  const [department,setDepartment]=useState("");
+  const [designation,setDesignation]=useState("")
+  const [manager,setManager]=useState("");
+  const [annaulPackage,setAnnualPackage]=useState("")
 
 
+  const {id}=useParams();
+const dispatch=useDispatch();
+  const UpdateEmpInfo=async()=>{
+    try {
+      const res=await axios.patch(`http://localhost:5200/update-employee/${id}`,{
+        role,department,designation,manager
+      },{
+        withCredentials:true
+      })
+      console.log("res ",res);
+      if(res.data.success){
+        dispatch(updateEmployee(res.data.newUser));
+        toast.success(res.data.message);
+        setSelectEmpInfo(prev=>!prev)
+        setUpdateprofile(prev=>!prev);
+      }
+      
+    } catch (error) {
+      console.log("error ",error);
+    }
+  }
+const AnnualPackageHandler=async()=>{
+  console.log("id  ",id)
+  try {
+    const res=await axios.patch(`http://localhost:5200/update-annualPackage/${id}`,{annaulPackage},{
+      withCredentials:true
+    })
+    console.log("res annual",res);
+    if(res.data.success){
+      dispatch(updateEmployee(res.data.user))
+      setSelectedCompansation(prev=>!prev);
+       setUpdateprofile(prev=>!prev);
+      toast.success(res.data.message);
+      setAnnualPackage("")
 
-
-console.log(formattedAccountCreatedDate);
-
+    }
+  } catch (error) {
+    console.log(error)
+    // throw new error(error)
+  }
+}
   return (
     <>
       <div className="w-screen h-full ">
@@ -107,10 +160,10 @@ console.log(formattedAccountCreatedDate);
                   </h1>
                 </div>
 
-                <div className="font-bold border  border-slate-600 text-blue-600 px-4 cursor-pointer py-1 flex gap-3  rounded-xl ">
+                <button onClick={()=>setSelectEmpInfo(prev=>!prev)} className="font-bold border  border-slate-600 text-blue-600 px-4 cursor-pointer py-1 flex gap-3  rounded-xl ">
                   <FaEdit size={20} />
                   <h1>Edite</h1>
-                </div>
+                </button>
               </div>
             </div>
             <div className="flex justify-evenly  px-2 pb-2 font-semibold  w-full">
@@ -150,22 +203,25 @@ console.log(formattedAccountCreatedDate);
                   </h1>
                 </div>
 
-                <div className="font-bold border px-4 cursor-pointer py-1 flex gap-3 text-blue-600 rounded-xl ">
+                <button
+                  onClick={() => setSelectedCompansation((prev) => !prev)}
+                  className="font-bold border px-4 cursor-pointer py-1 flex gap-3 text-blue-600 rounded-xl "
+                >
                   <FaEdit size={20} />
                   <h1>Edite</h1>
-                </div>
+                </button>
               </div>
             </div>
             <div className="flex items-center justify-evenly">
               <div className="text-gray-400 flex flex-col gap-2">
                 <h1>Salary(Annual)</h1>
-                <h1>Gross Salary(Monthly)</h1>
-                <h1>Salary(Monthly)</h1>
+                <h1>Gross Salary(Annual)</h1>
+                <h1>Net Salary(Monthly)</h1>
               </div>
               <div className="text-white flex flex-col gap-2 ">
-                <h1>4,50,000</h1>
-                <h1>37,500</h1>
-                <h1>30,000</h1>
+                <h1> ₹ {empProfile?.salary}</h1>
+                <h1>₹ {empProfile?.salary}</h1>
+                <h1>₹ {Math.round(Number(empProfile?.salary) / 12)}</h1>
               </div>
             </div>
           </div>
@@ -245,7 +301,7 @@ console.log(formattedAccountCreatedDate);
                 <h1>Last Updated</h1>
               </div>
               <div className="text-white mt-2">
-                <h1> {formattedAccountCreatedDate }</h1>
+                <h1> {formattedAccountCreatedDate}</h1>
                 <h1>{formattedAccountUpdateDate}</h1>
               </div>
             </div>
@@ -261,12 +317,79 @@ console.log(formattedAccountCreatedDate);
                 <h1>Last Login</h1>
               </div>
               <div className="text-white mt-2">
-                <h1>{EmpProfile?.refreshTokens?.length ||"0"}</h1>
+                <h1>{EmpProfile?.refreshTokens?.length || "0"}</h1>
                 <h1>05 Aug 2026 11:30 AM</h1>
               </div>
             </div>
           </div>
         </div>
+        {
+          selectCompansation && <div className="fixed inset-0 z-50 backdrop-blur-sm flex items-center justify-center p-3">
+           <IoClose onClick={()=>setSelectedCompansation(prev=>!prev)} size={55} className="cursor-pointer absolute mb-115 ml-238 text-white/29 hover:text-white/39 p-1"/>
+           <div className="w-[50%] h-[40%] rounded-xl bg-white/15 flex items-center gap-10 text-white flex-col">
+             <h1 className="text-2xl font-bold mt-2">Update Employee Annual Package</h1>
+                <motion.input 
+                value={annaulPackage}
+                onChange={e=>setAnnualPackage(e.target.value)}
+                whileHover={{
+                  boxShadow:"0px 0px 15px rgba(244, 237, 237, 0.6)"
+                }} type="Number" placeholder="Enter Annual Package"  className="outline-none hover:border-blue-300 border w-[60%] px-1 py-3 rounded-xl font-bold" />
+                <button onClick={AnnualPackageHandler} className="font-bold px-3 py-2 rounded-xl bg-blue-600 hover:bg-blue-700">Save Changes</button>
+           </div>
+          </div>
+        }
+        {
+          selectEmpInfo && <div className="fixed inset-0 z-50 backdrop-blur-sm flex items-center justify-center p-3">
+            <IoClose onClick={()=>setSelectEmpInfo(prev=>!prev)} size={55} className="cursor-pointer absolute mb-120 ml-238 text-white/29 hover:text-white/39 p-1"/>
+            <div className="bg-white/15 w-[50%] text-center items-center h-[60%] rounded-xl text-white px-3 py-2  flex flex-col  ">
+            <h1 className="text-2xl font-bold">Update Employee Information </h1>
+              <div className="w-[80%] h-full mt-10 space-y-8">
+                
+                  <motion.input 
+                  value={role}
+                  onChange={(e)=>setRole(e.target.value)}
+                  whileHover={{
+                    boxShadow:"0px 0px 15px rgba(242, 234, 234, 0.4)"
+                  }}
+                  type="text" placeholder="Enter new role " className="px-5 py-3 rounded-xl outline-none border w-full font-bold border-white/19 hover:border-cyan-400 " />
+                  <select name="department" id="" 
+                  value={department}
+                  onChange={(e)=>setDepartment(e.target.value)} className="outline-none text-gray-400    border w-full py-3 px-3 rounded-xl border-gray-600 font-bold">
+                    <option value="" className="bg-slate-600 font-bold text-white">Select department</option>
+                    {
+                      deptData?.map((d)=>{
+                        return <option key={d?._id} value={d?.departmentName} className="font-bold bg-slate-600 text-white">{d?.departmentName}</option>
+                      })
+                    }
+                  </select>
+                  
+                    <motion.input 
+                    value={designation}
+                    onChange={e=>setDesignation(e.target.value)}
+                    whileHover={{
+                      boxShadow:"0px 0px 15px rgba(242, 234, 234, 0.4)"
+                    }}
+                    type="text" placeholder="Enter new designation " className="px-5 py-3 rounded-xl outline-none border w-full font-bold border-white/19 hover:border-cyan-400 " />
+
+                     <select name="manager" id="" 
+                  value={manager}
+                  onChange={(e)=>setManager(e.target.value)} className="outline-none text-gray-400    border w-full py-3 px-3 rounded-xl border-gray-600 font-bold">
+                    <option value="" className="bg-slate-600 font-bold text-white">Select manager</option>
+                    {
+                      managerData?.map((d)=>{
+                        return <option key={d?._id} value={d?.name +" "+ d?.lastName} className="font-bold bg-slate-600 text-white">{d?.name} {d?.lastName}</option>
+                      })
+                    }
+                  </select>
+                   
+                   
+              </div>
+              <div className="flex gap-8 font-bold">
+                <button onClick={UpdateEmpInfo} className=" border px-3 hover:bg-blue-700 cursor-pointer py-1 rounded-xl bg-blue-600">Update Changes</button>
+              </div>
+            </div>
+          </div>
+        }
       </div>
     </>
   );

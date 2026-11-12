@@ -5,11 +5,15 @@ import useFetchAllDepartment from "../Hooks/useFetchAllDepartment";
 import { useFetchAllManager } from "../Hooks/useFetchManagers";
 import { motion } from "motion/react";
 import useFetchAllEmployee from "../Hooks/useFetchEmployee";
+import { useNavigate } from "react-router-dom";
 const AdminDashboard = () => {
   const deptData = useFetchAllDepartment();
+  const navigate=useNavigate()
+ 
   const managerData = useFetchAllManager();
   const employeeData=useFetchAllEmployee();
-  console.log("data   "  , employeeData);
+   
+  
   
   return (
     <motion.div className="w-screen h-screen">
@@ -35,6 +39,7 @@ const AdminDashboard = () => {
         </motion.div>
         <motion.div className="h-[16%]  rounded-lg text-white font-bold  w-auto rounded-xl  flex mx-4 justify-evenly items-center ">
           <motion.div
+          onClick={()=>navigate('/all-employee')}
             whileHover={{
               scale: 1.02,
               boxShadow: "0px 0px 15px rgba(228, 169, 169, 0.7)",
@@ -42,12 +47,13 @@ const AdminDashboard = () => {
             transition={{
               duration: 0.5,
             }}
-            className="border-r border-l border-slate-600 gap-2 flex rounded-xl items-center justify-center w-[25%] h-full text-center"
+            className="border-r cursor-pointer border-l border-slate-600 gap-2 flex rounded-xl items-center justify-center w-[25%] h-full text-center"
           >
             <h1 className="text-xl">Employee</h1>
-            <h1 className="text-cyan-600 text-3xl">25</h1>
+            <h1 className="text-5xl pl-4 text-cyan-600">{employeeData?.length}</h1>
           </motion.div>
           <motion.div
+          onClick={()=>navigate('/all-manager')}
             whileHover={{
               scale: 1.02,
               boxShadow: "0px 0px 15px rgba(228, 169, 169, 0.7)",
@@ -55,12 +61,13 @@ const AdminDashboard = () => {
             transition={{
               duration: 0.5,
             }}
-            className="border-r border-slate-600 gap-2 rounded-xl border-l flex items-center justify-center w-[25%] h-full text-center"
+            className="border-r cursor-pointer border-slate-600 gap-2 rounded-xl border-l flex items-center justify-center w-[25%] h-full text-center"
           >
             <h1 className="text-xl">Manager</h1>
-            <h1 className="text-3xl text-cyan-600">35</h1>
+            <h1 className="text-5xl pl-4 text-cyan-600">{managerData?.length}</h1>
           </motion.div>
           <motion.div
+          onClick={()=>navigate('/all-department')}
             whileHover={{
               scale: 1.02,
               boxShadow: "0px 0px 15px rgba(228, 169, 169, 0.7)",
@@ -68,10 +75,10 @@ const AdminDashboard = () => {
             transition={{
               duration: 0.5,
             }}
-            className="border-r border-slate-600 gap-2 rounded-xl flex border-l items-center justify-center w-[23%] h-full text-center"
+            className="border-r cursor-pointer border-slate-600 gap-2 rounded-xl flex border-l items-center justify-center w-[23%] h-full text-center"
           >
             <h1 className="text-xl">Department</h1>
-            <h1 className="text-3xl text-cyan-600">65</h1>
+            <h1 className="text-5xl pl-4 text-cyan-600">{deptData?.length}</h1>
           </motion.div>
           <motion.div
             whileHover={{
@@ -81,10 +88,10 @@ const AdminDashboard = () => {
             transition={{
               duration: 0.5,
             }}
-            className=" flex  items-center justify-center gap-2 w-[23%] h-full border-l border-slate-600 border-r rounded-xl text-center"
+            className=" flex cursor-pointer  items-center justify-center gap-2 w-[23%] h-full border-l border-slate-600 border-r rounded-xl text-center"
           >
             <h1 className="text-xl">On Leave</h1>
-            <h1 className="text-3xl text-cyan-600">2</h1>
+            <h1 className="text-5xl pl-4 text-cyan-600">2</h1>
           </motion.div>
         </motion.div>
         <motion.div className="text-white w-auto h-[25%] m-4 flex  justify-evenly gap-8 mt-[4%] mb-[4%]">

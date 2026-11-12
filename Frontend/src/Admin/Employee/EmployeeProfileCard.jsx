@@ -10,21 +10,52 @@ import { FaCircleUser } from "react-icons/fa6";
 import useFetchAllEmployee from "../../Hooks/useFetchEmployee";
 import axios from "axios";
 import { EmpProfile } from "../../Redux/EmployeeSlice";
+import { useState } from "react";
+import { useEffect } from "react";
 
 const AllEmployee = () => {
   useFetchAllEmployee();
-  const employee=useSelector(store=>store.employee.employee);
-  console.log("emp  ",employee);
+  const [searchText, setSearchText] = useState("");
+  const employee = useSelector((store) => store.employee.employee);
+ 
   let cnt = 0;
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const SHowEmloyeeHandler =async (id) => {
-   try{
+  const SHowEmloyeeHandler = async (id) => {
+    try {
       navigate(`/employee-profile/${id}`);
     } catch (error) {
-      console.error("show emp error", error); 
+      console.error("show emp error", error);
     }
   };
+  const [searchedEmp, setSearchedEmp] = useState([]);
+  console.log("searchEmp",searchedEmp);
+  useEffect(() => {
+  if (!searchText.trim()) {
+    setSearchedEmp([]);
+    return;
+  }
+
+  const timer = setTimeout(async () => {
+    try {
+      const res = await axios.post(
+        "http://localhost:5200/search-employee",
+        { Searchedtext: searchText.trim() },
+        { withCredentials: true }
+      );
+
+      setSearchedEmp(res.data.searchedEmp || []);
+      console.log("Search result:", res.data);
+
+    } catch (error) {
+      console.log("Search error:", error);
+      setSearchedEmp([]);
+    }
+  }, 500);
+
+  return () => clearTimeout(timer);
+
+}, [searchText]);
 
   return (
     <div className="w-screen h-screen">
@@ -57,10 +88,13 @@ const AllEmployee = () => {
             <FaSearch size={20} />
             <input
               type="text"
-              placeholder="Search employee by name or emailId"
+              value={searchText}
+              onChange={(e)=>setSearchText(e.target.value)}
+              placeholder="Search employee..."
               className=" font-bold rounded-lg  outline-none w-full px-2"
             />
           </motion.div>
+         
         </div>
         <motion.div className="flex w-full">
           <motion.button
@@ -76,77 +110,91 @@ const AllEmployee = () => {
         </motion.div>
         <motion.div className="flex   p-2  flex-wrap gap-8 w-full max-h-full overflow-y-auto custom-scrollbar">
           {/* {employee profile card} */}
-          {Array.isArray(employee) && employee?.map((emp) => {
-            cnt++;
-            return (
-              <>
-                <motion.div
-                  initial={cnt > 10 ? { opacity: 0, y: 50 } : undefined}
-                  whileInView={cnt > 10 ? { opacity: 1, y: 0 } : undefined}
-                  transition={
-                    cnt > 10
-                      ? {
-                          duration:0.8
-                        }
-                      : undefined
-                  }
-                  key={emp?.empId}
-                  whileHover={{
-                    scale: 1.02,
-                    boxShadow: "0px 0px 15px rgba(58, 152, 223, 0.7)",
-                  }}
-                  className="rounded-lg border-l  border-r border-slate-600 px-3 py-4  min-w-[15%]  h-auto"
-                >
-                  <div className="flex items-center  justify-between ">
-                    <div></div>
-                    {emp?.profilePicture?<motion.img 
-                    whileInView={{boxShadow:"0px 0px 19px rgba(249, 153, 153, 0.7)"}}
-                    src={emp?.profilePicture} className="h-22 w-22 object-cover bg-center border rounded-xl ml-12" alt="" /> :<h1 className="text-center flex ml-10  items-center justify-center">
-                      {" "}
-                      <FaCircleUser size={85} />
-                    </h1>}
-                    <motion.button
-                      onClick={()=>SHowEmloyeeHandler(emp?._id)}
-                      whileHover={{
-                        scale: 1.08,
-                        boxShadow: "0px 0px 20px rgba(35, 191, 226, 0.7)",
-                      }}
-                      className="px-2 py-1 flex items-center gap-1 rounded-xl cursor-pointer"
-                    >
-                      <FaEye />View
-                    </motion.button>
+          {Array.isArray(employee) &&
+            (searchedEmp?.length?searchedEmp:employee)?.map((emp) => {
+              cnt++;
+              return (
+                <>
+                  <motion.div
+                    initial={cnt > 10 ? { opacity: 0, y: 50 } : undefined}
+                    whileInView={cnt > 10 ? { opacity: 1, y: 0 } : undefined}
+                    transition={
+                      cnt > 10
+                        ? {
+                            duration: 0.8,
+                          }
+                        : undefined
+                    }
+                    key={emp?.empId}
+                    whileHover={{
+                      scale: 1.02,
+                      boxShadow: "0px 0px 15px rgba(58, 152, 223, 0.7)",
+                    }}
+                    className="rounded-lg border-l  border-r border-slate-600 px-3 py-4  min-w-[15%]  h-auto"
+                  >
+                    <div className="flex items-center  justify-between ">
+                      <div></div>
+                      {emp?.profilePicture ? (
+                        <motion.img
+                          whileInView={{
+                            boxShadow: "0px 0px 19px rgba(249, 153, 153, 0.7)",
+                          }}
+                          src={emp?.profilePicture}
+                          className="h-22 w-22 object-cover bg-center border rounded-xl ml-12"
+                          alt=""
+                        />
+                      ) : (
+                        <h1 className="text-center flex ml-10  items-center justify-center">
+                          {" "}
+                          <FaCircleUser size={85} />
+                        </h1>
+                      )}
+                      <motion.button
+                        onClick={() => SHowEmloyeeHandler(emp?._id)}
+                        whileHover={{
+                          scale: 1.08,
+                          boxShadow: "0px 0px 20px rgba(35, 191, 226, 0.7)",
+                        }}
+                        className="px-2 py-1 flex items-center gap-1 rounded-xl cursor-pointer"
+                      >
+                        <FaEye />
+                        View
+                      </motion.button>
+                    </div>
+                    <div className="text-center space-y-1">
+                      <h1 className="font-bold text-3xl mt-2 text-cyan-400">
+                        {emp?.name} {emp?.lastName}
+                      </h1>
 
-                  </div>
-                  <div className="text-center space-y-1">
-                    <h1 className="font-bold text-3xl mt-2 text-cyan-400">
-                      {emp?.name} {emp?.lastName}
-                    </h1>
-
-                    {/* <motion.div className="font-semibold bg-red-900 flex flex-col gap-2 min-w-0"> */}
-                    <h1>
-                      <span className="text-gray-400 font-bold"> EmpId:</span>{" "}
-                      <span className=" font-bold text-lg">
-                        EMP-{emp?.employeeId?.split("-")[1]}
-                      </span>
-                    </h1>
-                    <h1>
-                      <span className="text-gray-400 font-bold">
-                        Designation:{" "}
-                      </span>{" "}
-                      <span className=" font-bold text-lg">{emp?.designation}</span>
-                    </h1>
-                    <h1>
-                      <span className="text-gray-400 font-bold">
-                        Department:
-                      </span>{" "}
-                      <span className=" font-bold text-lg">{emp?.departmentName}</span>
-                    </h1>
-                  </div>
-                  {/* </motion.div> */}
-                </motion.div>
-              </>
-            );
-          })}
+                      {/* <motion.div className="font-semibold bg-red-900 flex flex-col gap-2 min-w-0"> */}
+                      <h1>
+                        <span className="text-gray-400 font-bold"> EmpId:</span>{" "}
+                        <span className=" font-bold text-lg">
+                          EMP-{emp?.employeeId?.split("-")[1]}
+                        </span>
+                      </h1>
+                      <h1>
+                        <span className="text-gray-400 font-bold">
+                          Designation:{" "}
+                        </span>{" "}
+                        <span className=" font-bold text-lg">
+                          {emp?.designation}
+                        </span>
+                      </h1>
+                      <h1>
+                        <span className="text-gray-400 font-bold">
+                          Department:
+                        </span>{" "}
+                        <span className=" font-bold text-lg">
+                          {emp?.departmentName}
+                        </span>
+                      </h1>
+                    </div>
+                    {/* </motion.div> */}
+                  </motion.div>
+                </>
+              );
+            })}
         </motion.div>
       </motion.div>
       <Footer />

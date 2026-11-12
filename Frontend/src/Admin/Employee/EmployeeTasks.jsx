@@ -6,7 +6,7 @@ const EmployeeTasks = () => {
     <>
       <div className="w-screen h-full">
         <div className="flex gap-5 w-full h-full flex-wrap px-2">
-          <div className="flex items-center border border-slate-600 bg-slate-800 w-[24%]  rounded-xl text-white py-1  justify-center gap-6">
+          <div className="flex items-center border border-slate-600 bg-slate-800 w-[24%]  rounded-xl text-white  justify-center gap-6">
             <FaTasks
               size={59}
               className="text-blue-600 bg-blue-400 p-2 rounded-xl "
@@ -17,7 +17,7 @@ const EmployeeTasks = () => {
               <h1 className="font-semibold">Assigned to this employee</h1>
             </div>
           </div>
-          <div className="flex items-center border border-slate-600 bg-slate-800 w-[24%]  text-white rounded-xl py-1   h-[25%] justify-center gap-6">
+          <div className="flex items-center border border-slate-600 bg-slate-800 w-[24%]  text-white rounded-xl    h-[25%] justify-center gap-6">
             <FaCheckCircle
               size={59}
               className="bg-green-200 text-green-600 rounded-xl p-2"
@@ -28,7 +28,7 @@ const EmployeeTasks = () => {
               <h1 className="font-semibold">{(8 / 20) * 100}%</h1>
             </div>
           </div>
-          <div className="flex items-center border border-slate-600 bg-slate-800 w-[24%]  rounded-xl py-1 text-white  h-[25%] justify-center gap-6">
+          <div className="flex items-center border border-slate-600 bg-slate-800 w-[24%]  rounded-xl  text-white  h-[25%] justify-center gap-6">
             <FaClock
               size={59}
               className="bg-yellow-200 p-2 rounded-xl text-yellow-600"
@@ -39,7 +39,7 @@ const EmployeeTasks = () => {
               <h1 className="font-semibold">{(12 / 20) * 100}%</h1>
             </div>
           </div>
-          <div className="flex items-center border border-slate-600 bg-slate-800 w-[24%] text-white rounded-xl py-1   h-[25%] justify-center gap-6">
+          <div className="flex items-center border border-slate-600 bg-slate-800 w-[24%] text-white rounded-xl    h-[25%] justify-center gap-6">
             <FaRegCircle
               size={59}
               className="text-gray-600 bg-gray-200 p-2 rounded-xl"

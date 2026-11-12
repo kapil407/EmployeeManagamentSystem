@@ -41,29 +41,29 @@ import axios from "axios";
 
 const EmployeeProfile = () => {
   const { id } = useParams();
-  const [empProfile,setEmpProfile]=useState("");
+  const [empProfile, setEmpProfile] = useState("");
   // console.log("emp profile ",empProfile);
-  const dispatch=useDispatch();
-useEffect(()=>{
+  const dispatch = useDispatch();
+  const [updateProfile, setUpdateprofile] = useState(false);
   
-  const FetchEmpProfile = async () => {
-    try {
-      const res = await axios.get(`http://localhost:5200/get-empById/${id}`, {
-        withCredentials: true,
-      });
-      // console.log("res  ", res);
-      if (res.data.success) {
-        dispatch(clearEmployee());
-        setEmpProfile(res.data.emp);
+  useEffect(() => {
+    const FetchEmpProfile = async () => {
+      try {
+        const res = await axios.get(`http://localhost:5200/get-empById/${id}`, {
+          withCredentials: true,
+        });
+        console.log("res in profile ", res);
+        if (res.data.success) {
+          dispatch(clearEmployee());
+          setEmpProfile(res.data.emp);
+        }
+      } catch (error) {
+        console.error("show emp error", error);
       }
-      
-    } catch (error) {
-      console.error("show emp error", error);
-    }
-  };
-  FetchEmpProfile();
-},[id])
- 
+    };
+    FetchEmpProfile();
+  }, [updateProfile]);
+
   const employee = useSelector((store) => store.employee.employee);
   const date = new Date(empProfile?.joiningDate);
 
@@ -108,7 +108,7 @@ useEffect(()=>{
               whileInView={{
                 boxShadow: "0px 0px 15px rgba(240, 243, 248, 0.6)",
               }}
-              className="flex w-full bg-slate-800 h-[35%] border border-slate-800 mt-1 px-4 py-3 justify-evenly rounded-xl  text-white "
+              className="flex w-full bg-slate-800 h-[35%] border border-slate-800 mt-1 px-4 py-2 justify-evenly rounded-xl  text-white "
               style={{
                 backgroundImage: `url(${`/adminBackground.png`})`,
                 backgroundSize: "cover",
@@ -116,17 +116,17 @@ useEffect(()=>{
                 backgroundRepeat: "no-repeat",
               }}
             >
-              <div className="flex gap-8 w-[65%] items-center justify-center">
-                <div>
+              <div className="flex gap-8 w-[85%]  items-center ">
+                <div className=" min-w-[13%]">
                   {empProfile?.profilePicture ? (
                     <img
                       src={empProfile?.profilePicture}
                       alt=""
-                      className="w-74 bg-center object-cover h-42 border-4 border-gray-400 relative rounded-full  "
+                      className="w-full bg-center object-cover h-45 border-4 border-gray-400 relative rounded-full  "
                     />
                   ) : (
                     <FaUserCircle
-                      size={168}
+                      size={180}
                       style={{
                         boxShadow: "0px 0px 10px rgba(230, 220, 220, 0.4)",
                       }}
@@ -135,7 +135,7 @@ useEffect(()=>{
                   )}
                 </div>
 
-                <div className="flex flex-col gap-1">
+                <div className="flex flex-col gap-1  py-2 px-2">
                   <h1 className="font-bold text-3xl text-cyan-500">
                     {empProfile?.name} {empProfile?.lastName}
                   </h1>
@@ -155,11 +155,11 @@ useEffect(()=>{
                   <h1 className="font-semibold w-full">{empProfile?.Bio}</h1>
                 </div>
               </div>
-              <div className="w-[35%] flex flex-col items-center justify-center">
-                {/*  */}
+              {/* <div className="w-[35%] flex flex-col items-center justify-center">
+                
                 <div className="flex flex-col font-bold mt-2 py-2 gap-2">
                   <h1 className="flex items-center gap-4 mb-0.5">
-                    {" "}
+                    
                     <FaEnvelope /> {empProfile?.email}
                   </h1>
                   <h1 className="flex items-center gap-4 mb-0.5">
@@ -173,7 +173,7 @@ useEffect(()=>{
                     {formattedDate}
                   </h1>
                 </div>
-              </div>
+              </div> */}
               <motion.button
                 whileHover={{
                   scale: 1.03,
@@ -290,7 +290,12 @@ useEffect(()=>{
               }}
               className="h-auto"
             >
-              {path_1 === "overview" && <EmployeeOver empProfile={empProfile} />}
+              {path_1 === "overview" && (
+                <EmployeeOver
+                  empProfile={empProfile}
+                  setUpdateprofile={setUpdateprofile}
+                />
+              )}
               {path_2 === "attendence" && <EmployeeAttendence />}
               {path_3 === "leave-history" && <EmployeeLeaveHistory />}
               {path_4 === "tasks" && <EmployeeTasks />}

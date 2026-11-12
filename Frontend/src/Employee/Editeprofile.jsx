@@ -5,19 +5,22 @@ import { motion } from "motion/react";
 import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updateEmployee } from "../Redux/EmployeeSlice";
 
 const EditeEmpProfile = () => {
+  const user=useSelector(store=>store.employee.employee)
+  console.log("ser",user)
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [focusedInput, setFocusedInput] = useState(null);
-  const [name, setName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [name, setName] = useState(user?.name || "");
+  const [lastName, setLastName] = useState(user?.lastName||"");
+  const [address, setAddress] = useState( user?.address||"");
+  const [bio, setBio] = useState( user?.Bio||"");
+  const [phone, setPhone] = useState(user?.phone || "");
 
-  const [address, setAddress] = useState("");
-  const [bio, setBio] = useState("");
-  const [phone, setPhone] = useState("");
+
 
   const SaveChangesHandler = async () => {
     try {
@@ -57,13 +60,13 @@ const EditeEmpProfile = () => {
           className="w-[99%] h-[98%] rounded-xl bg-slate-800 m-2 text-white p-2"
         >
           <button
-            className="flex items-center gap-2 cursor-pointer hover:text-cyan-400"
+            className="flex items-center gap-3 font-bold px-4 cursor-pointer hover:text-cyan-400"
             onClick={() => navigate("/my-profile")}
           >
             <FaLeftLong />
             Back{" "}
           </button>
-          <motion.main className="w-full h-[97%]  flex items-center justify-center">
+          <motion.main className="w-full h-full  flex items-center justify-center">
             <motion.div
               whileInView={{
                 boxShadow: "0px 0px 15px rgba(238, 226, 226, 0.5)",
@@ -153,6 +156,7 @@ const EditeEmpProfile = () => {
                   className="w-[70%] ml-50 hover:border-cyan-400 border-slate-600 outline-none border px-2 py-3 rounded-xl"
                 />
                 <motion.textarea
+                maxLength={350}
                  animate={{
                     scale: focusedInput == "bio" ? 1.01 : 1,
                     boxShadow:
@@ -170,8 +174,9 @@ const EditeEmpProfile = () => {
                 
                   type="text"
                   placeholder="Enter Bio"
-                  className="w-[70%] hover:border-cyan-400 ml-50 border-slate-600 outline-none border px-2 py-3 rounded-xl"
+                  className="w-[70%]  hover:border-cyan-400 ml-50 border-slate-600 outline-none border px-2 py-3 rounded-xl"
                 />
+                <h1 className="text-sm text-end  w-full">{bio.length}/350</h1>
               </motion.div>
               <motion.div className="w-full items-center flex justify-center">
                 <motion.button
@@ -180,7 +185,7 @@ const EditeEmpProfile = () => {
                     scale: 1.03,
                     boxShadow: "0px 0px 10px rgba(31, 234, 234, 0.5)",
                   }}
-                  className="bg-green-800 cursor-pointer rounded-xl font-bold w-fit py-1.5 px-2  mt-6"
+                  className="bg-green-800 cursor-pointer rounded-xl font-bold w-fit py-1.5 px-2 "
                 >
                   Save Changes
                 </motion.button>

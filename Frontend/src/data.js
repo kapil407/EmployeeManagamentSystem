@@ -1,5 +1,3 @@
-
-
 export const employeesData = [
   {
     firstName: "Kapil",
@@ -211,26 +209,99 @@ export const employeesData = [
     role: "Data Analyst",
     dept: "Business Development",
   },
-]; 
-export const teamMembers = [
-  { name: "Rahul Sharma", role: "Frontend Developer", status: "Active" ,EMPId:"EMP2001"},
-  { name: "Aman Verma", role: "Backend Developer", status: "Active",EMPId:"EMP2002" },
-  { name: "Neha Singh", role: "UI/UX Designer", status: "On Leave",EMPId:"EMP2003" },
-  { name: "Rohit Kumar", role: "Full Stack Developer", status: "Active" ,EMPId:"EMP2004"},
-  { name: "Priya Gupta", role: "QA Engineer", status: "Active" ,EMPId:"EMP2005"},
-  { name: "Arjun Yadav", role: "Backend Developer", status: "Active" ,EMPId:"EMP2006"},
-  { name: "Anjali Verma", role: "Frontend Developer", status: "On Leave" ,EMPId:"EMP2007"},
-  { name: "Vivek Sharma", role: "DevOps Engineer", status: "Active" ,EMPId:"EMP2008"},
-  { name: "Pooja Singh", role: "QA Engineer", status: "Active" ,EMPId:"EMP2009"},
-  { name: "Karan Mehta", role: "Full Stack Developer", status: "Active" ,EMPId:"EMP2010"},
-  { name: "Simran Kaur", role: "UI/UX Designer", status: "Active" ,EMPId:"EMP2011"},
-  { name: "Nitin Kumar", role: "Software Engineer", status: "On Leave",EMPId:"EMP2012" },
-  { name: "Riya Sharma", role: "Frontend Developer", status: "Active" ,EMPId:"EMP2013"},
-  { name: "Mohit Agarwal", role: "Backend Developer", status: "Active",EMPId:"EMP2014" },
-  { name: "Sneha Gupta", role: "Software Engineer", status: "Active",EMPId:"EMP2015" }
 ];
-
-
+export const teamMembers = [
+  {
+    name: "Rahul Sharma",
+    role: "Frontend Developer",
+    status: "Active",
+    EMPId: "EMP2001",
+  },
+  {
+    name: "Aman Verma",
+    role: "Backend Developer",
+    status: "Active",
+    EMPId: "EMP2002",
+  },
+  {
+    name: "Neha Singh",
+    role: "UI/UX Designer",
+    status: "On Leave",
+    EMPId: "EMP2003",
+  },
+  {
+    name: "Rohit Kumar",
+    role: "Full Stack Developer",
+    status: "Active",
+    EMPId: "EMP2004",
+  },
+  {
+    name: "Priya Gupta",
+    role: "QA Engineer",
+    status: "Active",
+    EMPId: "EMP2005",
+  },
+  {
+    name: "Arjun Yadav",
+    role: "Backend Developer",
+    status: "Active",
+    EMPId: "EMP2006",
+  },
+  {
+    name: "Anjali Verma",
+    role: "Frontend Developer",
+    status: "On Leave",
+    EMPId: "EMP2007",
+  },
+  {
+    name: "Vivek Sharma",
+    role: "DevOps Engineer",
+    status: "Active",
+    EMPId: "EMP2008",
+  },
+  {
+    name: "Pooja Singh",
+    role: "QA Engineer",
+    status: "Active",
+    EMPId: "EMP2009",
+  },
+  {
+    name: "Karan Mehta",
+    role: "Full Stack Developer",
+    status: "Active",
+    EMPId: "EMP2010",
+  },
+  {
+    name: "Simran Kaur",
+    role: "UI/UX Designer",
+    status: "Active",
+    EMPId: "EMP2011",
+  },
+  {
+    name: "Nitin Kumar",
+    role: "Software Engineer",
+    status: "On Leave",
+    EMPId: "EMP2012",
+  },
+  {
+    name: "Riya Sharma",
+    role: "Frontend Developer",
+    status: "Active",
+    EMPId: "EMP2013",
+  },
+  {
+    name: "Mohit Agarwal",
+    role: "Backend Developer",
+    status: "Active",
+    EMPId: "EMP2014",
+  },
+  {
+    name: "Sneha Gupta",
+    role: "Software Engineer",
+    status: "Active",
+    EMPId: "EMP2015",
+  },
+];
 
 export const departments = [
   {
@@ -394,10 +465,6 @@ export const departments = [
       "The Public Relations department manages corporate communications, media relationships, and the organization's public image. It develops communication strategies, coordinates public announcements, and maintains positive relationships with external stakeholders.",
   },
 ];
-
-
-
-
 
 export const managers = [
   {
@@ -641,3 +708,129 @@ export const managers = [
     role: "MANAGER",
   },
 ];
+
+
+
+
+
+//  {
+//     managerEmail: "kapil.kumar@example.com",
+//     department: "IT_001",
+//     employees: [
+//       ["Amit", "Sharma", "amit.sharma", "Software Developer", "2023-02-10", 55000],
+//       ["Riya", "Gupta", "riya.gupta", "Frontend Developer", "2023-05-15", 48000],
+//       ["Karan", "Verma", "karan.verma", "Backend Developer", "2022-11-20", 60000],
+//       ["Simran", "Kaur", "simran.kaur", "UI/UX Designer", "2024-01-08", 45000],
+//       ["Deepak", "Yadav", "deepak.yadav", "Full Stack Developer", "2023-08-12", 58000],
+//     ],
+//   },
+//   {
+//     managerEmail: "aarav.sharma@example.com",
+//     department: "HR_002",
+//     employees: [
+//       ["Anjali", "Mishra", "anjali.mishra", "HR Executive", "2023-03-10", 42000],
+//       ["Mohit", "Agarwal", "mohit.agarwal", "Recruitment Specialist", "2022-06-15", 48000],
+//       ["Kavita", "Reddy", "kavita.reddy", "HR Coordinator", "2024-02-01", 38000],
+//       ["Sahil", "Jain", "sahil.jain", "Talent Acquisition Executive", "2023-09-12", 45000],
+//       ["Meera", "Joshi", "meera.joshi", "HR Associate", "2022-12-05", 40000],
+//     ],
+//   },
+//   {
+//     managerEmail: "priya.verma@example.com",
+//     department: "FIN_003",
+//     employees: [
+//       ["Arjun", "Malik", "arjun.malik", "Accountant", "2022-04-10", 52000],
+//       ["Nisha", "Chauhan", "nisha.chauhan", "Financial Analyst", "2023-07-15", 58000],
+//       ["Varun", "Saxena", "varun.saxena", "Accounts Executive", "2024-01-20", 42000],
+//       ["Pankaj", "Tiwari", "pankaj.tiwari", "Tax Associate", "2022-09-05", 47000],
+//       ["Isha", "Kapoor", "isha.kapoor", "Finance Associate", "2023-11-11", 45000],
+//     ],
+//   },
+//   {
+//     managerEmail: "rohan.gupta@example.com",
+//     department: "MKT_004",
+//     employees: [
+//       ["Saurabh", "Pandey", "saurabh.pandey", "Digital Marketing Executive", "2023-01-10", 45000],
+//       ["Tanya", "Bansal", "tanya.bansal", "SEO Specialist", "2022-08-15", 48000],
+//       ["Harsh", "Arora", "harsh.arora", "Content Writer", "2024-03-01", 38000],
+//       ["Divya", "Sinha", "divya.sinha", "Social Media Executive", "2023-06-20", 42000],
+//       ["Nitin", "Goyal", "nitin.goyal", "Marketing Analyst", "2022-12-12", 50000],
+//     ],
+//   },
+//   {
+//     managerEmail: "neha.singh@example.com",
+//     department: "SAL_005",
+//     employees: [
+//       ["Abhishek", "Roy", "abhishek.roy", "Sales Executive", "2022-05-10", 42000],
+//       ["Priti", "Das", "priti.das", "Sales Associate", "2023-09-15", 38000],
+//       ["Manish", "Kumar", "manish.kumar", "Business Development Executive", "2023-02-20", 48000],
+//       ["Shweta", "Nair", "shweta.nair", "Account Executive", "2024-04-05", 40000],
+//       ["Rakesh", "Pillai", "rakesh.pillai", "Sales Representative", "2022-11-18", 44000],
+//     ],
+//   },
+//   {
+//     managerEmail: "vikram.mehta@example.com",
+//     department: "LEG_006",
+//     employees: [
+//       ["Akash", "Bhatia", "akash.bhatia", "Legal Associate", "2023-04-10", 50000],
+//       ["Komal", "Thakur", "komal.thakur", "Legal Assistant", "2022-07-15", 42000],
+//       ["Ravi", "Desai", "ravi.desai", "Compliance Executive", "2024-02-12", 45000],
+//       ["Sonia", "Menon", "sonia.menon", "Legal Researcher", "2023-08-20", 48000],
+//       ["Gaurav", "Sethi", "gaurav.sethi", "Contract Analyst", "2022-10-05", 55000],
+//     ],
+//   },
+//   {
+//     managerEmail: "ananya.rao@example.com",
+//     department: "OPS_007",
+//     employees: [
+//       ["Vivek", "Chopra", "vivek.chopra", "Operations Executive", "2023-01-15", 45000],
+//       ["Payal", "Shah", "payal.shah", "Operations Coordinator", "2022-06-10", 42000],
+//       ["Rohit", "Bose", "rohit.bose", "Process Analyst", "2024-03-12", 48000],
+//       ["Swati", "Kulkarni", "swati.kulkarni", "Operations Associate", "2023-09-01", 40000],
+//       ["Ajay", "Rana", "ajay.rana", "Process Executive", "2022-12-20", 44000],
+//     ],
+//   },
+//   {
+//     managerEmail: "rahul.yadav@example.com",
+//     department: "CS_008",
+//     employees: [
+//       ["Aman", "Sinha", "aman.sinha", "Customer Support Executive", "2023-02-10", 32000],
+//       ["Preeti", "Rao", "preeti.rao", "Support Specialist", "2022-08-15", 38000],
+//       ["Yash", "Khanna", "yash.khanna", "Customer Success Associate", "2024-01-05", 35000],
+//       ["Monika", "Gill", "monika.gill", "Technical Support Executive", "2023-06-20", 42000],
+//       ["Tarun", "Arora", "tarun.arora", "Customer Relations Executive", "2022-11-12", 36000],
+//     ],
+//   },
+//   {
+//     managerEmail: "sneha.patel@example.com",
+//     department: "RND_009",
+//     employees: [
+//       ["Pranav", "Shukla", "pranav.shukla", "Research Associate", "2023-03-10", 60000],
+//       ["Aditi", "Bhardwaj", "aditi.bhardwaj", "Data Scientist", "2022-07-15", 75000],
+//       ["Naveen", "Khatri", "naveen.khatri", "Research Analyst", "2024-02-10", 52000],
+//       ["Mansi", "Trivedi", "mansi.trivedi", "Research Engineer", "2023-09-20", 65000],
+//       ["Siddharth", "Jha", "siddharth.jha", "Data Analyst", "2022-12-01", 58000],
+//     ],
+//   },
+//   {
+//     managerEmail: "aditya.mishra@example.com",
+//     department: "QA_010",
+//     employees: [
+//       ["Lokesh", "Pandit", "lokesh.pandit", "QA Engineer", "2023-01-10", 48000],
+//       ["Ritu", "Saxena", "ritu.saxena", "Software Tester", "2022-05-15", 42000],
+//       ["Dev", "Malhotra", "dev.malhotra", "Automation Tester", "2024-03-01", 55000],
+//       ["Nandini", "Rastogi", "nandini.rastogi", "QA Analyst", "2023-07-20", 46000],
+//       ["Chirag", "Bajaj", "chirag.bajaj", "Test Engineer", "2022-10-12", 50000],
+//     ],
+//   },
+//   {
+//     managerEmail: "pooja.malhotra@example.com",
+//     department: "PM_011",
+//     employees: [
+//       ["Kunal", "Bansal", "kunal.bansal", "Product Analyst", "2022-04-10", 60000],
+//       ["Sakshi", "Garg", "sakshi.garg", "Product Associate", "2023-08-15", 52000],
+//       ["Rishabh", "Jain", "rishabh.jain", "Business Analyst", "2024-01-10", 55000],
+//       ["Tanvi", "Mehra", "tanvi.mehra", "Product Designer", "2023-06-05", 58000],
+//       ["Om", "Prakash", "om.prakash", "Product Executive", "2022-11-20", 50000],
+//     ],
+//   },

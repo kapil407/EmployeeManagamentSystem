@@ -16,7 +16,7 @@ import {
   FaCalendarCheck,
   FaCalendarMinus,
   FaRupeeSign,
-  FaTrash
+  FaTrash,
 } from "react-icons/fa";
 
 import { teamMembers } from "../../data.js";
@@ -24,35 +24,35 @@ import axios from "axios";
 import DeleteWarning from "./DeleteWarning.jsx";
 
 const ManagerProfile = () => {
-  const [manager,setManager]=useState("");
+  
+  const [manager, setManager] = useState("");
 
   const navigate = useNavigate();
   const [showAllteamMember, setShowAllteamMember] = useState(false);
-    const {id}=useParams();
-  
+  const { id } = useParams();
+
   // Show first few team members initially.
   const visibleTeamMembers = teamMembers.filter((member) => {
     const empid = Number(member.EMPId.substring(3));
     return empid <= 2006 || showAllteamMember;
   });
-    const [openWarning,setOpenWarning]=useState(false);
+  const [openWarning, setOpenWarning] = useState(false);
 
-   
-
-
-  useEffect(()=>{
-    const fetch=async()=>{
-      const res=await axios.get(`http://localhost:5200/get-managerById/${id}`,{
-        withCredentials:true
-      })
-      console.log("managers->>>>",res);
-      if(res.data.success){
+  useEffect(() => {
+    const fetch = async () => {
+      const res = await axios.get(
+        `http://localhost:5200/get-managerById/${id}`,
+        {
+          withCredentials: true,
+        },
+      );
+      console.log("managers->>>>", res);
+      if (res.data.success) {
         setManager(res.data.manager);
       }
-
-    }
+    };
     fetch();
-  },[id])
+  }, [id]);
 
   const stats = [
     {
@@ -95,7 +95,7 @@ const ManagerProfile = () => {
     <motion.div
       initial={{ opacity: 0, y: 0 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, }}
+      transition={{ duration: 0.6 }}
       className="flex h-dvh w-full flex-col overflow-hidden bg-slate-950 text-white"
     >
       {/* FIXED BACK BUTTON */}
@@ -112,28 +112,32 @@ const ManagerProfile = () => {
       {/* FIXED PROFILE + STATS */}
       <section className="shrink-0 space-y-3 p-3">
         {/* MANAGER PROFILE */}
-        <motion.div 
-        whileInView={{
-          boxShadow:"0px 0px 15px rgba(244, 240, 240, 0.6)"
-        }}
-        className="flex  gap-5 rounded-xl border bg-cover object-cover border-slate-700 bg-slate-800 p-6 lg:flex-row lg:items-center lg:justify-between"
+        <motion.div
+          whileInView={{
+            boxShadow: "0px 0px 15px rgba(244, 240, 240, 0.6)",
+          }}
+          className="flex  gap-5 rounded-xl border bg-cover object-cover border-slate-700 bg-slate-800 px-6 py-3 lg:flex-row lg:items-center lg:justify-between"
           style={{
-          backgroundImage:`url(${'/adminBackground.png'})`,
-           backgroundSize: "cover",
-    backgroundPosition: "center",
-    backgroundRepeat: "no-repeat",
-        }}
-       >
+            backgroundImage: `url(${"/adminBackground.png"})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+          }}
+        >
           {/* Left profile details */}
           <div className="flex min-w-0 items-center gap-4">
-           { manager.profilePicture ?<motion.img 
-           whileInView={{
-            boxShadow:"0px 0px 12px rgba(44, 154, 238, 0.7)"
-           }}
-           src={manager.profilePicture} alt=""  className="shrink-0 text-gray-300 h-45 w-45 border-4 border-gray-600 rounded-full object-cover"/>: <FaUserCircle
-              className="shrink-0 text-gray-300 h-45 w-45 border-4 border-gray-600 rounded-full"
-              
-            />}
+            {manager.profilePicture ? (
+              <motion.img
+                whileInView={{
+                  boxShadow: "0px 0px 12px rgba(44, 154, 238, 0.7)",
+                }}
+                src={manager.profilePicture}
+                alt=""
+                className="shrink-0 text-gray-300 h-52 w-52 border-4 border-gray-600 rounded-full object-cover"
+              />
+            ) : (
+              <FaUserCircle className="shrink-0 text-gray-300 h-45 w-45 border-4 border-gray-600 rounded-full" />
+            )}
 
             <div className="min-w-0">
               <h1 className="text-3xl font-bold text-cyan-400">
@@ -146,62 +150,61 @@ const ManagerProfile = () => {
 
               <div className="mt-2 flex flex-wrap gap-2 text-sm font-semibold">
                 <span className="rounded-lg bg-blue-400 px-2 py-1 text-blue-950">
-                 {manager?.employeeId}
+                  {manager?.employeeId}
                 </span>
 
                 <span className="rounded-lg border border-slate-600 bg-slate-700 px-2 py-1">
-                 {manager?.role}
+                  {manager?.role}
                 </span>
 
                 <span className="flex items-center gap-1 rounded-lg bg-green-400 px-2 py-1 text-green-950">
                   <FaCircle size={10} />
-              {manager?.status}
+                  {manager?.status}
                 </span>
               </div>
 
               <p className="mt-2 max-w-xl text-sm text-slate-300">
-                Passionate developer with a strong interest in building
-                scalable web applications and solving real-world problems.
+                Passionate developer with a strong interest in building scalable
+                web applications and solving real-world problems.
               </p>
             </div>
           </div>
 
           {/* Right contact details */}
           <div className="flex w-[26%] text-lg flex-col gap-3 ">
-           <div className="flex items-center gap-2 w-full ">
-             <button
-              onClick={() => navigate(`/edite-manager/${id}`)}
-              className="flex w-fit items-center gap-2 rounded-xl border border-blue-800 bg-blue-600 px-4 py-1 font-semibold transition hover:bg-blue-700"
-            >
-              <FaEdit />
-              Edit Manager
-            </button>
-               <motion.button
-                   
-                    onClick={()=>setOpenWarning(prev=>!prev)}
-                    whileHover={{
-                      scale: 1.03,
-                      boxShadow: "0px 0px 15px rgba(253, 58, 58, 0.7)",
-                    }}
-                    className=" w-fit border  bg-red-600 border-red-800 cursor-pointer text-center text-white px-4 py-1 rounded-xl font-semibold flex gap-4  items-center"
-                  >
-                    <FaTrash />
-                    Delete Manager
-                  </motion.button>
-                  {
-                    openWarning && <DeleteWarning setOpenWarning={setOpenWarning} id={id}/>
-                  }
-           </div>
+            <div className="flex items-center gap-2 w-full ">
+              <button
+                onClick={() => navigate(`/edite-manager/${id}`)}
+                className="flex w-fit items-center gap-2 rounded-xl border border-blue-800 bg-blue-600 px-4 py-1 font-semibold transition hover:bg-blue-700"
+              >
+                <FaEdit />
+                Edit Manager
+              </button>
+              <motion.button
+                onClick={() => setOpenWarning((prev) => !prev)}
+                whileHover={{
+                  scale: 1.03,
+                  boxShadow: "0px 0px 15px rgba(253, 58, 58, 0.7)",
+                }}
+                className=" w-fit border  bg-red-600 border-red-800 cursor-pointer text-center text-white px-4 py-1 rounded-xl font-semibold flex gap-4  items-center"
+              >
+                <FaTrash />
+                Delete Manager
+              </motion.button>
+              {openWarning && (
+                <DeleteWarning setOpenWarning={setOpenWarning} id={id} />
+              )}
+            </div>
 
             <div className="flex flex-col gap-2 text-sm font-semibold text-slate-200">
               <p className="flex items-center gap-3  break-all">
-                <FaEnvelope  className="shrink-0" />
-               {manager?.email}
+                <FaEnvelope className="shrink-0" />
+                {manager?.email}
               </p>
 
               <p className="flex items-center gap-3">
                 <FaPhone className="shrink-0" />
-               {manager?.phone}
+                {manager?.phone}
               </p>
 
               <p className="flex items-center gap-3">
@@ -224,18 +227,12 @@ const ManagerProfile = () => {
               key={stat.title}
               className={`flex min-w-0 items-center gap-3 rounded-xl border border-white/10 p-3 sm:gap-4 sm:p-4 ${stat.style}`}
             >
-              <div className="shrink-0">
-                {stat.icon}
-              </div>
+              <div className="shrink-0">{stat.icon}</div>
 
               <div className="min-w-0">
-                <h2 className="text-sm font-bold sm:text-base">
-                  {stat.title}
-                </h2>
+                <h2 className="text-sm font-bold sm:text-base">{stat.title}</h2>
 
-                <p className="text-2xl font-bold sm:text-3xl">
-                  {stat.value}
-                </p>
+                <p className="text-2xl font-bold sm:text-3xl">{stat.value}</p>
 
                 <p className="text-xs font-semibold sm:text-sm">
                   {stat.subtitle}
@@ -249,15 +246,13 @@ const ManagerProfile = () => {
       {/* ONLY THIS LOWER AREA USES THE REMAINING HEIGHT */}
       <main className="grid flex-1 grid-cols-2 gap-3 overflow-hidden px-3 pb-3 ">
         {/* TEAM MEMBERS PANEL */}
-        <section className="flex  flex-col overflow-hidden rounded-xl border border-slate-700 bg-slate-800">
+        <section className="flex  flex-col  overflow-hidden rounded-xl border border-slate-700 bg-slate-800">
           {/* Fixed panel header */}
           <div className="flex shrink-0 items-center justify-between gap-3 border-b border-slate-700 px-4 py-3">
             <div className="flex min-w-0 items-center gap-2">
               <FaUsers className="shrink-0 text-blue-400" size={28} />
 
-              <h2 className="text-lg font-bold sm:text-xl">
-                Team Members
-              </h2>
+              <h2 className="text-lg font-bold sm:text-xl">Team Members</h2>
 
               <span className="rounded-full bg-slate-600 px-2 text-sm font-bold">
                 {teamMembers.length}
@@ -265,9 +260,7 @@ const ManagerProfile = () => {
             </div>
 
             <button
-              onClick={() =>
-                setShowAllteamMember((previous) => !previous)
-              }
+              onClick={() => setShowAllteamMember((previous) => !previous)}
               className="shrink-0 rounded-lg border border-slate-600 px-3 py-2 text-sm font-bold text-blue-400 transition hover:bg-slate-700"
             >
               {showAllteamMember ? "Show Less" : "View All"}
@@ -282,23 +275,16 @@ const ManagerProfile = () => {
                 className="flex items-center justify-between gap-3 border-b border-slate-700/70 px-4 py-3 transition hover:bg-slate-700/40"
               >
                 <div className="flex min-w-0 items-center gap-3">
-                  <FaUserCircle
-                    className="shrink-0 text-slate-300"
-                    size={42}
-                  />
+                  <FaUserCircle className="shrink-0 text-slate-300" size={42} />
 
                   <div className="min-w-0 ">
-                    <h3 className="truncate font-semibold  ">
-                      {member.name}
-                    </h3>
+                    <h3 className="truncate font-semibold  ">{member.name}</h3>
 
                     <p className="truncate text-sm text-slate-400">
                       {member.role}
                     </p>
 
-                    <p className="text-xs text-slate-500">
-                      {member.EMPId}
-                    </p>
+                    <p className="text-xs text-slate-500">{member.EMPId}</p>
                   </div>
                 </div>
 
@@ -330,9 +316,7 @@ const ManagerProfile = () => {
             <div className="flex items-center gap-2">
               <FaTasks className="text-blue-400" size={28} />
 
-              <h2 className="text-lg font-bold sm:text-xl">
-                Tasks Overview
-              </h2>
+              <h2 className="text-lg font-bold sm:text-xl">Tasks Overview</h2>
             </div>
 
             <button
@@ -349,9 +333,7 @@ const ManagerProfile = () => {
             {tasks.map((task) => (
               <div key={task.title} className="space-y-3">
                 <div className="flex items-start justify-between gap-3">
-                  <h3 className="font-semibold">
-                    {task.title}
-                  </h3>
+                  <h3 className="font-semibold">{task.title}</h3>
 
                   <span className="shrink-0 text-sm font-bold text-blue-400">
                     {task.progress}%
@@ -365,9 +347,7 @@ const ManagerProfile = () => {
                   />
                 </div>
 
-                <p className="text-xs text-slate-400">
-                  Project progress
-                </p>
+                <p className="text-xs text-slate-400">Project progress</p>
               </div>
             ))}
 

@@ -31,6 +31,7 @@ const links = [
 ];
 
 const EmployeeSideBar = () => {
+  
   return (
     <motion.aside className="border border-slate-700 m-2 rounded-xl min-w-[16%] shrink-0 p-1 bg-slate-800 justify-between flex flex-col">
       <img
@@ -68,7 +69,7 @@ const EmployeeSideBar = () => {
       </nav>
       <footer className="flex bg-slate-900 text-white items-center p-3 gap-4 text-xl rounded-xl">
         <FaHeadset />
-        Need Help ? <br /> Contact HR
+        Need Help ? <br /> Contact Manager
       </footer>
     </motion.aside>
   );

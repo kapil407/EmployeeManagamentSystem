@@ -4,15 +4,16 @@ import { motion } from "motion/react";
 import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updateUser } from "../Redux/UserSlice.js";
 const UpdateProfile = () => {
   const dispatch = useDispatch();
-  const [name, setName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [address, setAddress] = useState("");
-  const [phone, setPhone] = useState("");
-  const [bio, setBio] = useState("");
+  const user=useSelector(store=>store.user.user);
+  const [name, setName] = useState(user.name||"");
+  const [lastName, setLastName] = useState(user.lastName||"");
+  const [address, setAddress] = useState(user.address||"");
+  const [phone, setPhone] = useState(user.phone||"");
+  const [bio, setBio] = useState(user.Bio||"");
 
   // console.log(name,lastName,phone,address)
   const navigate = useNavigate();
@@ -37,6 +38,7 @@ const UpdateProfile = () => {
       if (res.data.success) {
         dispatch(updateUser(res?.data?.updateMyProfile));
         toast.success(res.data.message);
+        navigate('/my-profile')
       }
     } catch (error) {
       console.error("error in profile update ", error);

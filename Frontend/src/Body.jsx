@@ -28,7 +28,7 @@ import DepartmentDetails from "./Admin/Department/DepartmentDetails.jsx";
 import MyProfileComponent from "./Manager/MyProfile.jsx";
 import TeamMembersComponent from "./Manager/TeamMemebers.jsx";
 import AttendenceComponent from "./Manager/Attendence.jsx";
-import LeaveComponent from "./Manager/Leave.jsx";
+import LeaveComponent  from './Manager/TeamLeave.jsx'
 import MyTaskComponent from "./Manager/MyTasks.jsx";
 import NotificationComponent from "./Manager/Notification.jsx";
 import UpdateProfile from "./Manager/UpdateProfile.jsx";
@@ -40,9 +40,10 @@ import EmpApplyLeave from "./Employee/Leave.jsx";
 import EmpSalary from "./Employee/Salary.jsx";
 import EmpNotification from "./Employee/Notification.jsx";
 import EditeEmpProfile from "./Employee/Editeprofile.jsx";
-import UpdateEmpEmail from "./Employee/ChangeEmail.jsx";
-import UpdateEmpPassword from "./Employee/UpdatePassword.jsx";
+// import UpdateEmpEmail from "./Employee/ChangeEmail.jsx";
+// import UpdateEmpPassword from "./Employee/UpdatePassword.jsx";
 import EmployeeTasks from "./Employee/MyTasks.jsx";
+import TeamEmployeeProfile from "./Manager/EmployeeProfile.jsx";
 
 
 
@@ -86,8 +87,8 @@ const Body = () => {
              <Route path="/salary" element={<EmpSalary/>}/>
              <Route path="/notification" element={<EmpNotification/>}/>
              <Route path="/edite-profile" element={<EditeEmpProfile/>}/>
-             <Route path="/Update-email" element={<UpdateEmpEmail/>}/>
-             <Route path="/change-password" element={<UpdateEmpPassword/>}/>
+             {/* <Route path="/Update-email" element={<UpdateEmpEmail/>}/>
+             <Route path="/change-password" element={<UpdateEmpPassword/>}/> */}
              <Route path="/my-tasks" element={<EmployeeTasks/>}/>
              </>
             )
@@ -103,6 +104,7 @@ const Body = () => {
               <Route path="my-tasks" element={<MyTaskComponent/>}/>
               <Route path="notification" element={<NotificationComponent/>}/>
               <Route path="edite-profile" element={<UpdateProfile/>}/>
+              <Route path="/emp-profile/:id" element={<TeamEmployeeProfile/>}/>
               </>
             )
           }

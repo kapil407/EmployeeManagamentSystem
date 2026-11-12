@@ -437,12 +437,12 @@ const EmployeeTasks = () => {
 
                 <div className="flex gap-10  ">
                   <div
-                    className="w-40 h-40 mt-2 rounded-full flex items-center justify-center"
+                    className="w-55 h-33 mt-4 rounded-full flex items-center justify-center"
                     style={{
                       background: `conic-gradient(#22c55e ${completionPercentage}%, #334155 0)`,
                     }}
                   >
-                    <div className="w-[152px] h-[152px] rounded-full bg-slate-800 flex flex-col items-center justify-center">
+                    <div className="w-28 bg-slate-800 h-28 rounded-full  flex flex-col items-center justify-center ">
                       <h2 className="text-3xl font-bold text-white">
                         {completionPercentage}%
                       </h2>

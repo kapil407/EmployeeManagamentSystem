@@ -17,6 +17,8 @@ import {
   FaCircle,
   FaUserCircle,
 } from "react-icons/fa";
+import { useSelector } from "react-redux";
+import ManagerLogo from '../../public/ManagerLogo.png'
 
 const MotionNavLink = motion.create(NavLink);
 const links = [
@@ -24,16 +26,17 @@ const links = [
   { name: "My Profile", path: "/my-profile", icon: FaUser },
   { name: "Team Member", path: "/team-member", icon: FaUsers },
   { name: "Attendence", path: "/attendence", icon: FaCalendarCheck },
-  { name: "Leave", path: "/leave", icon: FaCalendarAlt },
+  { name: "Team Leave", path: "/leave", icon: FaCalendarAlt },
   { name: "My Tasks", path: "/my-tasks", icon: FaTasks },
   { name: "Notifiction", path: "/notification", icon: FaBell },
 ];
 
 const SideBar = () => {
+  const user=useSelector(store=>store.user.user);
   return (
     <motion.aside className="border border-slate-700 m-2 rounded-xl min-w-[16%] shrink-0 p-1 bg-slate-800 justify-between flex flex-col">
       <img
-        src="./ManagerLogo.png"
+        src={ManagerLogo}
         alt="#logo"
         className="rounded-xl h-15 object-cover bg-center w-full"
       />

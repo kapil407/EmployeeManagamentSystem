@@ -34,8 +34,7 @@ const MyProfileComponent = () => {
   const [image, setImage] = useState("");
   const [email,setEmail]=useState("");
   const [password,setPassword]=useState("");
-  console.log("pass ",password);
-  console.log("emai",email)
+ 
   const [showPass, setShowPass] = useState(false);
   const [selectedEmail, setSelectedEmail] = useState(false);
     const [selectedPassword, setSelectedPassword] = useState(false);
@@ -162,15 +161,15 @@ const ChangeEmailHandler=async()=>{
             style={{ backgroundImage: `url(./adminBackground.png)` }}
           >
             <div className="flex items-center gap-8">
-              <div className="px-2   w-fit relative flex">
+              <div className="px-2    w-fit relative flex">
                 {user?.profilePicture ? (
-                  <img
+                  <motion.img whileInView={{boxShadow:"0px 0px 15px rgba(246, 226, 226, 0.6)"}}
                     src={user?.profilePicture}
                     alt="profile Image"
-                    className="h-48 w-82 text-blue-400 object-cover bg-center rounded-full"
+                    className={`h-48 ${user.Bio?'w-102':'w-48'}  text-blue-400 object-cover border bg-center rounded-full`}
                   />
                 ) : (
-                  <FaUserCircle className="h-39 w-39 text-blue-400 " />
+                  <FaUserCircle size={195} className=" text-blue-400 border-2 rounded-full" />
                 )}
 
                 <div className=" p-1 rounded-xl absolute w-fit h-fit ml-43">
@@ -200,7 +199,7 @@ const ChangeEmailHandler=async()=>{
                 <h1 className="text-gray-300 mt-2">
                   MGR-{user?.employeeId.split("-")[1]}
                 </h1>
-                <p className="font-bold break-lines max-w-[70%]">
+                <p className="font-bold break-lines max-w-[80%]">
                   {" "}
                   {user?.Bio}
                 </p>
@@ -209,7 +208,7 @@ const ChangeEmailHandler=async()=>{
           </motion.div>
 
           <div className="flex min-h-[45%] mt-6 rounded-xl gap-4">
-            <section className=" rounded-xl min-w-[35.5%] bg-slate-800 px-3 ">
+            <section className=" rounded-xl min-w-[35.5%] bg-slate-800 px-3 py-4 ">
               <div className="flex items-center justify-between">
                 <h1 className="text-3xl font-bold flex items-center gap-2 text-cyan-500">
                   <FaUser size={25} /> Personal Information
@@ -237,7 +236,7 @@ const ChangeEmailHandler=async()=>{
 
                   <span>Date of birth</span>
                 </div>
-                <div className="text-gray-400 flex flex-col gap-3 max-w-[35%]">
+                <div className="text-gray-400 flex flex-col gap-4.5 font-bold max-w-[35%]">
                   <span>
                     {user.name} {user.lastName}
                   </span>
@@ -250,14 +249,14 @@ const ChangeEmailHandler=async()=>{
                 </div>
               </div>
             </section>
-            <section className=" rounded-xl min-w-[63.5%] flex gap-2">
-              <div className="bg-slate-800 w-[60%] p-2 rounded-xl">
+            <section className=" rounded-xl min-w-[63.5%] flex gap-2 ">
+              <div className="bg-slate-800 w-[60%] px-2 py-4 rounded-xl">
                 <h1 className="text-3xl font-bold text-cyan-500 flex items-center gap-2">
                   {" "}
                   <FaBriefcase /> Professional Information
                 </h1>
                 <div className="mt-8 w-full flex justify-between ">
-                  <div className="text-gray-300 flex w-full pl-2 flex-col gap-5 text-xl">
+                  <div className="text-gray-300 flex w-full pl-2 flex-col gap-6.5 text-xl">
                     <span>EmployeeId </span>
                     <span>Joining Date</span>
                     <span>Department</span>
@@ -273,7 +272,7 @@ const ChangeEmailHandler=async()=>{
                   </div>
                 </div>
               </div>
-              <div className="flex w-[40%] rounded-xl flex-col gap-8 bg-slate-800 h-full p-2 border-slate-600">
+              <div className="flex w-[40%] rounded-xl flex-col gap-8 bg-slate-800 h-full px-2 border-slate-600 py-4">
                 <h1 className="text-2xl gap-2 text-cyan-500 font-bold flex items-center">
                   {" "}
                   <FaShieldAlt />
